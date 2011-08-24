@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:background="@color/message_read"
+  				android:layout_width="match_parent" android:layout_height="match_parent" android:padding="5dip">
+ 	
+ 	<TextView android:id="@+id/textSubject" android:text="Subject"
+ 			  android:layout_height="wrap_content"
+			  android:textSize="9pt" android:textColor="@color/message_subject" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_width="wrap_content"/>
+			  
+	<TextView android:id="@+id/textMessageTimestamp" android:text="12/01/2010"
+			  android:layout_alignParentRight="true" android:layout_alignTop="@id/textSubject" 
+			  android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:textSize="5pt" android:textColor="@color/message_timestamp" android:layout_alignParentTop="true"/>
+	
+	<TextView android:id="@+id/textMessageSummary" android:text="Which day can you make a game?"
+			  android:layout_below="@id/textSubject"
+			  android:layout_width="fill_parent" android:layout_height="wrap_content"
+			  android:textSize="6pt" android:textColor="@color/message_summary" />
+				  		
+	<TextView android:id="@+id/textTeamSummary" android:text="Team: Beta Testers"
+			  android:layout_below="@id/textMessageSummary"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:textSize="6pt" android:textColor="@color/team_summary"/>
+		
+	<TextView android:id="@+id/textPollCompleted" android:text="*completed*"
+			  android:layout_alignParentRight="true" android:layout_alignTop="@id/textTeamSummary"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:textSize="6pt" android:textColor="@color/poll_completed" />
+				  		
+</RelativeLayout>

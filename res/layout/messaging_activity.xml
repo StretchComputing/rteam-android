@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	  		  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+  	<LinearLayout android:id="@+id/detailLayout" android:orientation="vertical" android:visibility="gone"
+		  		  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  		
+  		<TextView android:id="@+id/txtDetailTitle" android:text="Title!"
+  				  android:textSize="10pt" android:gravity="center"
+  				  android:background="@android:drawable/bottom_bar" android:textColor="#000" 
+  				  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  		
+  		<ImageView android:id="@+id/imageView" android:visibility="gone"
+  				   android:layout_weight="1"
+  				   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  		
+  		<VideoView android:id="@+id/videoView" android:visibility="gone"
+  				   android:layout_weight="1"
+  				   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  				   
+	   	<LinearLayout android:id="@+id/barBottom" 
+   				  	  android:layout_width="fill_parent" android:layout_height="wrap_content"
+				  	  android:background="@android:drawable/bottom_bar" android:gravity="center_vertical">
+		 	
+		  	<Button android:id="@+id/btnDetailClose" android:text="Close" 
+		  			android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+		  			
+		 	<Button android:id="@+id/btnDetailDelete" android:text="Delete"
+		 	 		android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+
+		</LinearLayout>
+  		
+  	</LinearLayout>
+  			  
+	<LinearLayout android:id="@+id/mainLayout" 
+			  	  android:orientation="vertical" android:padding="5dp"
+  			  	  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+	  	<LinearLayout android:orientation="horizontal"
+	  				  android:focusable="true" android:focusableInTouchMode="true"
+	  				  android:layout_width="fill_parent" android:layout_height="wrap_content">
+	  	
+	  		<EditText android:id="@+id/txtMessage" android:hint="What's Happening?"
+				  	  android:inputType="text" android:maxLength="140" android:layout_weight="1"
+	 		 	  	  android:layout_width="wrap_content" android:layout_height="fill_parent" />
+	  				   					 
+		 	<ImageButton android:id="@+id/btnTakePicture" android:src="@android:drawable/ic_menu_gallery"
+		 				 android:layout_gravity="center"
+	  					 android:layout_width="75dp" android:layout_height="75dp" />
+	  				  
+		  	<ImageButton android:id="@+id/btnTakeVideo" android:src="@android:drawable/ic_menu_upload_you_tube"
+		 				 android:layout_gravity="center" android:visibility="gone"
+	  					 android:layout_width="75dp" android:layout_height="75dp" />			  
+				  
+	  	</LinearLayout>
+		
+	  			  
+	 	<LinearLayout android:orientation="horizontal"
+	 				  android:layout_width="fill_parent" android:layout_height="wrap_content">
+	 		
+		  	<EditText android:id="@+id/txtPostTeam" android:hint="Post Team"
+		  			  android:layout_weight="1" android:inputType="none|text" android:focusable="false"
+		  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		  			  
+	  		<TextView android:id="@+id/lblCharactersLeft" android:text="140"
+	  				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	
+		  	<Button android:id="@+id/btnPost" android:text="Post"
+	 				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	 	
+	 	</LinearLayout>
+	 	
+	 	<ListView android:id="@+id/listActivity"
+	 			  android:layout_width="fill_parent" android:layout_height="fill_parent" />
+	 	  			  
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:padding="5dp"
+  			 	android:layout_width="wrap_content" android:layout_height="wrap_content">
+  			 	
+	<CheckBox android:id="@+id/checkSelected"
+			  android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			  
+	<TextView android:id="@+id/txtDate" android:text="Feb 19, 12:00 PM"
+			  android:textSize="8pt" android:textStyle="bold"
+		      android:layout_toRightOf="@id/checkSelected"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			  
+	<TextView android:id="@+id/txtType" android:text="Game"
+			  android:textSize="6pt" android:textColor="@color/event_type"
+		 	  android:layout_alignBaseline="@id/txtDate" android:layout_alignParentRight="true"
+		 	  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	
+	<TextView android:id="@+id/txtOpponent" android:text="vs. Some Opponent"
+			  android:layout_toRightOf="@id/checkSelected" android:layout_below="@id/txtDate"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	  
+	<TextView android:id="@+id/txtDescription" android:text="Description here..."
+			  android:textSize="4pt" android:textColor="@color/event_description"
+			  android:layout_toRightOf="@id/checkSelected" android:layout_below="@id/txtOpponent"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  			 	
+</RelativeLayout>

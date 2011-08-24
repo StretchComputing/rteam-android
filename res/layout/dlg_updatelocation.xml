@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical" android:padding="5dp"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+  	<TextView android:text="Enter the name of this location:"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<EditText android:id="@+id/txtName" android:hint="Location Name"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<CheckBox android:id="@+id/chkUpdateAll" android:text="Update for all Games"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<TextView android:id="@+id/lblGPSLabel" android:text="If you are currently at the location, click here to set GPS coordinates: "
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  
+  	<Button android:id="@+id/btnSetCoordinates" android:text="Set GPS Coordinates"
+  			android:layout_gravity="center"
+  			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  			
+	<TextView android:id="@+id/lblGPSCoordinates" android:visibility="gone"
+			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			    			  
+</LinearLayout>

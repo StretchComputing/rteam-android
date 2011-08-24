@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<color name="toolbar">#027</color>
+<color name="message_subject">#FFFFFF</color>
+<color name="message_author">#888</color>
+<color name="message_timestamp">#FFF</color>
+<color name="message_unread">#000</color>
+<color name="message_read">#222</color>
+<color name="team_summary">#3F3</color>
+<color name="message_summary">#888</color>
+<color name="message_contents">#FFF</color>
+<color name="message_type">#22F</color>
+<color name="message_results">#22F</color>
+<color name="poll_summary">#FFF</color>
+<color name="poll_completed">#F22</color>
+<color name="link">#22F</color>
+<color name="simpletext_main_text">#FFF</color>
+<color name="simpletext_header_text">#333</color>
+<color name="simpletext_header_back">#888</color>
+<color name="simpletext_main_back">#000</color>
+<color name="list_title">#226688</color>
+<color name="separator">#FF909090</color>
+<color name="top_bar">#222</color> 
+<color name="event_description">#AAA</color>
+<color name="event_type">#11F</color>
+<color name="list_line1">#fff</color>
+<color name="list_line2">#fff</color>
+<color name="list_line3">#666</color>
+<color name="list2_line1">#FFF</color>
+<color name="list2_line2">#55F</color>
+<color name="title_background">#4D4D4D</color>
+<color name="title_text">#EEE</color>
+<color name="team_winner">#2f2</color>
+<color name="team_loser">#f22</color>
+<color name="team_date">#22f</color>
+<color name="quick_links">#000</color>
+</resources>

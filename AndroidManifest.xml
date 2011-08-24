@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.rteam.android" android:versionCode="1" android:versionName="1.0">
+    <application android:icon="@drawable/icon" android:label="rTeam" android:theme="@style/CustomTheme"
+    			 android:name=".common.RTeamApplication" android:debuggable="true">
+    	<!-- <uses-library android:name="com.google.android.maps" /> -->
+    
+	    <activity android:name="Home" android:label="rTeam" >
+	    	<intent-filter>
+	        	<action android:name="android.intent.action.MAIN" />
+	            <category android:name="android.intent.category.LAUNCHER" />
+	    	</intent-filter>
+	    </activity>	    
+	    
+	    <activity android:name=".people.InviteAFan" android:label="rTeam - invite a fan" />
+	    <activity android:name=".people.CreateMember" android:label="rTeam - create a member" />
+	    <activity android:name=".people.EditMember" android:label="rTeam - edit member" />
+	    
+	    <activity android:name=".teams.AuthorizeTwitter" android:label="rTeam - authorize twitter" />
+		<activity android:name=".teams.MyTeams" android:label="rTeam - my teams" />
+		<activity android:name=".teams.TeamDetails" />
+		<activity android:name=".teams.TeamHome" android:label="rTeam - team home" />
+		<activity android:name=".teams.Events" android:label="rTeam - events" />
+		<activity android:name=".teams.People" android:label="rteam - people" />
+		<activity android:name=".teams.Messages" android:label="rTeam - team messages" />
+		<activity android:name=".teams.CreateTeam" android:label="rTeam - create a team" />
+		<activity android:name=".teams.AllScores" android:label="rTeam - all scores" />
+		
+		<activity android:name=".messaging.Messages"/>
+		<activity android:name=".messaging.Inbox" android:label="rTeam - inbox" />
+		<activity android:name=".messaging.Polls" android:label="rTeam - polls" />
+		<activity android:name=".messaging.SentMessages" android:label="rTeam - sent messages" />
+		<activity android:name=".messaging.CreatePoll" android:label="rTeam - create poll" />
+		<activity android:name=".messaging.SendMessage" android:label="rTeam - send message" />
+		<activity android:name=".messaging.ViewMessage" android:label="rTeam - view message" />
+		<activity android:name=".messaging.TwitterActivity" />
+		
+		<activity android:name=".events.EventDetails" />
+		<activity android:name=".events.GameDay" android:label="rTeam - game day" />
+		<activity android:name=".events.PracticeDay" android:label="rTeam - practice day" />
+		<activity android:name=".events.Activity" android:label="rTeam - event activity" />
+		<activity android:name=".events.Attendance" android:label="rTeam - event attendance" />
+		<activity android:name=".events.Messages" android:label="rTeam - event messages" />
+		<activity android:name=".events.Fans" android:label="rTeam - event fans" />
+		<activity android:name=".events.EventsCalendar" android:label="rTeam - events" />
+		<activity android:name=".events.LaunchEventDetails" />
+		
+		<activity android:name=".user.Feedback" android:label="rTeam - feedback" />
+		<activity android:name=".user.GlobalSettings" android:label="rTeam - global settings" />
+		<activity android:name=".user.Register" android:label="rTeam - register" android:noHistory="true" />
+		<activity android:name=".user.ResetPasswordActivity" android:label="rTeam - reset password" />
+		<activity android:name=".user.Settings" android:label="rTeam - settings" />
+
+
+		<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>
+		
+		<service android:name="EventService" android:enabled="true" />
+	</application>
+	
+    <uses-sdk android:minSdkVersion="7" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />  -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ 	<uses-feature android:name="android.hardware.camera" />
+ 	<uses-feature android:name="android.hardware.camera.autofocus" />
+
+
+</manifest> 

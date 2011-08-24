@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	 <EditText android:id="@+id/txtPollChoice1"
+	 		   android:hint="Poll Choice 1"
+	 		   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	 <EditText android:id="@+id/txtPollChoice2"
+	 		   android:hint="Poll Choice 2"
+	 		   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	 <EditText android:id="@+id/txtPollChoice3"
+	 		   android:hint="Poll Choice 3"
+	 		   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	 <EditText android:id="@+id/txtPollChoice4"
+	 		   android:hint="Poll Choice 4"
+	 		   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	 <EditText android:id="@+id/txtPollChoice5"
+	 		   android:hint="Poll Choice 5"
+	 		   android:layout_width="fill_parent" android:layout_height="wrap_content" />		  
+			 
+</LinearLayout>

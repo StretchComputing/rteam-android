@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+	<TextView android:text="Date: "
+			  android:layout_marginLeft="5dp"
+			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+	  
+	<DatePicker android:id="@+id/date"
+				android:layout_gravity="center_horizontal"
+			    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			    
+    <TextView android:text="Time: "
+    		  android:layout_marginLeft="5dp"
+    		  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    		  
+	<TimePicker android:id="@+id/time"
+				android:layout_gravity="center_horizontal"
+  			    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+
+	<TableLayout android:background="@color/top_bar" android:layout_gravity="bottom|center_horizontal"
+				 android:padding="5dp" android:layout_margin="5dp"
+				 android:stretchColumns="0,1"
+				 android:layout_width="fill_parent" android:layout_height="wrap_content">
+		<TableRow>
+			<Button android:id="@+id/btnDone" android:text="Done" />
+			<Button android:id="@+id/btnCancel" android:text="Cancel" />		
+		</TableRow>
+	</TableLayout>
+				   
+
+</LinearLayout>

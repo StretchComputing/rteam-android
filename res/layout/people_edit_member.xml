@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:padding="5dp" android:orientation="vertical"
+			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<ScrollView android:fillViewport="true" android:layout_weight="1"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				
+		<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+						
+		 	<ImageView android:id="@+id/imageMember" android:src="@drawable/member_picture_empty"
+		 			   android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+		 			   android:layout_alignBaseline="@id/txtFirstName" 
+		 			   android:layout_width="60dp" android:layout_height="80dp" />
+		 			   
+		   	<EditText android:id="@+id/txtFirstName" android:hint="First Name"
+		   			  android:inputType="textPersonName"
+		   			  android:layout_toRightOf="@id/imageMember"
+		   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			  
+		  	<EditText android:id="@+id/txtLastName" android:hint="Last Name"
+		  			  android:inputType="textPersonName"
+		  			  android:layout_toRightOf="@id/imageMember" android:layout_below="@id/txtFirstName"
+		 			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		 			  
+		  	<EditText android:id="@+id/txtJerseyNumber" android:hint="Jersey #"
+		  			  android:inputType="number"
+		  			  android:layout_toRightOf="@id/imageMember" android:layout_below="@id/txtLastName"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		 	
+		 	<EditText android:id="@+id/txtEmail" android:hint="Email Address"
+		 			  android:inputType="textEmailAddress"
+		 			  android:layout_below="@id/txtJerseyNumber"
+		 			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		
+		 	<EditText android:id="@+id/txtPhoneNumber" android:hint="Phone Number"
+		 			  android:inputType="phone"
+		 			  android:layout_below="@id/txtEmail"
+		 			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		 			  
+		  	<EditText android:id="@+id/txtGuardians" android:hint="Guardians"
+		  			  android:inputType="text" android:focusable="false"
+		  			  android:layout_below="@id/txtPhoneNumber"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		  			    			  
+		</RelativeLayout>
+		
+	</ScrollView>
+	
+	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+				  android:background="@android:drawable/bottom_bar" android:gravity="center_vertical">
+				  
+		<Button android:id="@+id/btnSend" android:text="Send Message"
+				android:layout_width="0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+		<Button android:id="@+id/btnSave" android:text="Save Changes" 
+				android:layout_width="0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+				
+  	</LinearLayout>
+  	
+</LinearLayout>

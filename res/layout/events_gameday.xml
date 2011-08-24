@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+	<TextView android:text="Game Information"
+			  android:textSize="8pt" android:textStyle="bold"
+			  android:layout_gravity="center_horizontal"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+	<View android:layout_width="fill_parent" android:layout_height="2dip" android:background="@color/separator" android:padding="2dp" />		  
+  				  
+
+	<TextView android:id="@+id/txtTypeVsOpponent" android:text="Game vs. Opponent"
+			  android:layout_marginLeft="5dp"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	  
+	<TextView android:id="@+id/txtStartDate" android:text="Feb. 20 2011, 8:00 PM"
+			  android:layout_marginLeft="5dp"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  
+  	<EditText android:id="@+id/txtLocation" android:hint="Location"
+  			  android:focusable="false"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  	
+	<View android:layout_width="fill_parent" android:layout_height="2dip" android:background="@color/separator" android:padding="2dp" />
+	
+	<TextView android:id="@+id/lblScoreSummary" android:text="Score Summary"
+			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+	
+	<Button android:id="@+id/btnUpdateScore" android:text="Update Score"
+			android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			  			  
+</LinearLayout>

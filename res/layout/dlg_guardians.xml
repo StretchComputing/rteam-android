@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:padding="5dp" android:stretchColumns="0,1"
+  			 android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+  	<TableRow>
+  		<TextView android:text="Parent/Guardian 1: " />
+  	</TableRow>
+  			  
+ 	<TableRow>	
+		<EditText android:id="@+id/txtFirstName1" android:hint="First Name" />
+		<EditText android:id="@+id/txtLastName1" android:hint="Last Name" />
+	</TableRow>	  
+  			  
+	
+	<EditText android:id="@+id/txtEmail1" android:hint="Email Address" />
+	
+	
+	<View android:background="@color/separator" android:layout_height="2dip" android:layout_margin="5dp" />
+	
+	
+  	<TableRow>
+  		<TextView android:text="Parent/Guardian 2: " />
+  	</TableRow>
+  			  
+ 	<TableRow>	
+		<EditText android:id="@+id/txtFirstName2" android:hint="First Name" />
+		<EditText android:id="@+id/txtLastName2" android:hint="Last Name" />
+	</TableRow>	  
+  			  
+	<EditText android:id="@+id/txtEmail2" android:hint="Email Address" />
+	
+  			  
+</TableLayout>

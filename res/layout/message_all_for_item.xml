@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:padding="5dp"
+  			    android:layout_width="fill_parent" android:layout_height="wrap_content">
+  			  
+	<CheckBox android:id="@+id/checkSelected"
+			  android:layout_centerVertical="true" android:layout_alignParentLeft="true" 
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			  
+ 	<TextView android:id="@+id/txtSubject" android:text="Subject"
+ 			  android:textStyle="bold" android:textSize="7pt" android:textColor="@color/message_subject"
+ 			  android:layout_toRightOf="@id/checkSelected"
+ 			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+ 			  
+  	<TextView android:id="@+id/txtBody" android:text="Body"
+  			  android:textSize="5pt" android:textColor="@color/message_summary"
+  			  android:layout_alignLeft="@id/txtSubject" android:layout_below="@id/txtSubject"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			  
+	<TextView android:id="@+id/txtDate" android:text="Feb 22, 5:00 PM"
+			  android:textSize="5pt" android:textColor="@color/message_timestamp"
+			  android:layout_alignLeft="@id/txtBody" android:layout_below="@id/txtBody"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			  
+	<TextView android:id="@+id/txtPollResults" android:text="1/1 person responded"
+			  android:textSize="5pt" android:textColor="@color/message_results"
+			  android:layout_alignLeft="@id/txtDate" android:layout_below="@id/txtDate"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<TextView android:id="@+id/txtType" android:text="Poll"
+  			  android:textSize="5pt" android:textColor="@color/message_type"
+  			  android:layout_alignBaseline="@id/txtSubject" android:layout_alignParentRight="true" 
+  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  			  			  
+</RelativeLayout>

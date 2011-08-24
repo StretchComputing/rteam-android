@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<group android:id="@+id/groupMain" android:orderInCategory="1">
+		<item android:id="@+id/btnSettings" android:title="Settings" />
+		<item android:id="@+id/btnHelp" android:title="Help" />
+	</group>
+	
+	<group android:id="@+id/groupSecond" android:orderInCategory="2">
+		<item android:id="@+id/btnHome" android:title="Return Home" />
+	</group>
+	
+</menu>

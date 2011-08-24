@@ -1,0 +1,42 @@
+8/1/2011
+	180 minutes - implementing video and photo activities
+	
+8/4/2011
+	120 minutes - worked on implementing the video and photo activity
+	
+8/6/2011
+	120 minutes - implemented video and photo in activity postings (finally)
+	30 minutes - fixed bug where keyboard shows up when you load activity page.
+	
+8/8/2011
+	45 minutes - looking into the video problem, disabling for the time being.
+	
+8/14/2011
+	45 minutes - twitter sign up during create
+	90 minutes - worked on notifications
+	
+8/23/2011
+	30 minutes - fixed bug with failing on initial load.
+	30 minutes - fixed minor bug with feedback, added proper icon and app name
+	60 minutes - fixed notifications so they actually work
+	30 minutes - fixed a bug with creating events on home page, now they get created but I think times are still off.
+	
+		
+TODO :
+	- FUTURE TASK: View attendance for member
+	- FUTURE TASK: Event activity screen
+	- FUTURE TASK: Sometimes when switching views the loading message doesn't stop
+	x TASK: Twitter sign up during create team.
+	x TASK: What to do when you're a fan of the team -- team home probably should look slightly different.
+	x TASK: Utilize the Quick Links space better when there are none ?
+	x TASK: Make all log events use the same identifier or at least similar ones:
+		rTeam, rTeam.API, rTeam.etc...
+	x BUG: Show twitter icon when they use twitter on activity
+	x TASK: Settings page -> auto login, alerts ?
+	x TASK: Give feedback, Rate rTeam
+	x BUG: Error on first load
+	x TASK: Implement photos and videos for activity page.
+	- BUG: Figure out if there's a bug or something with event creation from the home page 
+		-- the times seem to get messed up when the events are loaded up from the server
+		-- and they don't get added to the quick links, which they should.
+	- TASK: Implement video manually or leave it out?

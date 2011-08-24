@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:checked="false" android:titleCondensed="Settings" android:checkable="false" android:enabled="true" android:alphabeticShortcut="S" android:title="Settings" android:menuCategory="system" android:visible="true" android:id="@+id/btnSettings"></item>
+
+<item android:titleCondensed="Search" android:title="Search" android:id="@+id/btnSearch"></item>
+<item android:titleCondensed="Invite" android:title="Invite a Fan" android:menuCategory="secondary" android:id="@+id/btnInviteAFan"></item>
+</menu>

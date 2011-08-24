@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:stretchColumns="1" android:padding="5dp"
+  			 android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+ 	<TableRow>
+ 		<TextView android:layout_marginRight="10dp" android:text="When: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblTime" android:text="3/22/2011 at 3:00pm" />
+ 	</TableRow>
+ 	
+ 	<TableRow>
+ 		<TextView android:layout_marginRight="10dp" android:text="Where: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblLocation" android:text="Location location location" />
+ 	</TableRow>
+ 	
+ 	<TableRow>
+ 		<TextView />
+ 		<Button android:id="@+id/btnUpdateLocation" android:text="Update location"
+ 				android:layout_marginRight="20dp" android:layout_marginLeft="20dp" />
+ 	</TableRow>
+ 	
+ 	<TableRow>
+ 		<TextView android:layout_marginRight="10dp" android:text="Info: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblDescription" android:text="Description" />
+ 	</TableRow>
+  			   			  
+</TableLayout>

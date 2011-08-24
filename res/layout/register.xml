@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<ScrollView android:layout_weight="1" android:fillViewport="true"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+	
+		<LinearLayout android:orientation="vertical" android:padding="2dp"
+			  	  	  android:layout_width="fill_parent" android:layout_height="wrap_content">
+	
+	
+			<TextView android:text="@string/register_message"
+					  android:gravity="center"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />		  
+			 	
+		  	<EditText android:id="@+id/txtEmailAddress" android:inputType="textEmailAddress" android:hint="Email Address"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+					
+			<EditText android:id="@+id/txtPassword" android:inputType="textPassword" android:hint="Password" 
+				  	  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+				
+			<EditText android:id="@+id/txtFirstName" android:inputType="textPersonName" android:hint="First Name"
+				 	  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+				
+			<EditText android:id="@+id/txtLastName" android:inputType="textPersonName" android:hint="Last Name"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			
+		       		  
+		   	<TextView android:id="@+id/lblOutput" 
+		   		  	  android:textStyle="bold" android:textColor="#F55" android:gravity="center"
+		   		  	  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		   		  	  
+		   	<TextView android:id="@+id/lblExistingMember" android:text="@string/register_alreadymember"
+		   			  android:gravity="center" android:clickable="true" android:textColor="@color/link"
+		   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		   			  	   		  
+		</LinearLayout>
+		
+	</ScrollView>
+
+	<RelativeLayout android:background="@android:drawable/bottom_bar" 
+				  	android:layout_width="fill_parent" android:layout_height="wrap_content">
+				  	
+  		<Button android:id="@+id/btnCreateAccount" android:text="Create Account" android:enabled="false"
+  				android:paddingLeft="50dp" android:paddingRight="50dp"
+  				android:layout_centerInParent="true"
+  				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+				 
+	</RelativeLayout>
+</LinearLayout>

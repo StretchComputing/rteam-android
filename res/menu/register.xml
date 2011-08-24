@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:enabled="true" android:checked="false" android:visible="true" android:checkable="false" android:orderInCategory="0" android:alphabeticShortcut="B" android:titleCondensed="Back" android:title="Back" android:id="@+id/back" android:menuCategory="system"></item>
+<item android:enabled="true" android:checked="false" android:menuCategory="system" android:visible="true" android:checkable="false" android:orderInCategory="1" android:alphabeticShortcut="H" android:titleCondensed="Help" android:title="Help" android:id="@+id/help"></item>
+</menu>

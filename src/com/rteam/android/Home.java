@@ -1,0 +1,270 @@
+package com.rteam.android;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import android.content.Intent;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.view.View;
+
+import com.rteam.android.common.CustomTitle;
+import com.rteam.android.common.HelpProvider;
+import com.rteam.android.common.HelpProvider.HelpContent;
+import com.rteam.android.common.QuickLink;
+import com.rteam.android.common.RTeamActivity;
+import com.rteam.android.common.SimpleSetting;
+import com.rteam.android.events.EventsCalendar;
+import com.rteam.android.messaging.Messages;
+import com.rteam.android.messaging.TwitterActivity;
+import com.rteam.android.teams.CreateTeam;
+import com.rteam.android.teams.MyTeams;
+import com.rteam.android.teams.TeamDetails;
+import com.rteam.android.teams.common.TeamCache;
+import com.rteam.api.GamesResource;
+import com.rteam.api.MessageThreadsResource;
+import com.rteam.api.GamesResource.GetGamesResponse;
+import com.rteam.api.MessageThreadsResource.GetMessageCountResponse;
+import com.rteam.api.PracticeResource.GetPracticesResponse;
+import com.rteam.api.PracticeResource;
+import com.rteam.api.business.Event;
+import com.rteam.api.business.EventBase;
+import com.rteam.api.business.Game;
+import com.rteam.api.business.Practice;
+import com.rteam.api.business.Team;
+
+public class Home extends RTeamActivity {
+	
+	//////////////////////////////////////////////////////////////////
+	/// Members
+	
+	private ImageView _btnTeams;
+	private ImageView _btnActivities;
+	private ImageView _btnMessages;
+	private ImageView _btnEvents;
+	private ImageView _btnCreateTeam;
+	private ImageView _btnMyTeam;
+	
+	private TextView _txtUnreadMessages;
+	private TextView _txtMyTeam;
+	
+	private LinearLayout _viewQuickLinks;
+	
+	private String _numberUnreadMessages = null;
+	
+	private ArrayList<Practice> _practices;
+	private ArrayList<Game> _games;
+	
+	private ArrayList<Game> _gamesInProgress;
+	private ArrayList<EventBase> _eventsToday;
+	private ArrayList<EventBase> _eventsTomorrow;
+
+	//////////////////////////////////////////////////////////////////
+	/// Initialize
+	
+	@Override
+	protected HelpProvider getHelpProvider() {
+		return new HelpProvider(new HelpContent("Overview", "This is the rTeam home screen.  It provides quick access to most of the major features of rTeam."),
+								new HelpContent("Teams", "Opens a view showing all of the teams that you are currently enrolled in or following."),
+								new HelpContent("Activity", "Shows you an overview of the current activity of all of your teams."),
+								new HelpContent("Messages", "Shows you a list of the messages that you have sent and recieved."),
+								new HelpContent("Events", "Provides an overview of the events for the current month and upcoming months."),
+								new HelpContent("Create Team", "If you are a coach or team manager and want to manage your team, you can create a new team using this option."),
+								new HelpContent("Quick Links", "Shows upcoming events for the teams that you are currently enrolled in or following."));
+	}
+	
+	@Override
+	protected String getCustomTitle() { return "rTeam - home"; }
+	
+	@Override
+	protected boolean showHomeButton() { return false; }
+		
+    @Override
+    protected void initialize() {
+    	TeamCache.initialize();
+    	initializeView();
+    	loadMessages();
+    	loadUpcomingEvents();
+    	checkForWizard();
+    }
+    
+    @Override
+    protected void reInitialize() {
+    	bindView();
+    }
+    
+    private void initializeView() {
+    	setContentView(R.layout.home);
+    	
+    	_txtUnreadMessages = (TextView) findViewById(R.id.txtUnreadMessages);
+    	_txtMyTeam = (TextView) findViewById(R.id.txtMyTeam);
+    	
+    	_btnTeams = (ImageView) findViewById(R.id.btnTeams);
+    	_btnActivities = (ImageView) findViewById(R.id.btnActivities);
+    	_btnMessages = (ImageView) findViewById(R.id.btnMessages);
+    	_btnEvents = (ImageView) findViewById(R.id.btnEvents);
+    	_btnCreateTeam = (ImageView) findViewById(R.id.btnCreateTeam);
+    	_btnMyTeam = (ImageView) findViewById(R.id.btnMyTeam);
+    	
+    	_viewQuickLinks = (LinearLayout) findViewById(R.id.viewQuickLinks);
+    	
+    	_btnTeams.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { teamsClicked(); } });
+    	_btnActivities.setOnClickListener(new View.OnClickListener() 	{ @Override public void onClick(View v) { activitiesClicked(); } });
+    	_btnMessages.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { messagesClicked(); } });
+    	_btnEvents.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { eventsClicked(); } });
+    	_btnCreateTeam.setOnClickListener(new View.OnClickListener() 	{ @Override public void onClick(View v) { createTeamClicked(); } });
+    	_btnMyTeam.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { myTeamClicked(); } });
+    	
+    	bindView();
+    }
+    
+    private boolean hasHomeTeam() { return getHomeTeam() != null; }
+    
+    private Team getHomeTeam() {
+    	if (SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null)
+    	{
+    		return TeamCache.get(SimpleSetting.MyTeam.get());
+    	}
+    	return null;
+    }
+    
+    private void bindView() {
+    	_txtUnreadMessages.setVisibility(_numberUnreadMessages != null && !_numberUnreadMessages.equalsIgnoreCase("0") ? View.VISIBLE : View.INVISIBLE);
+    	_txtUnreadMessages.setText(_numberUnreadMessages);
+    	
+    	_txtMyTeam.setText(hasHomeTeam() ? getHomeTeam().teamName() : "Create Team");    	
+    	CustomTitle.setLoading(false);
+    }
+    
+    private void bindQuickLinks() {
+    	_viewQuickLinks.removeAllViewsInLayout();
+    	if (_gamesInProgress.size() == 0 && _eventsToday.size() == 0 && _eventsTomorrow.size() == 0)
+    	{
+    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+				@Override public void refreshEvents() { loadUpcomingEvents(); } 
+			}).getView());
+    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, true, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+				@Override public void refreshEvents() { loadUpcomingEvents(); } 
+			}).getView());
+    	}
+    	else
+    	{
+	    	for (Game game : _gamesInProgress) {
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkShowEvent(this, game).getView());
+	    	}
+	    	for (EventBase event : _eventsToday) {
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkShowEvent(this, event).getView());
+	    	}
+	    	for (EventBase event : _eventsTomorrow) {
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkShowEvent(this, event).getView());
+	    	}
+    	}
+    }
+    
+    private void loadMessages() {
+    	CustomTitle.setLoading(true);
+    	new MessageThreadsResource().getMessageCount(new MessageThreadsResource.GetMessageCountResponseHandler() {
+			@Override
+			public void finish(GetMessageCountResponse response) { 
+				if (response.showError(Home.this)) {
+					_numberUnreadMessages = Integer.toString(response.messageCount());
+					bindView();
+				}
+			}
+		});
+    }
+    
+    private void loadUpcomingEvents() {
+    	CustomTitle.setLoading(true);
+    	new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
+			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
+		});
+    }
+    
+    private void loadPracticesFinished(GetPracticesResponse response) {
+    	if (response.showError(this)) {
+	    	_practices = response.practices();
+	    	new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {			
+				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
+			});
+    	}
+    	else {
+    		CustomTitle.setLoading(false);
+    	}
+    }
+    
+    private void loadGamesFinished(GetGamesResponse response) {
+    	if (response.showError(this)) {
+	    	_games = response.games();
+	    	loadUpcomingEventsFinished();
+    	}
+    	CustomTitle.setLoading(false);
+    }
+    
+    private void loadUpcomingEventsFinished() {
+    	_gamesInProgress = new ArrayList<Game>();
+    	_eventsToday = new ArrayList<EventBase>();
+    	_eventsTomorrow = new ArrayList<EventBase>();
+    	
+    	for (Practice practice : _practices) {
+    		if (practice.isUpcomingToday()) {
+    			_eventsToday.add(practice);
+    		}
+    		else if (practice.isTomorrow()) {
+    			_eventsTomorrow.add(practice);
+    		}
+    	}
+    	for (Game game : _games) {
+    		if (game.isInProgress()) {
+    			_gamesInProgress.add(game);
+    		}
+    		else if(game.isUpcomingToday()) {
+    			_eventsToday.add(game);
+    		}
+    		else if(game.isTomorrow()) {
+    			_eventsTomorrow.add(game);
+    		}
+    	}
+    	
+    	Collections.sort(_gamesInProgress); Collections.reverse(_gamesInProgress);
+    	Collections.sort(_eventsToday); 	Collections.reverse(_eventsToday);
+    	Collections.sort(_eventsTomorrow); 	Collections.reverse(_eventsTomorrow);
+    	
+    	bindQuickLinks();
+    }
+    
+    
+    private void checkForWizard() {
+    	if (!SimpleSetting.SeenWizard.getBoolean()) {
+    		if (TeamCache.getTeamsCount() == 0) {
+    			new NewUserDialog(this).showDialog();
+    		}
+    		else {
+    			SimpleSetting.SeenWizard.set(true);
+    		}
+    	}
+    }
+    
+    
+	//////////////////////////////////////////////////////////////////
+	/// Event Handlers
+    
+    private void teamsClicked() 		{ startActivity(new Intent(this, MyTeams.class)); }
+    private void activitiesClicked() 	{
+    	TwitterActivity.clear();
+    	startActivity(new Intent(this, TwitterActivity.class)); 
+	}
+    private void messagesClicked()		{ startActivity(new Intent(this, Messages.class)); }
+    private void createTeamClicked()	{ startActivity(new Intent(this, CreateTeam.class)); }
+    private void eventsClicked()		{ startActivity(new Intent(this, EventsCalendar.class)); }
+    private void myTeamClicked()		{
+    	if (SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null) {
+    		TeamDetails.setTeam(TeamCache.get(SimpleSetting.MyTeam.get()));
+    		startActivity(new Intent(this, TeamDetails.class));
+    	}
+    	else {
+    		createTeamClicked();
+    	}
+    }
+}

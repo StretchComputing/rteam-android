@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/menu_reply" android:title="Reply"></item>
+<item android:id="@+id/menu_delete" android:title="Delete"></item>
+<item android:id="@+id/menu_back" android:title="Back"></item>
+<item android:id="@+id/menu_markunread" android:title="Mark Unread"></item>
+</menu>

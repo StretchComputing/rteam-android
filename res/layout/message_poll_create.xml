@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		  	  android:padding="4dp" android:orientation="vertical"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  	
+  	<EditText android:id="@+id/txtRecipients"
+  			  android:hint="To"
+  			  android:inputType="none|text" android:focusable="false"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />		  
+  	
+  	<EditText android:id="@+id/txtSubject"
+  			  android:hint="Poll Subject"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<EditText android:id="@+id/txtBody" android:layout_weight="1"
+  			  android:hint="Poll Question"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  	
+  	<EditText android:id="@+id/txtPollChoices"
+  			  android:hint="Poll Choices"
+  			  android:inputType="none|text" android:focusable="false"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+  	<EditText android:id="@+id/txtEvent"
+			  android:hint="Associated Event"
+			  android:inputType="none|text" android:focusable="false"
+			  android:layout_width="fill_parent" android:layout_height="wrap_content"  />
+  			    	
+  	<RelativeLayout android:background="@android:drawable/bottom_bar" android:gravity="center_vertical"
+					android:layout_width="fill_parent" android:layout_height="wrap_content">
+		
+		<CheckBox android:id="@+id/checkShowResults" android:text="Show Poll Results"
+				  android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+				  
+		<Button android:id="@+id/btnSend" android:text="Send"
+				android:layout_alignParentRight="true" android:layout_centerVertical="true"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="20dp"/>
+		
+	</RelativeLayout>
+  	
+</LinearLayout>

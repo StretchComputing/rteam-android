@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+  	<ScrollView android:layout_weight="1" android:fillViewport="true"
+  				android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+		<LinearLayout android:orientation="vertical"
+  			  		  android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+			<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+				
+				<ToggleButton android:id="@+id/btnTypePractice" android:textOn="Practice" android:textOff="Practice"
+		  				  	  android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+		  			  
+				<ToggleButton android:id="@+id/btnTypeGame" android:textOn="Game" android:textOff="Game" 
+						  	  android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+			
+				<ToggleButton android:id="@+id/btnTypeOther" android:textOn="Other" android:textOff="Other"
+				 		  	  android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+			
+			</LinearLayout>		  	
+		  	
+		  	<EditText android:id="@+id/textStartTime" android:hint="Event Date/Time"
+		  			  android:inputType="none|datetime" android:focusable="false"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />	
+		  	
+		  	<EditText android:id="@+id/textOpponent" android:hint="Opponent"
+		  			  android:inputType="text"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			
+			<EditText android:id="@+id/textDescription" android:hint="Description"
+					  android:layout_weight="1"
+					  android:inputType="text|textMultiLine"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+					  
+			<EditText android:id="@+id/textDuration" android:hint="Duration in minutes"
+					  android:inputType="number"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			
+		</LinearLayout>		  
+		  
+  	</ScrollView>
+			  
+   	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+				  android:background="@android:drawable/bottom_bar" android:gravity="center_vertical">
+ 		
+ 		<Button android:id="@+id/btnAdd" android:text="Add" 
+ 				android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+		<Button android:id="@+id/btnCancel" android:text="Cancel" 
+				android:layout_width="0dip" android:layout_weight="1" android:layout_height="wrap_content" />
+	
+	</LinearLayout>
+
+</LinearLayout>
+ 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 	android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+ 	<Button android:id="@+id/btnUsPlus3" android:text="+3"
+ 			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	
+	<Button android:id="@+id/btnUsPlus2" android:text="+2"
+			android:layout_below="@id/btnUsPlus3"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			
+	<Button android:id="@+id/btnUsPlus1" android:text="+1"
+			android:layout_below="@id/btnUsPlus2"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			
+	<Button android:id="@+id/btnUsMinus1" android:text="-1"
+			android:layout_below="@id/btnUsPlus1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />			
+			
+
+
+			
+	<Button android:id="@+id/btnThemPlus3" android:text="+3"
+			android:layout_alignParentRight="true" android:layout_alignBaseline="@id/btnUsPlus3"
+ 			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	
+	<Button android:id="@+id/btnThemPlus2" android:text="+2"
+			android:layout_below="@id/btnThemPlus3" android:layout_alignParentRight="true"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			
+	<Button android:id="@+id/btnThemPlus1" android:text="+1"
+			android:layout_below="@id/btnThemPlus2" android:layout_alignParentRight="true"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			
+	<Button android:id="@+id/btnThemMinus1" android:text="-1"
+			android:layout_below="@id/btnThemPlus1" android:layout_alignParentRight="true"
+			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  			  
+  			  
+
+	<TextView android:id="@+id/lblLabels" android:text="Us          Them"
+			  android:layout_marginTop="10dp"
+			  android:layout_centerHorizontal="true"
+			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  	
+  	<TextView android:id="@+id/lblScore" android:text="0  -  0" android:textSize="11pt"
+  			  android:layout_below="@id/lblLabels" android:layout_centerHorizontal="true"
+  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  	
+  	
+  	<TextView android:id="@+id/lblQuarter" android:text="Quarter: 0"
+  			  android:layout_marginTop="30dp" 
+  			  android:layout_below="@id/lblScore" android:layout_centerHorizontal="true"
+  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  			  
+	<Button android:id="@+id/btnPrevQuarter" android:text="-"
+  			android:layout_below="@id/lblQuarter" android:layout_alignLeft="@id/lblQuarter"
+  			android:layout_width="wrap_content" android:layout_height="wrap_content" />  	
+  			
+  	<Button android:id="@+id/btnNextQuarter" android:text="+"
+  			android:layout_below="@id/lblQuarter" android:layout_alignRight="@id/lblQuarter"
+  			android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+</RelativeLayout>

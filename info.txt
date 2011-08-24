@@ -1,0 +1,16 @@
+Store: 		rTeamr0cks
+RTeamMaps:	rTeamM4ps
+
+
+
+Your key is:
+0VI2v-ID0yiW5WklV2IiUMFeIl08vcPHmARoyyw
+This key is good for all apps signed with your certificate whose fingerprint is:
+25:E3:BA:0D:F9:A1:87:25:56:AC:D4:A8:A8:68:26:FC
+Here is an example xml layout to get you started on your way to mapping glory:
+              <com.google.android.maps.MapView
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:apiKey="0VI2v-ID0yiW5WklV2IiUMFeIl08vcPHmARoyyw"
+                 />
+            

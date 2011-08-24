@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+			  android:orientation="vertical"
+  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  
+	<com.google.ads.AdView android:id="@+id/adTeams" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  						   ads:adUnitId="@string/admobs_key" ads:adSize="BANNER" ads:loadAdOnCreate="true" />  	
+  						   
+   	<ExpandableListView android:id="@+id/listTeams" android:layout_weight="1"
+   						android:layout_width="fill_parent" android:layout_height="wrap_content" />
+			  
+  	<RelativeLayout android:background="@android:drawable/bottom_bar"
+  					android:layout_width="fill_parent" android:layout_height="wrap_content">
+  					
+		<Button android:id="@+id/btnCreateTeam" android:text="Create New Team"
+				android:layout_centerInParent="true"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			
+  	</RelativeLayout>
+			  
+	
+</LinearLayout>

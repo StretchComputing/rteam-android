@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost android:id="@+id/tabMessages" xmlns:android="http://schemas.android.com/apk/res/android"
+		 android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<LinearLayout android:orientation="vertical"
+				  android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<TabWidget android:id="@+id/tabMessagesTabs"
+				   android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		
+		<FrameLayout android:id="@+id/tabMessagesContent"
+					 android:layout_width="fill_parent" android:layout_height="fill_parent" />		  
+	</LinearLayout>
+		 
+</TabHost>
+	

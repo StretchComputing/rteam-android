@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:padding="10dp"
+  			  	android:layout_width="wrap_content" android:layout_height="wrap_content">
+  			  
+ 	<ImageView android:id="@+id/imageMain" android:src="@drawable/home_quicklink_gametoday" 
+			   android:layout_centerHorizontal="true"
+			   android:layout_width="wrap_content" android:layout_height="wrap_content" />
+			   
+   	<TextView android:id="@+id/txtEvent" android:text="Game Today, 10:00p (Android...Team)" android:textSize="5pt" android:textColor="#16437D"
+   			  android:layout_centerHorizontal="true" android:layout_below="@id/imageMain"
+   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+  			  
+</RelativeLayout>
