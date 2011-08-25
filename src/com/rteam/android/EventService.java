@@ -3,6 +3,8 @@ package com.rteam.android;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,8 +18,6 @@ import com.rteam.api.GamesResource.GetGamesResponse;
 import com.rteam.api.PracticeResource.GetPracticesResponse;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
-import com.rteam.api.business.Game;
-import com.rteam.api.business.Practice;
 import com.rteam.api.common.DateUtils;
 
 import android.app.Notification;
@@ -36,12 +36,12 @@ public class EventService extends Service {
 	private static final TagSuffix SUFFIX = new TagSuffix("service");
 	
 	private Timer _timer;
-	private final int REFRESH_RATE = 18000000; // 5 minutes
+	private final int REFRESH_RATE = 18000000; 	// 5 minutes
+	private final int DELAY_REFRESH = 30000;	// 30 seconds
 	public static final int NOTIFICATION_ID = 12345;
 	
-	private ArrayList<Practice> _practices;
-	private ArrayList<Game> _games;
-	
+	private Map<String, EventBase> _events;
+		
 	//////////////////////////////////////////////////////////////////////////////
 	//// .ctor
 	public EventService() {
@@ -51,7 +51,7 @@ public class EventService extends Service {
 			public void run() {
 				refreshEvents();
 			}
-		}, 0, REFRESH_RATE);
+		}, DELAY_REFRESH, REFRESH_RATE);
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////
@@ -65,49 +65,29 @@ public class EventService extends Service {
 	
 	private void loadUpcomingEvents() {
 		try {
-	    	new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
-				@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
-			});
+			_events = new HashMap<String, EventBase>();
+			GetPracticesResponse practiceResponse = new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), false);
+			_events.putAll(practiceResponse.eventsMap());
+			GetGamesResponse gamesResponse = new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All));
+			_events.putAll(gamesResponse.eventsMap());
+			
+			loadUpcomingEventsFinished();
 		} catch (Exception e) {
 			RTeamLog.i(SUFFIX, e.getMessage());
 		}
     }
     
-    private void loadPracticesFinished(GetPracticesResponse response) {
-    	try {
-	    	_practices = response.practices();
-	    	new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {			
-				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
-			});
-    	} catch (Exception e) {
-			RTeamLog.i(SUFFIX, e.getMessage());
-		}
-    }
-    
-    private void loadGamesFinished(GetGamesResponse response) {
-    	try {
-			_games = response.games();
-	    	loadUpcomingEventsFinished();
-    	} catch (Exception e) {
-			RTeamLog.i(SUFFIX, e.getMessage());
-		}
-    }
-    
     private void loadUpcomingEventsFinished() {
+    	if (_events == null) return;
+    	
     	Calendar c = Calendar.getInstance();
     	c.add(Calendar.MINUTE, 15);
     	ArrayList<EventBase> notifyEvents = new ArrayList<EventBase>();
     	
-    	for (Practice practice : _practices) {
-    		if ((practice.isInProgress() || practice.isUpcomingToday() || practice.isUpcomingToday())
-					&& practice.startDate().before(c.getTime())) {
-    			notifyEvents.add(practice);
-    		}
-    	}
-    	for (Game game : _games) {
-    		if ((game.isInProgress() || game.isUpcomingToday() || game.isTomorrow())
-    				&& game.startDate().before(c.getTime())) {
-    			notifyEvents.add(game);
+    	for (EventBase event : _events.values()) {
+    		if ((event.isInProgress() || event.isUpcomingToday() || event.isUpcomingToday())
+					&& event.startDate().before(c.getTime())) {
+    			notifyEvents.add(event);
     		}
     	}
     	

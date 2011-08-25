@@ -21,6 +21,9 @@
 	60 minutes - fixed notifications so they actually work
 	30 minutes - fixed a bug with creating events on home page, now they get created but I think times are still off.
 	
+8/24/2011
+	30 minutes - debugging and fixing the issue with the droid 2.2
+	45 minutes - fixed some bugs with events in quick views, and made it look a bit nicer/
 		
 TODO :
 	- FUTURE TASK: View attendance for member
@@ -36,7 +39,7 @@ TODO :
 	x TASK: Give feedback, Rate rTeam
 	x BUG: Error on first load
 	x TASK: Implement photos and videos for activity page.
-	- BUG: Figure out if there's a bug or something with event creation from the home page 
-		-- the times seem to get messed up when the events are loaded up from the server
-		-- and they don't get added to the quick links, which they should.
+	x BUG: Figure out if there's a bug or something with event creation from the home page 
+		x the times seem to get messed up when the events are loaded up from the server
+		x and they don't get added to the quick links, which they should.
 	- TASK: Implement video manually or leave it out?

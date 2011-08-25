@@ -1,6 +1,8 @@
 package com.rteam.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 
@@ -96,6 +98,10 @@ public class PracticeResource extends ResourceBase {
 	
 	
 	public class GetPracticesResponse extends ResourceResponse {
+		private Map<String, EventBase> _events;
+		public Map<String, EventBase> eventsMap() { return _events; }
+		public ArrayList<EventBase> events() { return new ArrayList<EventBase>(_events.values()); }
+		
 		private ArrayList<Practice> _practices;
 		public ArrayList<Practice> practices() { return _practices; }
 		
@@ -120,11 +126,14 @@ public class PracticeResource extends ResourceBase {
 		private void initialize() {
 			if (isResponseGood()) {
 				_practices = new ArrayList<Practice>();
+				_events = new HashMap<String, EventBase>();
 				
 				JSONArray practices = json().optJSONArray("practices");
 				int count = practices != null ? practices.length() : 0;
 				for(int i=0; i<count; i++) {
-					_practices.add(new Practice(practices.optJSONObject(i), _defaultTeamId));
+					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
+					_practices.add(practice);
+					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
 				}
 				
 				_practicesToday = new ArrayList<Practice>();				
@@ -134,6 +143,7 @@ public class PracticeResource extends ResourceBase {
 					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
 					_practicesToday.add(practice);
 					_practices.add(practice);
+					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
 				}
 				
 				_practicesTomorrow = new ArrayList<Practice>();
@@ -143,6 +153,7 @@ public class PracticeResource extends ResourceBase {
 					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
 					_practicesTomorrow.add(practice);
 					_practices.add(practice);
+					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
 				}
 			}
 		}

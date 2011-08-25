@@ -10,6 +10,10 @@ import com.rteam.api.business.Team;
 
 public class TeamCache {
 	
+	public static interface DoneLoadingCallback {
+		public void doneLoading();
+	}
+	
 	private static Map<String, Team> _teams = new HashMap<String, Team>();
 	private static boolean _initialized = false;
 	
@@ -31,7 +35,7 @@ public class TeamCache {
 		return _teams.size();
 	}
 	
-	public static void initialize() {
+	public static void initialize(final DoneLoadingCallback callback) {
 		if (_initialized) return;
 		new TeamsResource().getTeams(new TeamsResource.TeamListResponseHandler() {
 			@Override
@@ -42,6 +46,8 @@ public class TeamCache {
 						put(team);
 					}
 				}
+				
+				callback.doneLoading();
 			}
 		});
 	}

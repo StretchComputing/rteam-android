@@ -2,10 +2,13 @@ package com.rteam.android;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.view.View;
 
@@ -30,8 +33,6 @@ import com.rteam.api.PracticeResource.GetPracticesResponse;
 import com.rteam.api.PracticeResource;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
-import com.rteam.api.business.Game;
-import com.rteam.api.business.Practice;
 import com.rteam.api.business.Team;
 
 public class Home extends RTeamActivity {
@@ -50,13 +51,14 @@ public class Home extends RTeamActivity {
 	private TextView _txtMyTeam;
 	
 	private LinearLayout _viewQuickLinks;
+	private ProgressBar _quickLinksProgress;
 	
 	private String _numberUnreadMessages = null;
+	private boolean _cacheLoaded = false;
 	
-	private ArrayList<Practice> _practices;
-	private ArrayList<Game> _games;
+	private Map<String, EventBase> _events;
 	
-	private ArrayList<Game> _gamesInProgress;
+	private ArrayList<EventBase> _gamesInProgress;
 	private ArrayList<EventBase> _eventsToday;
 	private ArrayList<EventBase> _eventsTomorrow;
 
@@ -82,7 +84,13 @@ public class Home extends RTeamActivity {
 		
     @Override
     protected void initialize() {
-    	TeamCache.initialize();
+    	TeamCache.initialize(new TeamCache.DoneLoadingCallback() {
+			@Override
+			public void doneLoading() {
+				_cacheLoaded = true;
+				bindHomeTeam();
+			}
+		});
     	initializeView();
     	loadMessages();
     	loadUpcomingEvents();
@@ -91,7 +99,8 @@ public class Home extends RTeamActivity {
     
     @Override
     protected void reInitialize() {
-    	bindView();
+    	bindUnreadMessages();
+    	bindHomeTeam();
     }
     
     private void initializeView() {
@@ -108,6 +117,7 @@ public class Home extends RTeamActivity {
     	_btnMyTeam = (ImageView) findViewById(R.id.btnMyTeam);
     	
     	_viewQuickLinks = (LinearLayout) findViewById(R.id.viewQuickLinks);
+    	_quickLinksProgress = (ProgressBar) findViewById(R.id.progressQuickLinks);
     	
     	_btnTeams.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { teamsClicked(); } });
     	_btnActivities.setOnClickListener(new View.OnClickListener() 	{ @Override public void onClick(View v) { activitiesClicked(); } });
@@ -116,7 +126,8 @@ public class Home extends RTeamActivity {
     	_btnCreateTeam.setOnClickListener(new View.OnClickListener() 	{ @Override public void onClick(View v) { createTeamClicked(); } });
     	_btnMyTeam.setOnClickListener(new View.OnClickListener() 		{ @Override public void onClick(View v) { myTeamClicked(); } });
     	
-    	bindView();
+    	bindUnreadMessages();
+    	bindHomeTeam();
     }
     
     private boolean hasHomeTeam() { return getHomeTeam() != null; }
@@ -129,12 +140,15 @@ public class Home extends RTeamActivity {
     	return null;
     }
     
-    private void bindView() {
+    private void bindUnreadMessages() {
     	_txtUnreadMessages.setVisibility(_numberUnreadMessages != null && !_numberUnreadMessages.equalsIgnoreCase("0") ? View.VISIBLE : View.INVISIBLE);
     	_txtUnreadMessages.setText(_numberUnreadMessages);
-    	
-    	_txtMyTeam.setText(hasHomeTeam() ? getHomeTeam().teamName() : "Create Team");    	
-    	CustomTitle.setLoading(false);
+    }
+    
+    private void bindHomeTeam() {
+    	if (_cacheLoaded) {
+    		_txtMyTeam.setText(hasHomeTeam() ? getHomeTeam().teamName() : "Create Team");
+    	}
     }
     
     private void bindQuickLinks() {
@@ -150,7 +164,7 @@ public class Home extends RTeamActivity {
     	}
     	else
     	{
-	    	for (Game game : _gamesInProgress) {
+	    	for (EventBase game : _gamesInProgress) {
 	    		_viewQuickLinks.addView(new QuickLink.QuickLinkShowEvent(this, game).getView());
 	    	}
 	    	for (EventBase event : _eventsToday) {
@@ -169,62 +183,57 @@ public class Home extends RTeamActivity {
 			public void finish(GetMessageCountResponse response) { 
 				if (response.showError(Home.this)) {
 					_numberUnreadMessages = Integer.toString(response.messageCount());
-					bindView();
+					bindUnreadMessages();
 				}
 			}
 		});
     }
     
     private void loadUpcomingEvents() {
-    	CustomTitle.setLoading(true);
-    	new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
+    	_quickLinksProgress.setVisibility(View.VISIBLE);
+    	_events = new HashMap<String, EventBase>();
+    	new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
 			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
 		});
     }
     
     private void loadPracticesFinished(GetPracticesResponse response) {
     	if (response.showError(this)) {
-	    	_practices = response.practices();
-	    	new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {			
+    		_events.putAll(response.eventsMap());
+	    	new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
 			});
     	}
     	else {
-    		CustomTitle.setLoading(false);
+    		_quickLinksProgress.setVisibility(View.GONE);
     	}
     }
     
     private void loadGamesFinished(GetGamesResponse response) {
     	if (response.showError(this)) {
-	    	_games = response.games();
+    		_events.putAll(response.eventsMap());
 	    	loadUpcomingEventsFinished();
     	}
-    	CustomTitle.setLoading(false);
+    	_quickLinksProgress.setVisibility(View.GONE);
     }
     
     private void loadUpcomingEventsFinished() {
-    	_gamesInProgress = new ArrayList<Game>();
+    	_gamesInProgress = new ArrayList<EventBase>();
     	_eventsToday = new ArrayList<EventBase>();
     	_eventsTomorrow = new ArrayList<EventBase>();
     	
-    	for (Practice practice : _practices) {
-    		if (practice.isUpcomingToday()) {
-    			_eventsToday.add(practice);
-    		}
-    		else if (practice.isTomorrow()) {
-    			_eventsTomorrow.add(practice);
-    		}
-    	}
-    	for (Game game : _games) {
-    		if (game.isInProgress()) {
-    			_gamesInProgress.add(game);
-    		}
-    		else if(game.isUpcomingToday()) {
-    			_eventsToday.add(game);
-    		}
-    		else if(game.isTomorrow()) {
-    			_eventsTomorrow.add(game);
-    		}
+    	if (_events != null) {
+	    	for (EventBase evt : _events.values()) {
+	    		if (evt.isInProgress() && evt.eventType() == Event.Type.Game) {
+	    			_gamesInProgress.add(evt);
+	    		}
+	    		else if (evt.isUpcomingToday()) {
+	    			_eventsToday.add(evt);
+	    		}
+	    		else if (evt.isTomorrow()) {
+	    			_eventsTomorrow.add(evt);
+	    		}
+	    	}
     	}
     	
     	Collections.sort(_gamesInProgress); Collections.reverse(_gamesInProgress);

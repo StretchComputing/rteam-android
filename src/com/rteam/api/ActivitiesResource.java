@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;

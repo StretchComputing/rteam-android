@@ -1,12 +1,15 @@
 package com.rteam.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamLog;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
@@ -96,6 +99,9 @@ public class GamesResource extends ResourceBase {
 	}
 	
 	public class GetGamesResponse extends ResourceResponse {
+		private Map<String, EventBase> _events;
+		public Map<String, EventBase> eventsMap() { return _events; }
+		public ArrayList<EventBase> events() { return new ArrayList<EventBase>(_events.values()); }
 		private ArrayList<Game> _games;
 		public ArrayList<Game> games() { return _games; }
 		
@@ -115,11 +121,15 @@ public class GamesResource extends ResourceBase {
 		private void initialize() {
 			if (isResponseGood()) {
 				_games = new ArrayList<Game>();
+				_events = new HashMap<String, EventBase>();
 				
 				JSONArray games = json().optJSONArray("games");
+				RTeamLog.i("Response responded with : %d games.", games != null ? games.length() : -1);
 				int count = games != null ? games.length() : 0;
 				for(int i=0; i<count; i++) {
-					_games.add(new Game(games.optJSONObject(i), _defaultTeamId));
+					Game g = new Game(games.optJSONObject(i), _defaultTeamId);
+					_games.add(g);
+					if (!_events.containsKey(g.eventId())) _events.put(g.eventId(), g);
 				}
 			}
 		}
