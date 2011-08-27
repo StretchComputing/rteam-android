@@ -2,6 +2,7 @@ package com.rteam.android.people;
 
 import java.util.ArrayList;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.rteam.api.business.Member;
 import com.rteam.api.business.Member.Guardian;
 import com.rteam.api.business.Team;
 import com.rteam.api.common.ArrayListUtils;
+import com.rteam.api.common.StringUtils;
 
 public class CreateMember extends RTeamActivity {
 	
@@ -58,6 +60,7 @@ public class CreateMember extends RTeamActivity {
 	private EditText _txtFirstName;
 	private EditText _txtLastName;
 	private EditText _txtEmail;
+	private EditText _txtPhoneNumber;
 	private EditText _txtGuardians;
 	private ToggleButton _btnCoordinator;
 	private Button _btnCreate;
@@ -78,6 +81,7 @@ public class CreateMember extends RTeamActivity {
 		_txtFirstName = (EditText) findViewById(R.id.txtFirstName);
 		_txtLastName = (EditText) findViewById(R.id.txtLastName);
 		_txtEmail = (EditText) findViewById(R.id.txtEmail);
+		_txtPhoneNumber = (EditText) findViewById(R.id.txtPhoneNumber);
 		_txtGuardians = (EditText) findViewById(R.id.txtGuardians);
 		
 		_btnCoordinator = (ToggleButton) findViewById(R.id.btnCoordinator);
@@ -90,12 +94,33 @@ public class CreateMember extends RTeamActivity {
 		_btnCreate.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { createMemberClicked(); }
 		});
+		
+		
+		_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_txtLastName.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_txtEmail.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_txtPhoneNumber.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		bindButtons();
 	}
 	
 	private void bindView() {
 		_txtGuardians.setText(ArrayListUtils.toString(_guardians, ";", new ArrayListUtils.GetString<Member.Guardian>() {
 			@Override public String getString(Guardian obj) { return obj.firstName() + " " + obj.lastName(); } 
 		}));
+	}
+	
+	private void bindButtons() {
+		_btnCreate.setEnabled(StringUtils.hasText(_txtFirstName)
+								&& StringUtils.hasText(_txtLastName)
+								&& (StringUtils.hasText(_txtEmail) || StringUtils.hasText(_txtPhoneNumber)));
 	}
 		
 	////////////////////////////////////////////////////////////////////

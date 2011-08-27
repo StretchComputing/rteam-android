@@ -22,6 +22,7 @@ import com.rteam.api.common.TimeZoneUtils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -120,11 +121,26 @@ public class AddEventDialog extends Dialog {
 		_btnCancel.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { cancel(); }
 		});
+		
+		bindButtons();
+		_textOpponent.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_textDescription.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_textDuration.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
 	}
 	
 	/////////////////////////////////////////////////////////////
 	//// Event Helpers
 	
+	
+	private void bindButtons() {
+		_btnAdd.setEnabled(StringUtils.hasText(_textStartTime));
+	}
 	
 	private void setStartDateTime() {
 		new DateTimeDialog(getContext(), _startDateTime, new DateTimeDialog.DoneHandler() {
@@ -135,6 +151,7 @@ public class AddEventDialog extends Dialog {
 	private void setStartDateTime(Date startDateTime) {
 		_startDateTime = startDateTime;
 		_textStartTime.setText(DateUtils.toPrettyString(_startDateTime));
+		bindButtons();
 	}
 	
 	private void setEventType(Event.Type eventType) {

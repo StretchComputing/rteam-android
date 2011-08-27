@@ -150,8 +150,8 @@ public final class R {
         public static final int btnAddMember=0x7f0900b5;
         public static final int btnCancel=0x7f09000e;
         public static final int btnCheckEmail=0x7f0900c2;
-        public static final int btnCoordinator=0x7f09008f;
-        public static final int btnCreate=0x7f090090;
+        public static final int btnCoordinator=0x7f090090;
+        public static final int btnCreate=0x7f090091;
         public static final int btnCreateAccount=0x7f090099;
         public static final int btnCreateTeam=0x7f090047;
         public static final int btnDelete=0x7f090062;
@@ -214,10 +214,10 @@ public final class R {
         public static final int groupSecond=0x7f0900c9;
         public static final int help=0x7f0900d0;
         public static final int imageMain=0x7f09004c;
-        public static final int imageMember=0x7f090091;
+        public static final int imageMember=0x7f090092;
         public static final int imageView=0x7f09007f;
         public static final int lblCharactersLeft=0x7f090088;
-        public static final int lblCoordinator=0x7f09008e;
+        public static final int lblCoordinator=0x7f09008f;
         public static final int lblDescription=0x7f090040;
         public static final int lblExistingMember=0x7f090098;
         public static final int lblForgotPassword=0x7f090018;
@@ -306,8 +306,8 @@ public final class R {
         public static final int txtFirstName=0x7f09008b;
         public static final int txtFirstName1=0x7f09000f;
         public static final int txtFirstName2=0x7f090012;
-        public static final int txtGuardians=0x7f09008d;
-        public static final int txtJerseyNumber=0x7f090092;
+        public static final int txtGuardians=0x7f09008e;
+        public static final int txtJerseyNumber=0x7f090093;
         public static final int txtLastName=0x7f09008c;
         public static final int txtLastName1=0x7f090010;
         public static final int txtLastName2=0x7f090013;
@@ -324,7 +324,7 @@ public final class R {
         public static final int txtOther=0x7f09002c;
         public static final int txtPassword=0x7f090017;
         public static final int txtPasswordConfirm=0x7f0900bd;
-        public static final int txtPhoneNumber=0x7f090093;
+        public static final int txtPhoneNumber=0x7f09008d;
         public static final int txtPollChoice1=0x7f090019;
         public static final int txtPollChoice2=0x7f09001a;
         public static final int txtPollChoice3=0x7f09001b;

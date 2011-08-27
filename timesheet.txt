@@ -23,7 +23,12 @@
 	
 8/24/2011
 	30 minutes - debugging and fixing the issue with the droid 2.2
-	45 minutes - fixed some bugs with events in quick views, and made it look a bit nicer/
+	45 minutes - fixed some bugs with events in quick views, and made it look a bit nicer.
+	
+8/27/2011
+	90 minutes - fixed bugs that were causing the errors in the rteam errog log.
+	60 minutes - fixing layout issues (when soft keyboard would force resizing of some screens and made them look weird) 
+					and enabling/disabling submit buttons for create team/member/event/poll/message along with layout updates to indiate required fields 
 		
 TODO :
 	- FUTURE TASK: View attendance for member
@@ -42,4 +47,14 @@ TODO :
 	x BUG: Figure out if there's a bug or something with event creation from the home page 
 		x the times seem to get messed up when the events are loaded up from the server
 		x and they don't get added to the quick links, which they should.
+	x BUG: CreateMember: Disable create button for creating member when they haven't filled everything out.
+	x BUG: CreateMember: Indicate which fields are required by their hint text
+	x BUG: SendMessage: Indicate which fields are required by their hint text
+	x BUG: CreateTeam: Indicate which fields are required by their hint text
+	x BUG: CreateTeam: Disable create button when not all required fields are selected
+	x BUG: CreateEvent: Disable add button when not all fields are required
+	x BUG: CreateEvent: Indicate which fields are required by their hint text
+	x BUG: CreatePoll: Indicate which fields are required by their hint text
+	x BUG: CreatePoll: Disable send button when not all required fields are done
+	- BUG: Inbox/Polls/Sent: Default text for when there are no messages.
 	- TASK: Implement video manually or leave it out?

@@ -22,19 +22,19 @@
 		<activity android:name=".teams.Events" android:label="rTeam - events" />
 		<activity android:name=".teams.People" android:label="rteam - people" />
 		<activity android:name=".teams.Messages" android:label="rTeam - team messages" />
-		<activity android:name=".teams.CreateTeam" android:label="rTeam - create a team" />
+		<activity android:name=".teams.CreateTeam" android:label="rTeam - create a team" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".teams.AllScores" android:label="rTeam - all scores" />
 		
-		<activity android:name=".messaging.Messages"/>
+		<activity android:name=".messaging.Messages" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".messaging.Inbox" android:label="rTeam - inbox" />
 		<activity android:name=".messaging.Polls" android:label="rTeam - polls" />
 		<activity android:name=".messaging.SentMessages" android:label="rTeam - sent messages" />
 		<activity android:name=".messaging.CreatePoll" android:label="rTeam - create poll" />
-		<activity android:name=".messaging.SendMessage" android:label="rTeam - send message" />
+		<activity android:name=".messaging.SendMessage" android:label="rTeam - send message" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".messaging.ViewMessage" android:label="rTeam - view message" />
-		<activity android:name=".messaging.TwitterActivity" />
+		<activity android:name=".messaging.TwitterActivity" android:label="rTeam - activity" />
 		
-		<activity android:name=".events.EventDetails" />
+		<activity android:name=".events.EventDetails" android:label="rTeam - event details" />
 		<activity android:name=".events.GameDay" android:label="rTeam - game day" />
 		<activity android:name=".events.PracticeDay" android:label="rTeam - practice day" />
 		<activity android:name=".events.Activity" android:label="rTeam - event activity" />
@@ -42,7 +42,7 @@
 		<activity android:name=".events.Messages" android:label="rTeam - event messages" />
 		<activity android:name=".events.Fans" android:label="rTeam - event fans" />
 		<activity android:name=".events.EventsCalendar" android:label="rTeam - events" />
-		<activity android:name=".events.LaunchEventDetails" />
+		<activity android:name=".events.LaunchEventDetails" android:label="rTeam - launch event details" />
 		
 		<activity android:name=".user.Feedback" android:label="rTeam - feedback" />
 		<activity android:name=".user.GlobalSettings" android:label="rTeam - global settings" />
@@ -58,12 +58,10 @@
 	
     <uses-sdk android:minSdkVersion="7" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />  -->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
  	<uses-feature android:name="android.hardware.camera" />
  	<uses-feature android:name="android.hardware.camera.autofocus" />
-
 
 </manifest> 

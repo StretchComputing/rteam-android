@@ -39,6 +39,7 @@ public class RTeamActivityChildTab extends Activity {
 		super.onCreate(savedInstanceState);
 		_state = savedInstanceState;
 		
+		AndroidTokenStorage.initialize(this);		
 		if (ensureSecure()) {		
 			initialize();
 			ensureOnline();

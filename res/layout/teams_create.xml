@@ -3,34 +3,48 @@
 			  android:orientation="vertical" android:padding="5dp"
   			  android:layout_width="fill_parent" android:layout_height="fill_parent">
   			  			  
-	<EditText android:id="@+id/txtTeamName" android:hint="Team Name"
-			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
-  			  
-  	<EditText android:id="@+id/txtTeamSport" android:hint="Team Sport"
-  			  android:inputType="none|text" android:focusable="false"
-			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
-			  
-	<EditText android:id="@+id/txtTeamDescription" android:hint="Description"
-			  android:inputType="textMultiLine" android:layout_weight="1"
-			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
-  			  
- 	<TextView android:text="If you have a Twitter account, you can enable Twitter for your team by selecting the option below.  Connecting to Twitter will allow your team to post to and follow the same Twitter feed."
- 			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  			  
-  	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-  		<TextView android:id="@+id/lblUsesTwitter" android:text="Use Twitter:"
-  				  android:layout_marginTop="5dp" android:layout_marginLeft="20dp"
-  				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  				  
-	  	<ToggleButton android:id="@+id/btnUsesTwitter" android:textOn="Yes" android:textOff="No"
-	  				  android:layout_toRightOf="@id/lblUsesTwitter" android:layout_alignBaseline="@id/lblUsesTwitter"
-	  				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  	</RelativeLayout>
-  	
-  	<TextView android:text="If you don't have a Twitter account but you would like to use this feature, you can continue creating your team and connect to Twitter later."
-  			  android:textSize="5pt"
-  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  	
+  	<ScrollView android:layout_weight="1" android:padding="4dp" android:fillViewport="true"
+  				android:layout_width="fill_parent" android:layout_height="wrap_content">
+  				
+		<LinearLayout android:orientation="vertical"
+					  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  			  
+			<EditText android:id="@+id/txtTeamName" android:hint="Team Name *"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		  			  
+		  	<EditText android:id="@+id/txtTeamSport" android:hint="Team Sport *"
+		  			  android:inputType="none|text" android:focusable="false"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+					  
+			<EditText android:id="@+id/txtTeamDescription" android:hint="Description *"
+					  android:inputType="textMultiLine" android:layout_weight="1"
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		  			  
+ 			<TextView android:text="* is required"
+ 				      android:gravity="center_horizontal" android:textSize="11dp"
+ 				      android:layout_width="fill_parent" android:layout_height="wrap_content" />
+		  			  
+		 	<TextView android:text="If you have a Twitter account, you can enable Twitter for your team by selecting the option below.  Connecting to Twitter will allow your team to post to and follow the same Twitter feed."
+		 			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		  			  
+		  	<RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+		  		<TextView android:id="@+id/lblUsesTwitter" android:text="Use Twitter:"
+		  				  android:layout_marginTop="5dp" android:layout_marginLeft="20dp"
+		  				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		  				  
+			  	<ToggleButton android:id="@+id/btnUsesTwitter" android:textOn="Yes" android:textOff="No"
+			  				  android:layout_toRightOf="@id/lblUsesTwitter" android:layout_alignBaseline="@id/lblUsesTwitter"
+			  				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		  	</RelativeLayout>
+		  	
+		  	<TextView android:text="If you don't have a Twitter account but you would like to use this feature, you can continue creating your team and connect to Twitter later."
+		  			  android:textSize="5pt"
+		  			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		  			  
+		</LinearLayout>
+		
+	</ScrollView>
+	
   	<RelativeLayout android:background="@android:drawable/bottom_bar"
   					android:layout_width="fill_parent" android:layout_height="wrap_content">
 

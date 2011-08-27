@@ -1,5 +1,7 @@
 package com.rteam.api.common;
 
+import android.widget.EditText;
+
 public class StringUtils {
 	
 	public static boolean isNullOrEmpty(String value) {
@@ -20,5 +22,9 @@ public class StringUtils {
 		return !isNullOrEmpty(value)
 					? value
 					: defaultValue;
+	}
+	
+	public static boolean hasText(EditText txt) {
+		return !isNullOrEmpty(txt.getText().toString());
 	}
 }

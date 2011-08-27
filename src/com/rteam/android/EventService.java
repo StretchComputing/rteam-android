@@ -57,8 +57,12 @@ public class EventService extends Service {
 	//////////////////////////////////////////////////////////////////////////////
 	//// Refresh Events
 	private void refreshEvents() {
-		if (SimpleSetting.ShowAlerts.getBoolean(true)) {
-			loadUpcomingEvents();
+		try {
+			if (SimpleSetting.ShowAlerts.getBoolean(true)) {
+				loadUpcomingEvents();
+			}
+		} catch(Exception e) {
+			RTeamLog.i(SUFFIX, "Exception while refreshing events: %s", e.getMessage());
 		}
 	}
 	

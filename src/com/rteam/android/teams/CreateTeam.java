@@ -3,6 +3,7 @@ package com.rteam.android.teams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.teams.common.TeamCache;
 import com.rteam.api.TeamsResource;
 import com.rteam.api.TeamsResource.CreateTeamResponse;
+import com.rteam.api.business.Member;
 import com.rteam.api.business.Team;
 import com.rteam.api.common.StringUtils;
 
@@ -76,6 +78,15 @@ public class CreateTeam extends RTeamActivityChildTab {
 		_btnCreateTeam.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { createTeamClicked(); }
 		});
+		
+		_txtTeamName.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_txtDescription.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		
+		bindButtons();
 	}
 	
 	private void initializeTeamSportDialog() {
@@ -112,6 +123,12 @@ public class CreateTeam extends RTeamActivityChildTab {
 		if (_selectedSport != null) {
 			_txtTeamSport.setText(_selectedSport.toString());
 		}
+	}
+	
+	private void bindButtons() {
+		_btnCreateTeam.setEnabled(StringUtils.hasText(_txtTeamName)
+									&& StringUtils.hasText(_txtDescription)
+									&& StringUtils.hasText(_txtTeamSport));
 	}
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -165,6 +182,7 @@ public class CreateTeam extends RTeamActivityChildTab {
 	private void selectTeamSport(Team.Sport sport) {
 		_selectedSport = sport;
 		bindTeamSport();
+		bindButtons();
 	}
 	
 	private void teamTypeDone() {
@@ -217,6 +235,7 @@ public class CreateTeam extends RTeamActivityChildTab {
 	
 	private Team getTeam() {
 		Team team = new Team();
+		team.participantRole(Member.Role.Creator);
 		team.teamName(_txtTeamName.getText().toString());
 		team.description(_txtDescription.getText().toString());
 		team.sport(_selectedSport);

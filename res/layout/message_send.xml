@@ -10,23 +10,27 @@
 					  android:layout_width="fill_parent" android:layout_height="fill_parent">
 			
 			<EditText android:id="@+id/txtRecipients"
-					  android:hint="To"
+					  android:hint="To *"
 					  android:inputType="none|text" android:focusable="false"
 					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
 				  
 			<EditText android:id="@+id/txtSubject"
-					  android:hint="Subject"
+					  android:hint="Subject *"
 					  android:inputType="text|textEmailSubject"
-					  android:layout_width="fill_parent" android:layout_height="wrap_content"/>
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
 			
 			<EditText android:id="@+id/txtBody" android:layout_weight="1"
-					  android:hint="Compose Message"
+					  android:hint="Compose Message *"
 					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
 					  
 			<EditText android:id="@+id/txtEvent"
 					  android:hint="Associated Event"
 					  android:inputType="none|text" android:focusable="false"
-					  android:layout_width="fill_parent" android:layout_height="wrap_content"  />
+					  android:layout_width="fill_parent" android:layout_height="wrap_content" />
+					  
+		  	<TextView android:text="* is required"
+		  			  android:gravity="center_horizontal" android:textSize="11dp"
+		  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
 						  
 		</LinearLayout>
 		

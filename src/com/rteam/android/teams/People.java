@@ -48,7 +48,6 @@ public class People extends RTeamActivityChildTab {
 		return new HelpProvider(new HelpContent("Overview", "Shows the current list of members and fans on the current team.  Allows managers to add members or invite fans."));
 	}
 	
-	
 	////////////////////////////////////////////////////////////////////////////////////////
 	//// View initialization
 	
@@ -99,10 +98,8 @@ public class People extends RTeamActivityChildTab {
 		}
 	}
 	
-	private void memberClick(Member member) {
-		member.teamId(getTeam().teamId());
-		EditMember.setupMember(member);
-		
+	private void memberClick(Member member) {		
+		EditMember.setupMember(member);		
 		startActivity(new Intent(this, EditMember.class));
 	}
 	
@@ -110,6 +107,7 @@ public class People extends RTeamActivityChildTab {
 		CreateMember.setup(getTeam(), new CreateMember.MemberCreated() {
 			@Override
 			public void onMemberCreate(Member newMember) {
+				newMember.bindTeam(getTeam());
 				_members.add(newMember);
 				bindView();
 			}
@@ -131,10 +129,8 @@ public class People extends RTeamActivityChildTab {
 	////////////////////////////////////////////////////////////////////////////////////////
 	//// Data loading
 
-	
-	
 	private void loadMemberData() {
-		CustomTitle.setLoading(true, "Loading members...");
+		CustomTitle.setLoading(true, "Loading...");
 		new MembersResource().getMembers(getTeam().teamId(), true, new MembersResource.MemberListResponseHandler() {
 			@Override public void finish(MemberListResponse response) { loadMembersFinished(response); }
 		});

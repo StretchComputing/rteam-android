@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,16 +29,16 @@ public class CreatePoll extends CreateMessageBase {
 	protected String getCustomTitle() { return "rTeam - create poll"; }
 	
 	
-	private EditText _recipient;
-	private EditText _subject;
-	private EditText _pollQuestion;
+	private EditText _txtRecipient;
+	private EditText _txtSubject;
+	private EditText _txtPollQuestion;
 	
-	private EditText _event;
+	private EditText _txtEvent;
 	
-	private EditText _pollChoices;
+	private EditText _txtPollChoices;
 	
-	private CheckBox _showResults;
-	private Button _send;
+	private CheckBox _chkShowResults;
+	private Button _btnSend;
 	
 		
 	private Poll.Type _pollType;
@@ -57,30 +58,37 @@ public class CreatePoll extends CreateMessageBase {
 	private void initializeView() {
 		setContentView(R.layout.message_poll_create);
 		
-		_recipient = (EditText) findViewById(R.id.txtRecipients);
-		_subject = (EditText) findViewById(R.id.txtSubject);
-		_pollQuestion = (EditText) findViewById(R.id.txtBody);
+		_txtRecipient = (EditText) findViewById(R.id.txtRecipients);
+		_txtSubject = (EditText) findViewById(R.id.txtSubject);
+		_txtPollQuestion = (EditText) findViewById(R.id.txtBody);
 		
-		_event = (EditText) findViewById(R.id.txtEvent);
-		_pollChoices = (EditText) findViewById(R.id.txtPollChoices);
-		_showResults = (CheckBox) findViewById(R.id.checkShowResults);
+		_txtEvent = (EditText) findViewById(R.id.txtEvent);
+		_txtPollChoices = (EditText) findViewById(R.id.txtPollChoices);
+		_chkShowResults = (CheckBox) findViewById(R.id.checkShowResults);
 		
-		_send = (Button) findViewById(R.id.btnSend);
+		_btnSend = (Button) findViewById(R.id.btnSend);
 		
-		_recipient.setOnClickListener(new View.OnClickListener() {
+		_txtRecipient.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { setNewRecipients(_recipientList); }
 		});
 		
-		_pollChoices.setOnClickListener(new View.OnClickListener() {
+		_txtPollChoices.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { setPollChoices(); }
 		});
 		
-		_send.setOnClickListener(new View.OnClickListener() {
+		_btnSend.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { sendMessage(); }
 		});
 		
-		_event.setOnClickListener(new View.OnClickListener() {
+		_txtEvent.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { setEvent(); }
+		});
+		
+		_txtSubject.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_txtPollQuestion.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
 		});
 	}
 	
@@ -89,28 +97,38 @@ public class CreatePoll extends CreateMessageBase {
 		bindRecipientList();
 		bindEvent();
 		bindPollChoices();
+		bindButtons();
 	}
 	
 	private void bindRecipientList() {
-		_recipient.setText(ArrayListUtils.toString(_recipientList, "; ", new GetString<Member> () { 
+		_txtRecipient.setText(ArrayListUtils.toString(_recipientList, "; ", new GetString<Member> () { 
 			@Override public String getString(Member obj) { return obj.memberName(); }
 		}));
 	}
 	
 	private void bindEvent() {
-		_event.setText(hasEvent()
+		_txtEvent.setText(hasEvent()
 						? getSelectedEvent().toPrettyString()
 						: "");		
 	}
 	
 	private void bindPollChoices() {
-		_pollChoices.setText(ArrayListUtils.toString(_pollChoiceList, "; "));
+		_txtPollChoices.setText(ArrayListUtils.toString(_pollChoiceList, "; "));
 	}
+	
+	private void bindButtons() {
+		_btnSend.setEnabled(StringUtils.hasText(_txtPollQuestion)
+							 && StringUtils.hasText(_txtPollChoices)
+							 && StringUtils.hasText(_txtRecipient)
+							 && StringUtils.hasText(_txtSubject));			
+	}
+	
 	
 	@Override
 	protected void updateRecipientList(ArrayList<Member> recipients) {
 		_recipientList = recipients;
 		bindRecipientList();
+		bindButtons();
 	}	
 	
 	@Override
@@ -146,11 +164,11 @@ public class CreatePoll extends CreateMessageBase {
 		for(Member recipient : _recipientList) recipientIds.add(recipient.memberId()); 
 		
 		message.recipients(recipientIds);
-		message.subject(_subject.getText().toString());
-		message.body(_pollQuestion.getText().toString());
+		message.subject(_txtSubject.getText().toString());
+		message.body(_txtPollQuestion.getText().toString());
 		message.eventId(hasEvent() ? getSelectedEvent().eventId() : null);
 		message.eventType(hasEvent() ? getSelectedEvent().eventType() : null);
-		message.isPublic(_showResults.isChecked());
+		message.isPublic(_chkShowResults.isChecked());
 		message.isAlert(false); // TODO ?
 		message.type(_pollType == Poll.Type.YesNo ? Message.Type.Confirm : Message.Type.Poll);
 		message.includeFans(false);	// TODO?
@@ -187,6 +205,7 @@ public class CreatePoll extends CreateMessageBase {
 			_pollChoiceList.add("No");
 			
 			bindPollChoices();
+			bindButtons();
 		}
 		else if (pollType == Poll.Type.Custom) {
 			showCustomPollChoicesDialog();	
@@ -243,6 +262,7 @@ public class CreatePoll extends CreateMessageBase {
 		}
 				
 		bindPollChoices();
+		bindButtons();
 	}	
 	
 	

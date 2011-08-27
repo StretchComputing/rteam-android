@@ -4,20 +4,20 @@
   			  android:layout_width="fill_parent" android:layout_height="fill_parent">
   	
   	<EditText android:id="@+id/txtRecipients"
-  			  android:hint="To"
+  			  android:hint="To *"
   			  android:inputType="none|text" android:focusable="false"
   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />		  
   	
   	<EditText android:id="@+id/txtSubject"
-  			  android:hint="Poll Subject"
+  			  android:hint="Poll Subject *"
   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
   			  
   	<EditText android:id="@+id/txtBody" android:layout_weight="1"
-  			  android:hint="Poll Question"
+  			  android:hint="Poll Question *"
   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
   	
   	<EditText android:id="@+id/txtPollChoices"
-  			  android:hint="Poll Choices"
+  			  android:hint="Poll Choices *"
   			  android:inputType="none|text" android:focusable="false"
   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
   			  
@@ -25,6 +25,10 @@
 			  android:hint="Associated Event"
 			  android:inputType="none|text" android:focusable="false"
 			  android:layout_width="fill_parent" android:layout_height="wrap_content"  />
+			  
+  	<TextView android:text="* is required"
+  			  android:gravity="center_horizontal" android:textSize="11dp"
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content"  />
   			    	
   	<RelativeLayout android:background="@android:drawable/bottom_bar" android:gravity="center_vertical"
 					android:layout_width="fill_parent" android:layout_height="wrap_content">

@@ -139,7 +139,7 @@ public class Team {
 		teamId(json.optString("teamId"));
 		teamName(json.optString("teamName"));
 		teamSiteUrl(json.optString("teamSiteUrl"));
-		participantRole(EnumUtils.fromString(Member.Role.class, json.optString("participantRole")));
+		participantRole(EnumUtils.fromString(Member.Role.class, json.optString("participantRole"), Member.Role.Unknown));
 		sport(Sport.fromString(json.optString("sport")));
 		
 		leagueName(json.optString("leagueName"));

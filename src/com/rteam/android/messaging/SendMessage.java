@@ -1,6 +1,8 @@
 package com.rteam.android.messaging;
 
 import java.util.ArrayList;
+
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +17,7 @@ import com.rteam.api.business.Message;
 import com.rteam.api.business.MessageInfo;
 import com.rteam.api.business.NewMessageInfo;
 import com.rteam.api.common.ArrayListUtils;
+import com.rteam.api.common.StringUtils;
 import com.rteam.api.common.ArrayListUtils.GetString;
 
 public class SendMessage extends CreateMessageBase {
@@ -100,13 +103,28 @@ public class SendMessage extends CreateMessageBase {
 		_send.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { sendMessage(); }
 		});
+		
+		_subject.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+		_body.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
 	}
 	
 	private void bindView() {
-		// Bind others.		
+		// Bind others.	
+		bindButtons();
 		bindRecipients();
 		bindEvent();
 		_subject.setText(_subjectIn);
+	}
+	
+	private void bindButtons() {
+		_send.setEnabled(hasTeam()
+							&& StringUtils.hasText(_recipient)
+							&& StringUtils.hasText(_subject)
+							&& StringUtils.hasText(_body));
 	}
 	
 	private void bindRecipients() {
@@ -125,6 +143,7 @@ public class SendMessage extends CreateMessageBase {
 	protected void updateRecipientList(ArrayList<Member> recipients) {
 		_recipientList = recipients;
 		bindRecipients();
+		bindButtons();
 	}
 	
 	@Override

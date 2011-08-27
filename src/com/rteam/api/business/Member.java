@@ -17,7 +17,7 @@ public class Member {
 	/// Enums
 	
 	public enum Role {
-		Coordinator, Member, Fan, Creator;
+		Coordinator, Member, Fan, Creator, Unknown;
 		
 		@Override
 		public String toString() { return super.toString().toLowerCase(); }

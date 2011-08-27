@@ -85,6 +85,8 @@ public class UriBuilder {
 			return URLEncoder.encode(value, getUrlEncoding());
 		} catch (UnsupportedEncodingException e) {
 			return value;
+		} catch (NullPointerException e) {
+			return "";
 		}
 	}
 	
