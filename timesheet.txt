@@ -57,4 +57,5 @@ TODO :
 	x BUG: CreatePoll: Indicate which fields are required by their hint text
 	x BUG: CreatePoll: Disable send button when not all required fields are done
 	- BUG: Inbox/Polls/Sent: Default text for when there are no messages.
+	- TASK: Update error logging so it's less verbose, probably just callstack and software/hardware info.
 	- TASK: Implement video manually or leave it out?
