@@ -46,7 +46,7 @@
 		
 		<activity android:name=".user.Feedback" android:label="rTeam - feedback" />
 		<activity android:name=".user.GlobalSettings" android:label="rTeam - global settings" />
-		<activity android:name=".user.Register" android:label="rTeam - register" android:noHistory="true" />
+		<activity android:name=".user.Register" android:label="rTeam - register" android:noHistory="true" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".user.ResetPasswordActivity" android:label="rTeam - reset password" />
 		<activity android:name=".user.Settings" android:label="rTeam - settings" />
 

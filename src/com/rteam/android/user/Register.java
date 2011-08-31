@@ -4,6 +4,7 @@ import com.rteam.android.R;
 import com.rteam.android.Home;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.RTeamActivity;
+import com.rteam.android.common.SimpleSetting;
 import com.rteam.api.UsersResource;
 import com.rteam.api.UsersResource.CreateUserResponse;
 import com.rteam.api.UsersResource.UserAuthenticationResponse;
@@ -14,6 +15,7 @@ import com.rteam.api.common.StringUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -100,6 +102,19 @@ public class Register extends RTeamActivity {
     	_btnCreateAccount.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { onCreateAccountClick(); }
 		});
+    	
+    	_txtEmailAddress.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+    	_txtPassword.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+    	_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
+    	_txtLastName.setOnKeyListener(new View.OnKeyListener() {
+			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+		});
     }
     
     private void initializeLoginView() {
@@ -112,6 +127,13 @@ public class Register extends RTeamActivity {
     	_lblForgotPassword.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { onForgotPasswordClick(); }			
 		});
+    }
+    
+    private void bindButtons() {
+    	_btnCreateAccount.setEnabled(StringUtils.hasText(_txtEmailAddress)
+    								  && StringUtils.hasText(_txtPassword)
+    								  && StringUtils.hasText(_txtFirstName)
+    								  && StringUtils.hasText(_txtLastName));			
     }
     
     
@@ -141,9 +163,17 @@ public class Register extends RTeamActivity {
 					return;
 				}
 				setOutput("");
-				Register.this.finish();				
+				finishRegistering();
 			}
 		});
+    }
+    
+    private void finishRegistering() {
+    	// Make sure the db is set that the user hasn't seen the wizard in the off chance they re-create an account
+    	// on the same device.
+    	SimpleSetting.SeenWizard.set(false);
+    	Register.this.finish();
+		startActivity(new Intent(Register.this, Home.class));
     }
     
     private void onForgotPasswordClick() {

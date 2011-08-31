@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="hello">Hello World, rteam!</string>
     <string name="app_name">rTeam</string>
-<string name="register_message">To register, please enter your email address and choose a password.</string>
-<string name="login_message">To log in, please enter your email address and password.</string>
-<string name="register_alreadymember">Already a member?  Log in here -&gt;</string>
+	<string name="register_message">To register, please complete the entire form below.</string>
+	<string name="login_message">To log in, please enter your email address and password.</string>
+	<string name="register_alreadymember">Already a member?  Log in here -&gt;</string>
+	
+	<string name="login_forgotpassword">Forgot password? Click here to reset -&gt;</string>
+	<string name="maps_debug_key">0VI2v-ID0yiUqy4BC4UyWUPrfePZ5XqglefzKmA</string>
+	<string name="maps_release_key">0VI2v-ID0yiW5WklV2IiUMFeIl08vcPHmARoyyw</string>
+	<string name="admobs_key">a14e0a861fb8961</string>
+	
+	<string name="crash_toast_text">Oooops! rTeam crashed, but an error log is being sent to help us fix the problem!</string>
 
-<string name="login_forgotpassword">Forgot password? Click here to reset -&gt;</string>
-<string name="maps_debug_key">0VI2v-ID0yiUqy4BC4UyWUPrfePZ5XqglefzKmA</string>
-<string name="maps_release_key">0VI2v-ID0yiW5WklV2IiUMFeIl08vcPHmARoyyw</string>
-<string name="admobs_key">a14e0a861fb8961</string>
 </resources>

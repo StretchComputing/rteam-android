@@ -1,61 +1,14 @@
-8/1/2011
-	180 minutes - implementing video and photo activities
-	
-8/4/2011
-	120 minutes - worked on implementing the video and photo activity
-	
-8/6/2011
-	120 minutes - implemented video and photo in activity postings (finally)
-	30 minutes - fixed bug where keyboard shows up when you load activity page.
-	
-8/8/2011
-	45 minutes - looking into the video problem, disabling for the time being.
-	
-8/14/2011
-	45 minutes - twitter sign up during create
-	90 minutes - worked on notifications
-	
-8/23/2011
-	30 minutes - fixed bug with failing on initial load.
-	30 minutes - fixed minor bug with feedback, added proper icon and app name
-	60 minutes - fixed notifications so they actually work
-	30 minutes - fixed a bug with creating events on home page, now they get created but I think times are still off.
-	
-8/24/2011
-	30 minutes - debugging and fixing the issue with the droid 2.2
-	45 minutes - fixed some bugs with events in quick views, and made it look a bit nicer.
-	
-8/27/2011
-	90 minutes - fixed bugs that were causing the errors in the rteam errog log.
-	60 minutes - fixing layout issues (when soft keyboard would force resizing of some screens and made them look weird) 
-					and enabling/disabling submit buttons for create team/member/event/poll/message along with layout updates to indiate required fields 
+8/29/2011
+	60 minutes - Working with Bogdan to get his environment setup
+
+8/30/2011
+	30 minutes - Working with Bogdan on some issues he was having getting rTeam up and running.
+	45 minutes - Fixed some bugs with registration page
+	30 minutes - Updated the error handler so it's a bit prettier.
 		
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen
 	- FUTURE TASK: Sometimes when switching views the loading message doesn't stop
-	x TASK: Twitter sign up during create team.
-	x TASK: What to do when you're a fan of the team -- team home probably should look slightly different.
-	x TASK: Utilize the Quick Links space better when there are none ?
-	x TASK: Make all log events use the same identifier or at least similar ones:
-		rTeam, rTeam.API, rTeam.etc...
-	x BUG: Show twitter icon when they use twitter on activity
-	x TASK: Settings page -> auto login, alerts ?
-	x TASK: Give feedback, Rate rTeam
-	x BUG: Error on first load
-	x TASK: Implement photos and videos for activity page.
-	x BUG: Figure out if there's a bug or something with event creation from the home page 
-		x the times seem to get messed up when the events are loaded up from the server
-		x and they don't get added to the quick links, which they should.
-	x BUG: CreateMember: Disable create button for creating member when they haven't filled everything out.
-	x BUG: CreateMember: Indicate which fields are required by their hint text
-	x BUG: SendMessage: Indicate which fields are required by their hint text
-	x BUG: CreateTeam: Indicate which fields are required by their hint text
-	x BUG: CreateTeam: Disable create button when not all required fields are selected
-	x BUG: CreateEvent: Disable add button when not all fields are required
-	x BUG: CreateEvent: Indicate which fields are required by their hint text
-	x BUG: CreatePoll: Indicate which fields are required by their hint text
-	x BUG: CreatePoll: Disable send button when not all required fields are done
 	- BUG: Inbox/Polls/Sent: Default text for when there are no messages.
-	- TASK: Update error logging so it's less verbose, probably just callstack and software/hardware info.
 	- TASK: Implement video manually or leave it out?

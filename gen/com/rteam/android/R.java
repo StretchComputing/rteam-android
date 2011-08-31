@@ -420,6 +420,7 @@ public final class R {
     public static final class string {
         public static final int admobs_key=0x7f060008;
         public static final int app_name=0x7f060001;
+        public static final int crash_toast_text=0x7f060009;
         public static final int hello=0x7f060000;
         public static final int login_forgotpassword=0x7f060005;
         public static final int login_message=0x7f060003;
