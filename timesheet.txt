@@ -5,6 +5,9 @@
 	30 minutes - Working with Bogdan on some issues he was having getting rTeam up and running.
 	45 minutes - Fixed some bugs with registration page
 	30 minutes - Updated the error handler so it's a bit prettier.
+
+8/31/2011
+	120 minutes - Walkthrough of rTeam codebase with Bogdan
 		
 TODO :
 	- FUTURE TASK: View attendance for member
