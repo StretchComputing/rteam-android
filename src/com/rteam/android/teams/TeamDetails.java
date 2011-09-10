@@ -1,5 +1,9 @@
 package com.rteam.android.teams;
 
+import android.content.Intent;
+import android.widget.Toast;
+
+import com.rteam.android.Home;
 import com.rteam.android.R;
 import com.rteam.android.common.RTeamTabActivity;
 import com.rteam.android.common.TabInfo;
@@ -14,6 +18,15 @@ public class TeamDetails  extends RTeamTabActivity {
 	public static void setTeam(Team team) {
 		_currentTeam = team;
 		TwitterActivity.setForTeamOnly(team);
+	}
+	
+	@Override
+	protected void initialize() {
+		if (getTeam() == null) {
+			Toast.makeText(this, "Missing team information, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
+			finish();
+			startActivity(new Intent(this, Home.class));
+		}
 	}
 	
 	

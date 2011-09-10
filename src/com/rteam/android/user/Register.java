@@ -46,8 +46,8 @@ public class Register extends RTeamActivity {
 	
 	private TextView _lblForgotPassword;
 	
-	@Override
-	protected String getCustomTitle() { return "rTeam - register"; }
+	@Override protected String getCustomTitle() { return "rTeam - register"; }
+	@Override protected boolean showMenu() { return false; }
 	
 	/////////////////////////////////////////////////////////////////////
 	//// Accessors

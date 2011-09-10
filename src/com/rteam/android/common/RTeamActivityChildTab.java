@@ -3,6 +3,7 @@ package com.rteam.android.common;
 import java.util.ArrayList;
 
 import com.rteam.android.HelpDialog;
+import com.rteam.android.Home;
 import com.rteam.android.R;
 import com.rteam.android.user.Register;
 import com.rteam.android.user.Settings;
@@ -110,6 +111,9 @@ public class RTeamActivityChildTab extends Activity {
 			return true;
 		case R.id.btnSettings:
 			startActivity(new Intent(this, Settings.class));
+			return true;
+		case R.id.btnHome:
+			startActivity(new Intent(this, Home.class));
 			return true;
 		}
 					

@@ -223,14 +223,16 @@ public class CreateTeam extends RTeamActivityChildTab {
 	}
 	
 	private void handleTeamCreated(Team newTeam) {
-		if (hasHandler()) {
-			getHandler().onTeamCreated(newTeam);
+		if (newTeam != null) {
+			if (hasHandler()) {
+				getHandler().onTeamCreated(newTeam);
+			}
+			clearHandler();
+			finish();
+			
+			TeamDetails.setTeam(newTeam);
+			startActivity(new Intent(this, TeamDetails.class));
 		}
-		clearHandler();
-		finish();
-		
-		TeamDetails.setTeam(newTeam);
-		startActivity(new Intent(this, TeamDetails.class));
 	}
 	
 	private Team getTeam() {

@@ -16,7 +16,7 @@ public class HelpDialogAdapter extends BaseExpandableListAdapter {
 	private Context _context;
 	
 	public HelpDialogAdapter(HelpProvider provider, Context context) {
-		_provider = provider;
+		_provider = provider != null ? provider : new HelpProvider();
 		_context = context;
 	}
 

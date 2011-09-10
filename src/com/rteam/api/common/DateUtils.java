@@ -21,28 +21,29 @@ public class DateUtils {
 	
 	public static String toShortString(Date date) {
 		SimpleDateFormat formatter = isToday(date) ? _todayShortFormat : _otherShortFormat;
-		return formatter.format(date);
+		return date != null ? formatter.format(date) : "";
 	}
 	
 	public static boolean isAfterToday(Date date) {
-		return new Date().compareTo(date) >= 0;
+		return date != null && new Date().compareTo(date) >= 0;
 	}
 	
-	public static String toDateParameterString(Date date) { return _dateParameterFormat.format(date); }
-	public static String toPrettyString(Date date) { return _prettyStringFormat.format(date); }
-	public static String toPrettyString2(Date date) { return _prettyStringFormat2.format(date); }
-	public static String toStringTime(Date date) { return _timeStringFormat.format(date); }
+	public static String toDateParameterString(Date date) { return date != null ? _dateParameterFormat.format(date) : ""; }
+	public static String toPrettyString(Date date) { return date != null ? _prettyStringFormat.format(date) : ""; }
+	public static String toPrettyString2(Date date) { return date != null ? _prettyStringFormat2.format(date) : ""; }
+	public static String toStringTime(Date date) { return date != null ? _timeStringFormat.format(date) : ""; }
 	
 	public static boolean isToday(Date date) { return isSameDay(date, new Date()); }
 	public static boolean isSameDay(Date date, Date date2) {
-		return date.getDate() == date2.getDate()
+		return date != null && date2 != null  
+				&& date.getDate() == date2.getDate()
 				&& date.getMonth() == date2.getMonth()
 				&& date.getYear() == date2.getYear();
 	}
 	
 	
 	public static String toFullString(Date date) {
-		return _fullFormat.format(date);
+		return date != null ? _fullFormat.format(date) : "";
 	}
 	
 	public static Date parse(String dateString) {
@@ -61,6 +62,8 @@ public class DateUtils {
 	
 	
 	public static boolean areSameDay(Date date1, Date date2) {
+		if (date1 == null || date2 == null) return false;
+		
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		

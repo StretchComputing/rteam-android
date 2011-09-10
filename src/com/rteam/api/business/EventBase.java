@@ -238,17 +238,17 @@ public abstract class EventBase implements Serializable, Comparable<EventBase> {
 	
 	protected void appendToJSON(JSONObject json) throws JSONException {
 		if (!isGame()) {
-			json.put("eventType", eventType().toString());
-			json.put("eventName", eventName());
+			json.putOpt("eventType", eventType().toString());
+			json.putOpt("eventName", eventName());
 		}
 		
-		json.put("startDate", DateUtils.toFullString(startDate()));
-		json.put("endDate", DateUtils.toFullString(endDate()));
-		json.put("description", description());
-		json.put("latitude", latitude());
-		json.put("longitude", longitude());
-		json.put("location", location());
-		json.put("opponent", opponent());		
+		json.putOpt("startDate", DateUtils.toFullString(startDate()));
+		if (endDate() != null) json.putOpt("endDate", DateUtils.toFullString(endDate()));
+		if (description() != null) json.putOpt("description", description());
+		if (latitude() != null) json.putOpt("latitude", latitude());
+		if (longitude() != null)json.putOpt("longitude", longitude());
+		if (location() != null) json.putOpt("location", location());
+		if (opponent() != null) json.putOpt("opponent", opponent());		
 	}
 	
 	public abstract String eventId();

@@ -112,8 +112,10 @@ public class MyTeams extends RTeamActivity {
     ///// Click Listeners
     
     private void teamClicked(Team team) {
-    	TeamDetails.setTeam(team);
-    	startActivity(new Intent(this, TeamDetails.class));
+    	if (team != null) {
+	    	TeamDetails.setTeam(team);
+	    	startActivity(new Intent(this, TeamDetails.class));
+    	}
     }
     
     private void createTeamClicked() {

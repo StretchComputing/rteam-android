@@ -42,8 +42,11 @@ public class EditMember extends RTeamActivity {
 	protected String getCustomTitle() { return "rTeam - edit member"; }
 	
 	private boolean isFan() { return _member.participantRole() == Role.Fan; }
-	private boolean canEdit() { return getTeam().participantRole().atLeast(Role.Coordinator); }
 	private Team getTeam() { return TeamCache.get(_member.teamId()); }
+	private boolean canEdit() {
+		Team team = getTeam();
+		return (team != null && team.participantRole() != null) ? team.participantRole().atLeast(Role.Coordinator) : false;
+	}
 	
 	private ImageView _memberImage;
 	private EditText _txtFirstName;

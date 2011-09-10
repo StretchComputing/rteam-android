@@ -9,6 +9,9 @@
 8/31/2011
 	120 minutes - Walkthrough of rTeam codebase with Bogdan
 		
+9/10/2011
+	120 minutes - Worked through the bugs that got added to the rteam error log.
+		
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen

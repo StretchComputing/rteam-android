@@ -9,21 +9,19 @@ public enum SimpleSetting {
 	ShowAlerts("ShowAlerts"),
 	SeenWizard("HasSeenWizard");
 	
-	private SimpleSettings _settings;
 	private String _identifier;
 	
 	private SimpleSetting(String identifier) { 
 		_identifier = identifier; 
-		_settings = SimpleSettings.get();
 	}
 	
-	public boolean exists() 		{ return _settings.exists(_identifier); }
+	public boolean exists() 		{ return SimpleSettings.get().exists(_identifier); }
 	
-	public String get() 			{ return _settings.get(_identifier); }
-	public boolean getBoolean() 	{ return _settings.getBoolean(_identifier); }
-	public boolean getBoolean(boolean defaultValue) { return _settings.getBoolean(_identifier, defaultValue); }
-	public int getInteger() 		{ return _settings.getInteger(_identifier); }
-	public double getDouble() 		{ return _settings.getDouble(_identifier); }
+	public String get() 			{ return SimpleSettings.get().get(_identifier); }
+	public boolean getBoolean() 	{ return SimpleSettings.get().getBoolean(_identifier); }
+	public boolean getBoolean(boolean defaultValue) { return SimpleSettings.get().getBoolean(_identifier, defaultValue); }
+	public int getInteger() 		{ return SimpleSettings.get().getInteger(_identifier); }
+	public double getDouble() 		{ return SimpleSettings.get().getDouble(_identifier); }
 	public List<String> getList()	{ return getList("|"); }
 	public List<String> getList(String delim)	{ 
 		List<String> list = new ArrayList<String>();
@@ -32,8 +30,8 @@ public enum SimpleSetting {
 	}
 	
 	
-	public void set(String value) 	{ _settings.set(_identifier, value); }
-	public void set(boolean value) 	{ _settings.set(_identifier, value); }
-	public void set(int value) 		{ _settings.set(_identifier, value); }
-	public void set(double value) 	{ _settings.set(_identifier, value); }
+	public void set(String value) 	{ SimpleSettings.get().set(_identifier, value); }
+	public void set(boolean value) 	{ SimpleSettings.get().set(_identifier, value); }
+	public void set(int value) 		{ SimpleSettings.get().set(_identifier, value); }
+	public void set(double value) 	{ SimpleSettings.get().set(_identifier, value); }
 }

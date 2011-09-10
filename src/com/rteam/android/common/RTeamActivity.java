@@ -37,6 +37,7 @@ public abstract class RTeamActivity extends Activity {
 	protected void initialize() {}
 	protected void reInitialize() {}
 	protected String getCustomTitle() { return "rTeam - custom title"; }
+	protected boolean showMenu() { return true; }
 	
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() { return new ArrayList<SimpleMenuItem>(); }
 
@@ -120,20 +121,21 @@ public abstract class RTeamActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        MenuItem home = menu.findItem(R.id.btnHome);
-        home.setVisible(showHomeButton());
-        
-        for (SimpleMenuItem item : getSecondaryMenuItems()) {
-        	MenuItem menuItem = menu.add(item.getText());
-        	if (item.hasIcon()) {
-        		menuItem.setIcon(item.getIconId());
-        	}
-        	
-        	menuItem.setOnMenuItemClickListener(item.clickHandler());
-        }
-        
+		if (showMenu()) {
+	        MenuInflater inflater = getMenuInflater();
+	        inflater.inflate(R.menu.main, menu);
+	        MenuItem home = menu.findItem(R.id.btnHome);
+	        home.setVisible(showHomeButton());
+	        
+	        for (SimpleMenuItem item : getSecondaryMenuItems()) {
+	        	MenuItem menuItem = menu.add(item.getText());
+	        	if (item.hasIcon()) {
+	        		menuItem.setIcon(item.getIconId());
+	        	}
+	        	
+	        	menuItem.setOnMenuItemClickListener(item.clickHandler());
+	        }
+		}	        
         return true;
     }
 	
@@ -144,9 +146,11 @@ public abstract class RTeamActivity extends Activity {
 			new HelpDialog(this, getHelpProvider()).showDialog();
 			return true;
 		case R.id.btnSettings:
+			finish();
 			startActivity(new Intent(this, Settings.class));
 			return true;
 		case R.id.btnHome:
+			finish();
 			startActivity(new Intent(this, Home.class));
 			return true;
 		}
