@@ -146,11 +146,9 @@ public abstract class RTeamActivity extends Activity {
 			new HelpDialog(this, getHelpProvider()).showDialog();
 			return true;
 		case R.id.btnSettings:
-			finish();
 			startActivity(new Intent(this, Settings.class));
 			return true;
 		case R.id.btnHome:
-			finish();
 			startActivity(new Intent(this, Home.class));
 			return true;
 		}
