@@ -12,6 +12,9 @@
 9/10/2011
 	120 minutes - Worked through the bugs that got added to the rteam error log.
 		
+9/13/2011
+	40 minutes - Walked through some more code with Bogdan
+		
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen
