@@ -84,7 +84,7 @@ public class TwitterActivity extends RTeamActivity {
 	private Button _btnDetailDelete;
 	private Button _btnDetailClose;
 	
-	private ArrayList<Activity> _activities;
+	private ArrayList<Activity> _activities = new ArrayList<Activity>();
 	
 	private Bitmap _postPhoto;
 	private String _postVideoPath;
@@ -325,12 +325,19 @@ public class TwitterActivity extends RTeamActivity {
 	private void loadActivityFinished(GetActivitiesResponse response) {
 		CustomTitle.setLoading(false);
 		if (response.showError(this)) {
-			_activities = response.activities();
+			_activities = addAll(response.activities());
+			//for (Activity activity : response.activities()) {
+				  //_activities.add(activity);
+				//};
 			bindActivities();
 		}
 	}
 	
 	
+	private ArrayList<Activity> addAll(ArrayList<Activity> activities) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	private void setPostTeam() {
 		if (_teamOnly) return;
 		new TeamSelectDialog(this, new TeamSelectDialog.TeamSelectHandler() {
