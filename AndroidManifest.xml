@@ -4,7 +4,7 @@
     			 android:name=".common.RTeamApplication" android:debuggable="true">
     	<!-- <uses-library android:name="com.google.android.maps" /> -->
     
-	    <activity android:name="Home" android:label="rTeam" >
+	    <activity android:name="Home" android:label="rTeam" android:screenOrientation="portrait">
 	    	<intent-filter>
 	        	<action android:name="android.intent.action.MAIN" />
 	            <category android:name="android.intent.category.LAUNCHER" />
@@ -12,25 +12,25 @@
 	    </activity>	    
 	    
 	    <activity android:name=".people.InviteAFan" android:label="rTeam - invite a fan" />
-	    <activity android:name=".people.CreateMember" android:label="rTeam - create a member" />
-	    <activity android:name=".people.EditMember" android:label="rTeam - edit member" />
+	    <activity android:name=".people.CreateMember" android:label="rTeam - create a member" android:screenOrientation="portrait"/>
+	    <activity android:name=".people.EditMember" android:label="rTeam - edit member" android:screenOrientation="portrait"/>
 	    
 	    <activity android:name=".teams.AuthorizeTwitter" android:label="rTeam - authorize twitter" />
 		<activity android:name=".teams.MyTeams" android:label="rTeam - my teams" />
-		<activity android:name=".teams.TeamDetails" />
+		<activity android:name=".teams.TeamDetails" android:label="rTeam - teams" android:screenOrientation="portrait" />
 		<activity android:name=".teams.TeamHome" android:label="rTeam - team home" />
 		<activity android:name=".teams.Events" android:label="rTeam - events" />
 		<activity android:name=".teams.People" android:label="rteam - people" />
 		<activity android:name=".teams.Messages" android:label="rTeam - team messages" />
-		<activity android:name=".teams.CreateTeam" android:label="rTeam - create a team" android:windowSoftInputMode="adjustPan" />
+		<activity android:name=".teams.CreateTeam" android:label="rTeam - create a team" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".teams.AllScores" android:label="rTeam - all scores" />
 		
 		<activity android:name=".messaging.Messages" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".messaging.Inbox" android:label="rTeam - inbox" />
 		<activity android:name=".messaging.Polls" android:label="rTeam - polls" />
 		<activity android:name=".messaging.SentMessages" android:label="rTeam - sent messages" />
-		<activity android:name=".messaging.CreatePoll" android:label="rTeam - create poll" />
-		<activity android:name=".messaging.SendMessage" android:label="rTeam - send message" android:windowSoftInputMode="adjustPan" />
+		<activity android:name=".messaging.CreatePoll" android:label="rTeam - create poll" android:screenOrientation="portrait" />
+		<activity android:name=".messaging.SendMessage" android:label="rTeam - send message" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan" />
 		<activity android:name=".messaging.ViewMessage" android:label="rTeam - view message" />
 		<activity android:name=".messaging.TwitterActivity" android:label="rTeam - activity" />
 		

@@ -11,7 +11,7 @@ video).
 
 Requirements:
 - A Google AdSense or AdMob account ID.
-- Runtime of Android 1.6 or later.
+- Runtime of Android 1.5 or later.
 
 Additional information is available in the documentation located in the docs
 directory in this zip file.

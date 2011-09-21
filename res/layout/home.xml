@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads" 
+			  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"  
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent" android:layout_height="fill_parent"
 			  android:background="@drawable/home_background">
 
-  	<com.google.ads.AdView android:id="@+id/adHome" android:layout_width="fill_parent" android:layout_height="wrap_content"
-  						   ads:adUnitId="@string/admobs_key" ads:adSize="BANNER" ads:loadAdOnCreate="true" />
+  	<com.google.ads.AdView android:id="@+id/adHome" android:layout_width="fill_parent" android:layout_height="wrap_content" 
+  						   ads:adUnitId="a14e0a861fb8961" ads:adSize="BANNER" ads:loadAdOnCreate="true" />
   						   	   
 	<TableLayout android:padding="10dp" android:stretchColumns="0,1,2"
 				 android:layout_width="fill_parent" android:layout_height="wrap_content">
@@ -16,7 +16,7 @@
 			<ImageView android:id="@+id/btnActivities" android:src="@drawable/home_activity" android:layout_gravity="center" />			
 			<FrameLayout android:layout_gravity="center">
 				<ImageView android:id="@+id/btnMessages" android:src="@drawable/home_messages" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-				<TextView android:id="@+id/txtUnreadMessages" android:text="22" android:textStyle=""
+				<TextView android:id="@+id/txtUnreadMessages" android:text="22"
 						  android:background="@drawable/badge" android:gravity="center"
 				  		  android:layout_gravity="top|left" android:layout_marginLeft="9dp" android:layout_marginTop="14dp" 
 				  		  android:textSize="3.5pt"

@@ -15,6 +15,12 @@
 9/13/2011
 	40 minutes - Walked through some more code with Bogdan
 		
+9/20/2011
+	60 minutes - Walked through more code with Bogdan
+	
+9/21/2011
+	90 minutes - Bug fixes, fixing admobs issue with designer not showing up, orientation issues.
+		
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen

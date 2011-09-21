@@ -5,7 +5,7 @@ import java.util.TimeZone;
 
 public class TimeZoneUtils {
 	public static String getTimeZone() {
-		return getShortTimeZone(TimeZone.getDefault());
+		return TimeZone.getDefault().getID();
 	}
 	
 	public static String getShortTimeZone(TimeZone timeZone) {
