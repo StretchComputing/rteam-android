@@ -131,7 +131,8 @@ public class CreateMember extends RTeamActivity {
 		new GuardiansDialog(this, _guardians, new GuardiansDialog.SetGuardiansHandler() {
 			@Override
 			public void setGuardians(ArrayList<Guardian> guardians) {
-				_guardians = guardians;
+				if(!guardians.isEmpty())
+					_guardians = guardians;
 				bindView();
 			}
 		}).showDialog();
@@ -162,7 +163,8 @@ public class CreateMember extends RTeamActivity {
 	private Member getMember() {
 		Member member = new Member(getTeam().teamId(), _txtFirstName.getText().toString(), _txtLastName.getText().toString(), _txtEmail.getText().toString());
 		member.participantRole(_btnCoordinator.isChecked() ? Member.Role.Coordinator : Member.Role.Member);
-		member.guardians(_guardians);
+		if(!_guardians.isEmpty())
+			member.guardians(_guardians);
 		return member;
 	}
 }

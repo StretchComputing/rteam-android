@@ -326,9 +326,6 @@ public class TwitterActivity extends RTeamActivity {
 		CustomTitle.setLoading(false);
 		if (response.showError(this)) {
 			_activities = addAll(response.activities());
-			//for (Activity activity : response.activities()) {
-				  //_activities.add(activity);
-				//};
 			bindActivities();
 		}
 	}
