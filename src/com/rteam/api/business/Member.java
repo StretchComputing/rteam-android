@@ -273,7 +273,7 @@ public class Member {
 			json.putOpt("lastName", lastName());
 			json.putOpt("emailAddress", emailAddress());
 			json.putOpt("jerseyNumber", jerseyNumber());
-			json.putOpt("phoneNumber", phoneNumber());
+			json.putOpt("phoneNumber", phoneNumber().replace(" ", "").replace("(", "").replace(")", "").replace("-", "").replace(".", ""));
 			
 			if (guardians() != null && guardians().size() > 0) {
 				JSONArray guardians = new JSONArray();

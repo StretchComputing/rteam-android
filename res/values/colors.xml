@@ -26,6 +26,9 @@
 <color name="list_line1">#fff</color>
 <color name="list_line2">#fff</color>
 <color name="list_line3">#666</color>
+<color name="list_line1_black">#000</color>
+<color name="list_line2_black">#000</color>
+<color name="list_line3_black">#333</color>
 <color name="list2_line1">#FFF</color>
 <color name="list2_line2">#55F</color>
 <color name="title_background">#4D4D4D</color>

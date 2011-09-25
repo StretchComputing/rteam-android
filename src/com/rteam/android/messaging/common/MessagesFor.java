@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.rteam.android.R;
+import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.messaging.CreatePoll;
@@ -77,10 +78,10 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 				bindDeleted();
 			}
 		}));
-		
-		for (int i=0; i<_listMessages.getCount(); i++) {
-			_listMessages.expandGroup(i);
-		}
+		// TODO : When there are things in the outbox, this fails?  Why?
+		//for (int i=0; i<_listMessages.getCount(); i++) {
+//			_listMessages.expandGroup(i);
+		//}
 		
 		bindDeleted();
 	}
@@ -99,11 +100,13 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 	//// Data Loading
 	
 	private void loadMessages() {
+		CustomTitle.setLoading(true, "Loading messages...");
 		new MessageThreadsResource().getMessageThreads(getMessageFilters(), this);
 	}
 	
 	@Override
 	public void getMessageThreadsFinish(GetMessagesResponse response) {
+		CustomTitle.setLoading(false);
 		_inbox = response.getInboxMessages();
 		_outbox = response.getOutboxMessages();
 		

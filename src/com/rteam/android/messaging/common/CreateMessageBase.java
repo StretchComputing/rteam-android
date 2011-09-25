@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
+import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.common.Simple3LineAdapater;
@@ -311,9 +312,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	private void showEventsDialog() {
 		CustomTitle.setLoading(false);
 		if (_upcomingEvents.size() == 0) {
-			new AlertDialog.Builder(this)
-				.setMessage("There are no upcoming games or practices scheduled.")
-				.show();		
+			Toast.makeText(this, "There are no upcoming games or practices schedules.", Toast.LENGTH_SHORT).show();		
 		}
 		else {
 			ArrayList<Simple3LineAdapater.Data> events = new ArrayList<Simple3LineAdapater.Data>();
@@ -325,7 +324,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 			
 			new AlertDialog.Builder(this)
 				.setTitle("Choose an event to associate with the message")
-				.setAdapter(new Simple3LineAdapater(this, events), new DialogInterface.OnClickListener() {
+				.setAdapter(new Simple3LineAdapater(this, events, R.layout.list_item_simple3_white), new DialogInterface.OnClickListener() {
 					@Override 
 					public void onClick(DialogInterface dialog, int which) { setEvent(_upcomingEvents.get(which)); }
 				})

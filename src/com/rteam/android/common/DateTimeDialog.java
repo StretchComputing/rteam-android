@@ -48,7 +48,7 @@ public class DateTimeDialog extends Dialog {
 		Calendar c = Calendar.getInstance();
 		c.setTime(defaultDate);
 		
-		_date.updateDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH) - 1, c.get(Calendar.DAY_OF_MONTH));
+		_date.updateDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 		_time.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
 		_time.setCurrentMinute(c.get(Calendar.MINUTE));
 	}
@@ -80,7 +80,7 @@ public class DateTimeDialog extends Dialog {
 	
 	private void doneClicked() {
 		Calendar c = Calendar.getInstance();
-		c.set(_date.getYear(), _date.getMonth() + 1, _date.getDayOfMonth(), _time.getCurrentHour(), _time.getCurrentMinute());
+		c.set(_date.getYear(), _date.getMonth(), _date.getDayOfMonth(), _time.getCurrentHour(), _time.getCurrentMinute());
 		
 		_doneHandler.onDone(c.getTime());
 		dismiss();

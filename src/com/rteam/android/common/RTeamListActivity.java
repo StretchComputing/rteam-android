@@ -3,9 +3,14 @@ package com.rteam.android.common;
 import java.util.ArrayList;
 
 import com.rteam.android.HelpDialog;
+import com.rteam.android.Home;
 import com.rteam.android.R;
+import com.rteam.android.user.Register;
 import com.rteam.android.user.Settings;
+import com.rteam.api.base.IUserTokenStorage;
+import com.rteam.api.common.NetworkUtils;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,30 +23,62 @@ public abstract class RTeamListActivity extends ListActivity {
 	////////////////////////////////////////////////////////
 	/// Child Implementation Methods
 	
+	protected boolean isSecure() { return true; }
 	protected String getCustomTitle() { return "rTeam - messages"; }
-	protected abstract void initialize();
+	protected void initialize() {}
+	protected void reInitialize() {}
 	
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() { return new ArrayList<SimpleMenuItem>(); }
 	
-	// TODO : Add security 
+	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
+	
+	//////////////////////////////////////////////////////////
+	//// Create/Resume
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initialize();
+		if (ensureSecure()) {
+			initialize();
+			ensureOnline();
+		}
 		CustomTitle.setTitle(getCustomTitle());
 	}
 	
+	private boolean ensureSecure() {
+		if (isSecure() && !getTokenStorage().hasUserToken()) {
+			Intent register = new Intent(this, Register.class);
+			startActivity(register);
+			return false;
+		}
+		return true;
+	}
+		
+	private void ensureOnline() {
+		if (!NetworkUtils.isOnline(this)) {
+			new AlertDialog.Builder(this)
+					.setTitle("Error!")
+					.setMessage("Error, internet access is required to run rTeam.  Please ensure that you are connected to the internet to continue using rTeam.")
+					.setPositiveButton("OK", null)
+					.show();
+		}
+	}
 	@Override
 	protected void onStart() {
 		super.onStart();
 		CustomTitle.setTitle(getCustomTitle());
+		if (ensureSecure()) {
+			reInitialize();
+		}
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		CustomTitle.setTitle(getCustomTitle());
+		if (ensureSecure()) {
+			reInitialize();
+		}
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////
@@ -74,8 +111,10 @@ public abstract class RTeamListActivity extends ListActivity {
 		case R.id.btnSettings:
 			startActivity(new Intent(this, Settings.class));
 			return true;
-		}
-					
+		case R.id.btnHome:
+			startActivity(new Intent(this, Home.class));
+			return true;
+		}					
 		return super.onMenuItemSelected(featureId, item);
 	}
 }

@@ -39,13 +39,18 @@ public class Simple3LineAdapater extends BaseAdapter {
 	
 	private LayoutInflater _inflator;
 	private ArrayList<Data> _data;
+	private int _layoutResourceId;
 	
 	//////////////////////////////////////////////////////////////
 	//// .ctor
 	
 	public Simple3LineAdapater(Context context, ArrayList<Data> data) {
+		this(context, data, R.layout.list_item_simple3);
+	}
+	public Simple3LineAdapater(Context context, ArrayList<Data> data, int layoutResourceId) {
 		_inflator = LayoutInflater.from(context);
 		_data = data;
+		_layoutResourceId = layoutResourceId;
 	}
 	
 	
@@ -68,7 +73,7 @@ public class Simple3LineAdapater extends BaseAdapter {
 		Data data = (Data) getItem(position);
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = _inflator.inflate(R.layout.list_item_simple3, null);
+			convertView = _inflator.inflate(_layoutResourceId, null);
 			holder = new ViewHolder();
 			holder.lblLine1 = (TextView) convertView.findViewById(R.id.lblLine1);
 			holder.lblLine2 = (TextView) convertView.findViewById(R.id.lblLine2);

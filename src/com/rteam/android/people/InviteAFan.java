@@ -5,8 +5,10 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.rteam.android.R;
+import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.common.RTeamActivityChildTab;
@@ -15,6 +17,7 @@ import com.rteam.api.MembersResource;
 import com.rteam.api.MembersResource.CreateMemberResponse;
 import com.rteam.api.business.Member;
 import com.rteam.api.business.Team;
+import com.rteam.api.business.Member.Role;
 
 public class InviteAFan extends RTeamActivityChildTab {
 
@@ -121,7 +124,8 @@ public class InviteAFan extends RTeamActivityChildTab {
 	//// Event Handlers	
 		
 	private void inviteFan() {
-		final Member fan = getFan(); 
+		final Member fan = getFan();
+		CustomTitle.setLoading(true, "Savings...");
 		new MembersResource().create(fan, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
@@ -132,18 +136,22 @@ public class InviteAFan extends RTeamActivityChildTab {
 	}
 	
 	private void inviteFanFinished(Member newFan) {
+		CustomTitle.setLoading(false);
 		if (hasFanAdded()) {
 			FanAdded handler = getFanAdded();
 			handler.onFanAdd(newFan);
 		}
 		clear();
 		finish();
+		Toast.makeText(this, "Saved Fan, an email has been sent to the user inviting them to follow this team.", Toast.LENGTH_SHORT).show();
 	}
 	
 	private Member getFan() {
-		return new Member(getTeam().teamId(), 
-						  _txtFirstName.getText().toString(),
-						  _txtLastName.getText().toString(),
-						  _txtEmail.getText().toString());
+		Member member = new Member(getTeam().teamId(), 
+						  			_txtFirstName.getText().toString(),
+					  				_txtLastName.getText().toString(),
+				  					_txtEmail.getText().toString());
+		member.participantRole(Role.Fan);
+		return member;
 	}
 }

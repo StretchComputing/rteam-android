@@ -116,7 +116,6 @@ public class RTeamActivityChildTab extends Activity {
 			startActivity(new Intent(this, Home.class));
 			return true;
 		}
-					
 		return super.onMenuItemSelected(featureId, item);
 	}
 }
