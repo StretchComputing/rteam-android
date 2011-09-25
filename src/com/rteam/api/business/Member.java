@@ -235,6 +235,7 @@ public class Member {
 		lastName(json.optString("lastName"));
 		emailAddress(json.optString("emailAddress"));
 		jerseyNumber(json.optString("jerseyNumber"));
+		phoneNumber(json.optString("phoneNumber"));
 		isNetworkAuthenticated(json.optBoolean("isNetworkAuthenticated", false));
 		participantRole(EnumUtils.fromString(Role.class, json.optString("participantRole")));
 		gender(EnumUtils.fromString(Gender.class, json.optString("gender")));
@@ -274,22 +275,22 @@ public class Member {
 			json.putOpt("jerseyNumber", jerseyNumber());
 			json.putOpt("phoneNumber", phoneNumber());
 			
-			JSONArray guardians = new JSONArray();
-			if (guardians() != null) {
+			if (guardians() != null && guardians().size() > 0) {
+				JSONArray guardians = new JSONArray();
 				for(Guardian g : guardians()) {
 					guardians.put(g.toJSON());
 				}
+				json.putOpt("guardians", guardians);
 			}
-			json.putOpt("guardians", guardians);
 			json.putOpt("participantRole", participantRole());
 			
-			JSONArray roles = new JSONArray();
-			if (roles() != null) {
+			if (roles() != null && roles().size() > 0) {
+				JSONArray roles = new JSONArray();
 				for(RoleTag role : roles()) {
 					roles.put(role.toString());
 				}
+				json.putOpt("roles", roles);
 			}
-			json.putOpt("roles", roles);
 			
 			json.putOpt("gender", gender());
 			json.putOpt("age", age());

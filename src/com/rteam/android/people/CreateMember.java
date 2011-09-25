@@ -163,8 +163,7 @@ public class CreateMember extends RTeamActivity {
 	private Member getMember() {
 		Member member = new Member(getTeam().teamId(), _txtFirstName.getText().toString(), _txtLastName.getText().toString(), _txtEmail.getText().toString());
 		member.participantRole(_btnCoordinator.isChecked() ? Member.Role.Coordinator : Member.Role.Member);
-		if(!_guardians.isEmpty())
-			member.guardians(_guardians);
+		member.guardians(_guardians);
 		return member;
 	}
 }

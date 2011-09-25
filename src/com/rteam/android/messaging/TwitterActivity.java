@@ -325,16 +325,11 @@ public class TwitterActivity extends RTeamActivity {
 	private void loadActivityFinished(GetActivitiesResponse response) {
 		CustomTitle.setLoading(false);
 		if (response.showError(this)) {
-			_activities = addAll(response.activities());
+			_activities.addAll(response.activities());
 			bindActivities();
 		}
 	}
 	
-	
-	private ArrayList<Activity> addAll(ArrayList<Activity> activities) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	private void setPostTeam() {
 		if (_teamOnly) return;
 		new TeamSelectDialog(this, new TeamSelectDialog.TeamSelectHandler() {
