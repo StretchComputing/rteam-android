@@ -32,6 +32,10 @@ import com.rteam.api.common.DateUtils;
 import com.rteam.api.common.StringUtils;
 
 public class ViewMessage extends RTeamActivity implements View.OnClickListener {
+	
+	///////////////////////////////////////////////////////////////////
+	//// Static Members
+	
 	private static ArrayList<MessageInfo> _messages;
 	private static int _selectedIndex;
 			
@@ -39,6 +43,9 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		_messages = messages;
 		_selectedIndex = selectedIndex;
 	}
+	
+	////////////////////////////////////////////////////////////////////
+	//// Members
 			
 	private TextView _messageType;
 	private TextView _subject;

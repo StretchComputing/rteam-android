@@ -1,11 +1,14 @@
 package com.rteam.android.events;
 
+import android.content.Intent;
 import android.location.Location;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rteam.android.Home;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
@@ -51,6 +54,12 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	
 	@Override
 	protected void initialize() {
+		if (getGame() == null) {
+			finish();
+			startActivity(new Intent(this, Home.class));
+			Toast.makeText(this, "Unable to find game, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
+		}
+		
 		initializeView();
 		bindView();
 	}

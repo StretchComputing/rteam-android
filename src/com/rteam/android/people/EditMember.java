@@ -174,9 +174,14 @@ public class EditMember extends RTeamActivity {
 	}
 	
 	private void loadMemberFinished(GetMemberResponse response) {
-		_member = response.member();
-		bindView();
 		CustomTitle.setLoading(false);
+		if (response.showError(this)) {
+			_member = response.member();
+			bindView();
+		}
+		else {
+			finish();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

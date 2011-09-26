@@ -25,6 +25,7 @@ public class RTeamActivityChildTab extends Activity {
 	protected Bundle getState() { return _state; }
 	protected boolean isSecure() { return true; }
 	protected void initialize() {}
+	protected void reInitialize() {}
 	
 	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
 	
@@ -38,9 +39,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
-		_state = savedInstanceState;
-		
-		AndroidTokenStorage.initialize(this);		
+		_state = savedInstanceState;		
 		if (ensureSecure()) {		
 			initialize();
 			ensureOnline();
@@ -78,6 +77,9 @@ public class RTeamActivityChildTab extends Activity {
 	protected void onResume() {
 		super.onResume();
 		RTeamLog.d("rTeam Activity - onResume");
+		if (ensureSecure()) {
+			reInitialize();
+		}
 		CustomTitle.setTitle(getCustomTitle());
 	}
 	

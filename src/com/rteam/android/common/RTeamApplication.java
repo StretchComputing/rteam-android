@@ -16,6 +16,7 @@ public class RTeamApplication extends Application {
 	
 	@Override
     public void onCreate() {
+		AndroidTokenStorage.initialize(this);
         // The following line triggers the initialization of ACRA
         ACRA.init(this);
         startService(new Intent(this, EventService.class));

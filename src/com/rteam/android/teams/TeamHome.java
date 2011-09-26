@@ -12,7 +12,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rteam.android.Home;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
@@ -84,6 +86,11 @@ public class TeamHome extends RTeamActivityChildTab {
 	
 	@Override
 	protected void initialize() {
+		if (team() == null) {
+			finish();
+			startActivity(new Intent(this, Home.class));
+			Toast.makeText(this, "Unable to find team", Toast.LENGTH_SHORT).show();
+		}
 		initializeView();
 		loadData();
 	}

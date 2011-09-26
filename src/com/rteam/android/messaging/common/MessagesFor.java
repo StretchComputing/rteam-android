@@ -53,6 +53,11 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 		loadMessages();
 	}
 	
+	@Override
+	protected void reInitialize() {
+		loadMessages();
+	}
+	
 	private void initializeView() {
 		setContentView(R.layout.message_all_for);
 		
@@ -78,10 +83,9 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 				bindDeleted();
 			}
 		}));
-		// TODO : When there are things in the outbox, this fails?  Why?
-		//for (int i=0; i<_listMessages.getCount(); i++) {
-//			_listMessages.expandGroup(i);
-		//}
+		
+		_listMessages.expandGroup(MessagesForListAdapter.InboxPosition);
+		_listMessages.expandGroup(MessagesForListAdapter.OutboxPosition);
 		
 		bindDeleted();
 	}

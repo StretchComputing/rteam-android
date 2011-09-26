@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 public class MessagesForListAdapter extends BaseExpandableListAdapter {
 	
+	public static final int InboxPosition = 0;
+	public static final int OutboxPosition = 1;
+	
 	public interface MessageCheckedHandler {
 		public void onMessageChecked(MessageInfo message, boolean checked);
 	}
@@ -39,13 +42,13 @@ public class MessagesForListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public Object getChild(int groupPosition, int childPosition) { return (groupPosition == 0 ? _inbox : _outbox).get(childPosition); }
+	public Object getChild(int groupPosition, int childPosition) { return (groupPosition == InboxPosition ? _inbox : _outbox).get(childPosition); }
 	@Override
-	public long getChildId(int groupPosition, int childPosition) { return groupPosition == 0 ? childPosition : -childPosition; }
+	public long getChildId(int groupPosition, int childPosition) { return groupPosition == InboxPosition ? childPosition : -childPosition; }
 	@Override
-	public int getChildrenCount(int groupPosition) { return (groupPosition == 0 ? _inbox : _outbox).size(); }
+	public int getChildrenCount(int groupPosition) { return (groupPosition == InboxPosition ? _inbox : _outbox).size(); }
 	@Override
-	public Object getGroup(int groupPosition) { return groupPosition == 0 ? _inbox : _outbox; }
+	public Object getGroup(int groupPosition) { return groupPosition == InboxPosition ? _inbox : _outbox; }
 	@Override
 	public int getGroupCount() { return 2; }
 	@Override
@@ -57,7 +60,7 @@ public class MessagesForListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		String title = groupPosition == 0 ? "Inbox" : "Outbox";
+		String title = groupPosition == InboxPosition ? "Inbox" : "Outbox";
 		convertView = _inflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
 		((TextView) convertView.findViewById(android.R.id.text1)).setText(title);
 		return convertView;

@@ -23,6 +23,9 @@
 	
 9/24/2011
 	120 minutes - Bug fixes, lots of issues from the google doc and others I found just messing around
+
+9/25/2011
+	120 minutes - More bug fixes
 		
 TODO :
 	- FUTURE TASK: View attendance for member
@@ -30,4 +33,3 @@ TODO :
 	- FUTURE TASK: Sometimes when switching views the loading message doesn't stop
 	- BUG: Inbox/Polls/Sent: Default text for when there are no messages.
 	- TASK: Implement video manually or leave it out?
-	- BUG: Team Messages, Auto-Expanding groups causes app to crash when there is something in the outbox?

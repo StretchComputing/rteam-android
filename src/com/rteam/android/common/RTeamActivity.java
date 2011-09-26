@@ -45,16 +45,12 @@ public abstract class RTeamActivity extends Activity {
 	
 	protected boolean showHomeButton() { return true; }
 	private CustomTitle _titleInstance;
-	
-	protected RTeamActivity() {
-		AndroidTokenStorage.initialize(this);
-	}
-		
+			
 	///////////////////////////////////////////////////////////////////////////////
 	//// Create
 	
 	@Override
-    public void onCreate(Bundle savedInstanceState) {	
+    public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_state = savedInstanceState;
 		

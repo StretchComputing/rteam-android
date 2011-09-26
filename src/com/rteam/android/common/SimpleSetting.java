@@ -15,13 +15,16 @@ public enum SimpleSetting {
 		_identifier = identifier; 
 	}
 	
-	public boolean exists() 		{ return SimpleSettings.get().exists(_identifier); }
+	private static boolean hasSettings() { return settings() != null; }
+	private static SimpleSettings settings() { return SimpleSettings.get(); }
 	
-	public String get() 			{ return SimpleSettings.get().get(_identifier); }
-	public boolean getBoolean() 	{ return SimpleSettings.get().getBoolean(_identifier); }
-	public boolean getBoolean(boolean defaultValue) { return SimpleSettings.get().getBoolean(_identifier, defaultValue); }
-	public int getInteger() 		{ return SimpleSettings.get().getInteger(_identifier); }
-	public double getDouble() 		{ return SimpleSettings.get().getDouble(_identifier); }
+	public boolean exists() 		{ return hasSettings() && settings().exists(_identifier); }
+	
+	public String get() 			{ return hasSettings() ? settings().get(_identifier) : ""; }
+	public boolean getBoolean() 	{ return hasSettings() ? settings().getBoolean(_identifier) : false; }
+	public boolean getBoolean(boolean defaultValue) { return hasSettings() ? settings().getBoolean(_identifier, defaultValue) : defaultValue; }
+	public int getInteger() 		{ return hasSettings() ? settings().getInteger(_identifier) : 0; }
+	public double getDouble() 		{ return hasSettings() ? settings().getDouble(_identifier) : 0.0; }
 	public List<String> getList()	{ return getList("|"); }
 	public List<String> getList(String delim)	{ 
 		List<String> list = new ArrayList<String>();
@@ -30,8 +33,8 @@ public enum SimpleSetting {
 	}
 	
 	
-	public void set(String value) 	{ SimpleSettings.get().set(_identifier, value); }
-	public void set(boolean value) 	{ SimpleSettings.get().set(_identifier, value); }
-	public void set(int value) 		{ SimpleSettings.get().set(_identifier, value); }
-	public void set(double value) 	{ SimpleSettings.get().set(_identifier, value); }
+	public void set(String value) 	{ if (hasSettings()) settings().set(_identifier, value); }
+	public void set(boolean value) 	{ if (hasSettings()) settings().set(_identifier, value); }
+	public void set(int value) 		{ if (hasSettings()) settings().set(_identifier, value); }
+	public void set(double value) 	{ if (hasSettings()) settings().set(_identifier, value); }
 }

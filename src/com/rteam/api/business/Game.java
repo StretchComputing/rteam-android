@@ -161,7 +161,7 @@ public class Game extends EventBase {
 	public int scoreThem() { return _scoreThem; }
 	public void scoreThem(int value) { _scoreThem = value; }
 	
-	private GameInterval _interval;
+	private GameInterval _interval = GameInterval.GameNotStarted;
 	public GameInterval interval() { return _interval; }
 	public void interval(GameInterval value) { _interval = value; }
 	
