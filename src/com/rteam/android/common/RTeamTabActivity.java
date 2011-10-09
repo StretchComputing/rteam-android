@@ -1,5 +1,6 @@
 package com.rteam.android.common;
 
+import com.rteam.android.Home;
 import com.rteam.android.R;
 
 import android.app.TabActivity;
@@ -33,17 +34,28 @@ public abstract class RTeamTabActivity extends TabActivity {
 	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
 	    Intent intent;  // Reusable Intent for each tab
 	    
-	    for(TabInfo tab : getTabs()) {
-	    	intent = new Intent(this, tab.getIntentClass());
-		    spec = tabHost.newTabSpec(tab.getIdentifier()).setIndicator(tab.getTextBelow(), res.getDrawable(tab.getIconId())).setContent(intent);
-		    tabHost.addTab(spec);
+	    TabInfo[] tabs = getTabs();
+	    
+	    if (tabs.length > 1) {
+		    for(TabInfo tab : getTabs()) {
+		    	intent = new Intent(this, tab.getIntentClass());
+			    spec = tabHost.newTabSpec(tab.getIdentifier()).setIndicator(tab.getTextBelow(), res.getDrawable(tab.getIconId())).setContent(intent);
+			    tabHost.addTab(spec);
+		    }   
+		    initialize();
+		    
+		    if (customTitleSupported) {
+		    	_titleInstance = new CustomTitle(this);
+		    	CustomTitle.setInstance(_titleInstance);
+		    }
 	    }
-	    
-	    initialize();
-	    
-	    if (customTitleSupported) {
-	    	_titleInstance = new CustomTitle(this);
-	    	CustomTitle.setInstance(_titleInstance);
+	    else if (tabs.length == 1) {
+	    	finish();
+	    	startActivity(new Intent(this, tabs[0].getIntentClass()));
+	    }
+	    else {
+	    	finish();
+	    	startActivity(new Intent(this, Home.class));
 	    }
 	}
 	
