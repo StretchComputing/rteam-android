@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.app.Activity;
 import android.app.AlertDialog;
 
+import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -74,11 +75,21 @@ public abstract class RTeamActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
+		FlurryAgent.onEvent("Activity Started");
 		RTeamLog.d("rTeam Activity - onStart");
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
 			reInitialize();
 		}
+	}
+	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		FlurryAgent.onPageView();
+		FlurryAgent.onEndSession(this);
 	}
 	
 	@Override

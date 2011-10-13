@@ -2,6 +2,7 @@ package com.rteam.android.common;
 
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -66,11 +67,21 @@ public abstract class RTeamListActivity extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
+		FlurryAgent.onEvent("Activity Started");
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
 			reInitialize();
 		}
 	}
+	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		FlurryAgent.onPageView();
+		FlurryAgent.onEndSession(this);
+	}	
 	
 	@Override
 	protected void onResume() {

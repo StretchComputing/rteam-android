@@ -1,5 +1,6 @@
 package com.rteam.android.common;
 
+import com.flurry.android.FlurryAgent;
 import com.rteam.android.Home;
 import com.rteam.android.R;
 
@@ -64,6 +65,8 @@ public abstract class RTeamTabActivity extends TabActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
+		FlurryAgent.onEvent("Activity Started");
 		RTeamLog.d("rTeam Tab Activity - onStart");
 	}
 	
@@ -73,4 +76,12 @@ public abstract class RTeamTabActivity extends TabActivity {
 		RTeamLog.d("rTeam Tab Activity - onResume");
 		CustomTitle.setInstance(_titleInstance);
 	}
+	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		FlurryAgent.onPageView();
+		FlurryAgent.onEndSession(this);
+	}	
 }

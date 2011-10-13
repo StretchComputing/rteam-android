@@ -2,6 +2,7 @@ package com.rteam.android.common;
 
 import java.util.ArrayList;
 
+import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -68,6 +69,8 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
+		FlurryAgent.onEvent("Activity Started");
 		RTeamLog.d("rTeam Activity - onStart");
 		ensureSecure();
 		CustomTitle.setTitle(getCustomTitle());
@@ -82,6 +85,14 @@ public class RTeamActivityChildTab extends Activity {
 		}
 		CustomTitle.setTitle(getCustomTitle());
 	}
+	
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		FlurryAgent.onPageView();
+		FlurryAgent.onEndSession(this);
+	}	
 	
 	///////////////////////////////////////////////////////////////////////////////
 	//// Menu
