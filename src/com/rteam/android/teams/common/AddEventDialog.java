@@ -179,7 +179,7 @@ public class AddEventDialog extends Dialog {
 		createInfo.timeZone(TimeZoneUtils.getTimeZone());
 		
 		CustomTitle.setLoading(true, "Creating game...");
-		new GamesResource()
+		GamesResource.instance()
 			.create(createInfo, new GamesResource.CreateGameResponseHandler() {
 				@Override
 				public void finish(CreateGameResponse response) {
@@ -198,13 +198,12 @@ public class AddEventDialog extends Dialog {
 		createInfo.timeZone(TimeZoneUtils.getTimeZone());
 		
 		CustomTitle.setLoading(true, "Creating practice...");
-		new PracticeResource()
+		PracticeResource.instance()
 			.create(createInfo, new PracticeResource.CreatePracticeResponseHandler() {
 				@Override
 				public void finish(CreatePracticeResponse response) {
 					CustomTitle.setLoading(false);
 					if (response.showError(getContext())) {
-						practice.practiceId(response.practiceId());
 						finishAdding(practice);
 					}
 				}

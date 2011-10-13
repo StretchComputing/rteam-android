@@ -168,7 +168,7 @@ public class EditMember extends RTeamActivity {
 	
 	private void loadMember() {
 		CustomTitle.setLoading(true, "Loading member info...");
-		new MembersResource().getFullMember(_member, true, new GetMemberResponseHandler() {			
+		MembersResource.instance().getFullMember(_member, true, new GetMemberResponseHandler() {			
 			@Override public void finish(GetMemberResponse response) { loadMemberFinished(response); }
 		});
 	}
@@ -243,7 +243,7 @@ public class EditMember extends RTeamActivity {
 		if (canEdit()) {
 			_member = getMember();
 			CustomTitle.setLoading(true, "Saving member...");
-			new MembersResource().updateMember(_member, new MembersResource.UpdateMemberResponseHandler() {
+			MembersResource.instance().updateMember(_member, new MembersResource.UpdateMemberResponseHandler() {
 				@Override public void finish(UpdateMemberResponse response) { saveMemberFinished(response); }
 			});
 		}

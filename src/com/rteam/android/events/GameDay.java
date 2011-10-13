@@ -119,7 +119,7 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 			game.latitude(Double.toString(location.getLatitude()));
 		}
 		CustomTitle.setLoading(true, "Saving...");
-		new GamesResource().update(new Game.Update(game), new GamesResource.UpdateGameResponseHandler() {
+		GamesResource.instance().update(new Game.Update(game), new GamesResource.UpdateGameResponseHandler() {
 			@Override public void finish(UpdateGameResponse response) {
 				CustomTitle.setLoading(false);
 				if (response.showError(GameDay.this)) {

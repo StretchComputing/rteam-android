@@ -178,7 +178,7 @@ public class Home extends RTeamActivity {
     
     private void loadMessages() {
     	CustomTitle.setLoading(true);
-    	new MessageThreadsResource().getMessageCount(new MessageThreadsResource.GetMessageCountResponseHandler() {
+    	MessageThreadsResource.instance().getMessageCount(new MessageThreadsResource.GetMessageCountResponseHandler() {
 			@Override
 			public void finish(GetMessageCountResponse response) { 
 				if (response.showError(Home.this)) {
@@ -192,7 +192,7 @@ public class Home extends RTeamActivity {
     private void loadUpcomingEvents() {
     	_quickLinksProgress.setVisibility(View.VISIBLE);
     	_events = new HashMap<String, EventBase>();
-    	new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
+    	PracticeResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
 			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
 		});
     }
@@ -200,7 +200,7 @@ public class Home extends RTeamActivity {
     private void loadPracticesFinished(GetPracticesResponse response) {
     	if (response.showError(this)) {
     		_events.putAll(response.eventsMap());
-	    	new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
+	    	GamesResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
 			});
     	}

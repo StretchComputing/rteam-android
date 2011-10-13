@@ -3,6 +3,7 @@ package com.rteam.api;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
@@ -15,8 +16,15 @@ public class AttendanceResource extends ResourceBase {
 	/////////////////////////////////////////////////////////////////////////////////
 	//// .ctor
 	
+	public static AttendanceResource instance() {
+		if (_instance == null) _instance = new AttendanceResource();
+		return _instance;
+	}
+	
+	private static AttendanceResource _instance;
+	
 	public AttendanceResource() {
-		super(AndroidTokenStorage.get());
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////

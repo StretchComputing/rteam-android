@@ -126,10 +126,9 @@ public class InviteAFan extends RTeamActivityChildTab {
 	private void inviteFan() {
 		final Member fan = getFan();
 		CustomTitle.setLoading(true, "Savings...");
-		new MembersResource().create(fan, new MembersResource.CreateMemberResponseHandler() {
+		MembersResource.instance().create(fan, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
-				fan.memberId(response.memberId());
 				inviteFanFinished(fan);
 			}
 		});

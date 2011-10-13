@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.common.TimeZoneUtils;
 import com.rteam.api.common.UriBuilder;
 import com.rteam.api.base.ResourceBase;
@@ -25,8 +26,15 @@ public class MessageThreadsResource extends ResourceBase {
 	/////////////////////////////////////////////////////////////////////////////////////////
 	/// .ctor
 	
-	public MessageThreadsResource() {
-		super(AndroidTokenStorage.get());
+	public static MessageThreadsResource instance() {
+		if (_instance == null) _instance = new MessageThreadsResource();
+		return _instance;
+	}
+	
+	private static MessageThreadsResource _instance;
+	
+	private MessageThreadsResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -107,13 +115,13 @@ public class MessageThreadsResource extends ResourceBase {
 		
 		protected CreateMessageResponse(APIResponse response) {
 			super(response);
-			initialize(response);
+			initialize();
 		}
 		
 		
-		private void initialize(APIResponse response) {
+		private void initialize() {
 			if (isResponseGood()) {
-				_messageThreadId = response.getJSONResponse().optString("messageThreadId");
+				_messageThreadId = json().optString("messageThreadId");
 			}
 		}
 	}

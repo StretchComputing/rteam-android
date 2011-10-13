@@ -136,7 +136,7 @@ public class MyTeams extends RTeamActivity {
     
     private void loadTeams() {
     	CustomTitle.setLoading(true, "Loading teams...");
-    	new TeamsResource().getTeams(new TeamsResource.TeamListResponseHandler() {
+    	TeamsResource.instance().getTeams(new TeamsResource.TeamListResponseHandler() {
 			@Override public void finish(TeamListResponse response) { loadTeamsFinished(response); }
     	});
     }

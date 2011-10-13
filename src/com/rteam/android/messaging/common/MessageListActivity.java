@@ -52,7 +52,7 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 	
 	private void loadMessages() {		
 		CustomTitle.setLoading(true, "Loading messages...");
-		new MessageThreadsResource().getMessageThreads(getMessageFilters(), this);
+		MessageThreadsResource.instance().getMessageThreads(getMessageFilters(), this);
 	}
 	
 	@Override

@@ -77,7 +77,7 @@ public class PeopleListAdapater extends BaseExpandableListAdapter {
 			holder.imageMain.setImageBitmap(member.memberImageThumb());
 		}
 		else {
-			new MembersResource().getFullMember(member, false, new MembersResource.GetMemberResponseHandler() {
+			MembersResource.instance().getFullMember(member, false, new MembersResource.GetMemberResponseHandler() {
 				@Override public void finish(GetMemberResponse response) {
 					if (response.member().memberImageThumb() != null) {
 						holder.imageMain.setImageBitmap(response.member().memberImageThumb());

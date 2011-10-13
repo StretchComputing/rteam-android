@@ -129,7 +129,7 @@ public class EventsCalendar extends RTeamActivity {
 	
 	private void loadGames() {
 		CustomTitle.setLoading(true, "Loading games...");
-		new GamesResource().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
+		GamesResource.instance().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 			@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
 		});
 	}
@@ -146,7 +146,7 @@ public class EventsCalendar extends RTeamActivity {
 	
 	private void loadPractices() {
 		CustomTitle.setLoading(true, "Loading practices...");
-		new PracticeResource().getAll(new GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
+		PracticeResource.instance().getAll(new GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
 			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
 		});
 	}
@@ -184,7 +184,7 @@ public class EventsCalendar extends RTeamActivity {
 	}
 	
 	private void eventClicked(final EventBase event) {
-		new TeamsResource().getTeam(event.teamId(), new TeamsResource.GetTeamResponseHandler() { 
+		TeamsResource.instance().getTeam(event.teamId(), new TeamsResource.GetTeamResponseHandler() { 
 			@Override public void finish(GetTeamResponse response) { if (response.showError(EventsCalendar.this)) eventClickedFinished(event, response.team()); }
 		});
 	}

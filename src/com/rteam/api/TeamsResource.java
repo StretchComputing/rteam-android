@@ -8,6 +8,7 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
@@ -19,8 +20,15 @@ public class TeamsResource extends ResourceBase {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//// .ctor
 	
-	public TeamsResource() {
-		super(AndroidTokenStorage.get());
+	public static TeamsResource instance() {
+		if (_instance == null) _instance = new TeamsResource();
+		return _instance;
+	}
+	
+	private static TeamsResource _instance;
+	
+	private TeamsResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 		
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,25 +63,20 @@ public class TeamsResource extends ResourceBase {
 	}
 	
 	public class CreateTeamResponse extends ResourceResponse {
-		
-		private String _teamId;
-		public String getTeamId() { return _teamId; }
-		
-		private String _teamPageUrl; 
-		public String getTeamPageUrl() { return _teamPageUrl; }
-		
+		public String getTwitterAuthorizationUrl() {
+			return _twitterAuthorizationUrl;
+		}
 		private String _twitterAuthorizationUrl;
-		public String getTwitterAuthorizationUrl() { return _twitterAuthorizationUrl; }
-
-		protected CreateTeamResponse(APIResponse response) {
+		
+		protected CreateTeamResponse(APIResponse response, Team team) {
 			super(response);
-			initialize();
+			initialize(team);
 		}
 		
-		private void initialize() {
+		private void initialize(Team team) {
 			if (isResponseGood()) {
-				_teamId = json().optString("teamId");
-				_teamPageUrl = json().optString("teamPageUrl");
+				team.teamId(json().optString("teamId"));
+				team.teamPageUrl(json().optString("teamPageUrl"));
 				_twitterAuthorizationUrl = json().optString("twitterAuthorizationUrl");
 			}
 		}
@@ -125,7 +128,8 @@ public class TeamsResource extends ResourceBase {
 	}
 	
 	public CreateTeamResponse createTeam(Team team) {
-		return new CreateTeamResponse(post(createBuilder().addPath("teams"), team.toJSON()));
+		UriBuilder uri = createBuilder().addPath("teams");
+		return new CreateTeamResponse(post(uri, team.toJSON()), team);
 	}
 	
 	public void createTeam(final Team team, final CreateTeamResponseHandler handler) {

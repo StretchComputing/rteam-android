@@ -3,6 +3,7 @@ package com.rteam.android.messaging.common;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.common.Simple3LineAdapater;
+import com.rteam.android.teams.common.TeamCache;
 import com.rteam.api.GamesResource;
 import com.rteam.api.MembersResource;
 import com.rteam.api.MessageThreadsResource;
@@ -21,9 +23,6 @@ import com.rteam.api.MembersResource.MemberListResponse;
 import com.rteam.api.MembersResource.MemberListResponseHandler;
 import com.rteam.api.MessageThreadsResource.CreateMessageResponse;
 import com.rteam.api.PracticeResource.GetPracticesResponse;
-import com.rteam.api.TeamsResource;
-import com.rteam.api.TeamsResource.TeamListResponse;
-import com.rteam.api.TeamsResource.TeamListResponseHandler;
 import com.rteam.api.base.ResponseStatus;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
@@ -52,7 +51,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	//////////////////////////////////////////////////////////////
 	/// Members
-	private ArrayList<Team> _teams;
+	private List<Team> _teams;
 	private ArrayList<Member> _members;
 		
 	private ArrayList<Member> _selectedRecipientList;
@@ -82,23 +81,13 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 		
 		if (!hasTeam()) {
 			CustomTitle.setLoading(true, "Loading Teams...");
-			new TeamsResource().getTeams(new TeamListResponseHandler() {
-				@Override
-				public void finish(TeamListResponse response) { finishLoadingTeams(response); }
-			});
+			_teams = TeamCache.getTeams();
+			showTeamsDialog();
 		}
 		else {
 			loadTeamMembers();
 		}
 	}	
-	
-	private void finishLoadingTeams(TeamListResponse response) {
-		_teams = response.teams();
-		showTeamsDialog();
-	}
-	
-	
-	
 	
 	private void showTeamsDialog() {
 		CustomTitle.setLoading(false);
@@ -126,7 +115,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void loadTeamMembers() {
 		CustomTitle.setLoading(true, "Loading Members...");
-		new MembersResource().getMembers(_selectedTeam.teamId(), true, new MemberListResponseHandler() {
+		MembersResource.instance().getMembers(_selectedTeam.teamId(), true, new MemberListResponseHandler() {
 			@Override
 			public void finish(MemberListResponse response) { finishLoadingMembers(response); }
 		});	
@@ -267,12 +256,12 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	private void loadGames() {
 		CustomTitle.setLoading(true, "Loading games...");
 		if (hasTeam()) {
-			new GamesResource().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
+			GamesResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
 				@Override public void finish(GetGamesResponse response) { addGames(response.games()); }
 			});
 		}
 		else {
-			new GamesResource().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
+			GamesResource.instance().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 				@Override public void finish(GetGamesResponse response) { addGames(response.games()); }
 			});
 		}
@@ -281,12 +270,12 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	private void loadPractices() {
 		CustomTitle.setLoading(true, "Loading practices...");
 		if (hasTeam()) {
-			new PracticeResource().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
+			PracticeResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
 				@Override public void finish(GetPracticesResponse response) { addPractices(response.practices()); }
 			});
 		}
 		else {
-			new PracticeResource().getAll(new GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
+			PracticeResource.instance().getAll(new GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
 				@Override public void finish(GetPracticesResponse response) { addPractices(response.practices()); }
 			});
 		}
@@ -355,7 +344,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	protected void sendMessage() {
 		CustomTitle.setLoading(true, "Sending message...");
-		new MessageThreadsResource().createMessage(getSelectedTeam().teamId(), getMessage(), new MessageThreadsResource.CreateMessageResponseHandler() {
+		MessageThreadsResource.instance().createMessage(getSelectedTeam().teamId(), getMessage(), new MessageThreadsResource.CreateMessageResponseHandler() {
 			@Override public void finish(CreateMessageResponse response) { sendMessageFinished(response); }
 		});
 	}

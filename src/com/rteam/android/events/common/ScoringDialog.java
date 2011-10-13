@@ -130,7 +130,7 @@ public class ScoringDialog {
 		_updateHandler.scoresUpdated();
 		
 		CustomTitle.setLoading(true, "Saving...");
-		new GamesResource().update(new Game.Update(_game), new GamesResource.UpdateGameResponseHandler() {
+		GamesResource.instance().update(new Game.Update(_game), new GamesResource.UpdateGameResponseHandler() {
 			@Override public void finish(UpdateGameResponse response) { CustomTitle.setLoading(false); }
 		});
 	}

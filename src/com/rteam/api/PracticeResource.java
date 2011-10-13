@@ -2,6 +2,7 @@ package com.rteam.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import org.json.JSONArray;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
@@ -21,25 +23,28 @@ public class PracticeResource extends ResourceBase {
 	//////////////////////////////////////////////////////////////////////////////////////
 	///// .ctor
 	
-	public PracticeResource() {
-		super(AndroidTokenStorage.get());
+	public static PracticeResource instance() {
+		if (_instance == null) _instance = new PracticeResource();
+		return _instance;
+	}
+	private static PracticeResource _instance;
+	
+	private PracticeResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////
 	///// Response Classes
 	
 	public class CreatePracticeResponse extends ResourceResponse {
-		private String _practiceId;
-		public String practiceId() { return _practiceId; }
-		
-		public CreatePracticeResponse(APIResponse response) {
+		protected CreatePracticeResponse(APIResponse response, Practice practice) {
 			super(response);
-			initialize();
+			initialize(practice);
 		}
 		
-		private void initialize() {
+		private void initialize(Practice practice) {
 			if (isResponseGood()) {
-				_practiceId = json().optString("practiceId");
+				practice.practiceId(json().optString("practiceId"));
 			}
 		}
 	}
@@ -49,23 +54,18 @@ public class PracticeResource extends ResourceBase {
 	}
 	
 	public class CreatePracticesResponse extends ResourceResponse {
-		private ArrayList<String> _practiceIds;
-		public ArrayList<String> practiceIds() { return _practiceIds; }
-		
-		public CreatePracticesResponse(APIResponse response) {
+		protected CreatePracticesResponse(APIResponse response, List<Practice> practices) {
 			super(response);
-			initialize();
+			initialize(practices);
 		}
 		
-		private void initialize() {
+		private void initialize(List<Practice> practices) {
 			if (isResponseGood()) {
-				_practiceIds = new ArrayList<String>();
+				JSONArray practiceIds = json().optJSONArray("practiceIds");
+				int count = practiceIds != null ? practiceIds.length() : 0;
 				
-				JSONArray practices = json().optJSONArray("practiceIds");
-				int count = practices != null ? practices.length() : 0;
-				
-				for (int i=0; i<count; i++) {
-					_practiceIds.add(practices.optString(i));
+				for (int i = 0; i < count && i < practices.size(); i++) {
+					practices.get(i).practiceId(practiceIds.optString(i));
 				}
 			}
 		}
@@ -194,7 +194,7 @@ public class PracticeResource extends ResourceBase {
 		UriBuilder uri = createBuilder()
 						.addPath("team").addPath(create.teamId())
 						.addPath("practices");
-		return new CreatePracticeResponse(post(uri, create.toJSON()));
+		return new CreatePracticeResponse(post(uri, create.toJSON()), create.practice());
 	}
 	
 	public void create(final Practice.Create create, final CreatePracticeResponseHandler handler) {
@@ -217,7 +217,7 @@ public class PracticeResource extends ResourceBase {
 		UriBuilder uri = createBuilder()
 						.addPath("team").addPath(create.teamId())
 						.addPath("practices").addPath("recurring").addPath("multiple");
-		return new CreatePracticesResponse(post(uri, create.toJSON()));
+		return new CreatePracticesResponse(post(uri, create.toJSON()), create.practices());
 	}
 	
 	public void create(final Practice.CreateMultiple create, final CreatePracticesResponseHandler handler) {

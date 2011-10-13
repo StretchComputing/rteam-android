@@ -68,7 +68,7 @@ public class ResetPasswordDialog {
 	
 	private void checkEmail() {
 		_loadingProgress.setVisibility(View.VISIBLE);
-		new UsersResource().getUserPasswordResetQuestion(_txtEmail.getText().toString(), new UsersResource.GetPasswordResetResponseHandler() {
+		UsersResource.instance().getUserPasswordResetQuestion(_txtEmail.getText().toString(), new UsersResource.GetPasswordResetResponseHandler() {
 			@Override public void finish(GetPasswordResetResponse response) { checkEmailFinished(response); }
 		});
 	}
@@ -88,7 +88,7 @@ public class ResetPasswordDialog {
 	}
 	
 	private void reset() {
-		new UsersResource().resetPassword(_txtEmail.getText().toString(), _txtAnswer.getText().toString(), new UsersResource.PasswordResetResponseHandler() {
+		UsersResource.instance().resetPassword(_txtEmail.getText().toString(), _txtAnswer.getText().toString(), new UsersResource.PasswordResetResponseHandler() {
 			@Override public void finish(PasswordResetResponse response) { tryResetFinished(response); }
 		});
 	}

@@ -317,7 +317,7 @@ public class TwitterActivity extends RTeamActivity {
 		if (hasTeam() && _teamOnly) filters.teamId(_team.teamId()); 
 		
 		CustomTitle.setLoading(true, "Loading activity...");
-		new ActivitiesResource().getActivities(filters, new GetActivitiesResponseHandler() {			
+		ActivitiesResource.instance().getActivities(filters, new GetActivitiesResponseHandler() {			
 			@Override public void finish(GetActivitiesResponse response) { loadActivityFinished(response); }
 		});
 	}
@@ -346,7 +346,7 @@ public class TwitterActivity extends RTeamActivity {
 	private void postMessageClicked() {
 		CustomTitle.setLoading(true, "Posting message...");
 		final Activity activity = getActivity();
-		new ActivitiesResource().create(activity, new ActivitiesResource.CreateActivityResponseHandler() {
+		ActivitiesResource.instance().create(activity, new ActivitiesResource.CreateActivityResponseHandler() {
 			@Override public void finish(CreateActivityResponse response) { tweetCreated(response, activity); }
 		});
 	}
@@ -390,7 +390,7 @@ public class TwitterActivity extends RTeamActivity {
 			if (activity.isVideo()) {
 				if (activity.rawVideo() == null) {
 					CustomTitle.setLoading(true);
-					new ActivitiesResource().getVideo(activity, new ActivitiesResource.GetActivityVideoResponseHandler() {
+					ActivitiesResource.instance().getVideo(activity, new ActivitiesResource.GetActivityVideoResponseHandler() {
 						@Override
 						public void finish(GetActivityVideoResponse response) {
 							CustomTitle.setLoading(false);
@@ -405,7 +405,7 @@ public class TwitterActivity extends RTeamActivity {
 			else {
 				if (activity.photo() == null) {
 					CustomTitle.setLoading(true);
-					new ActivitiesResource().getPhoto(activity, new ActivitiesResource.GetActivityPhotoResponseHandler() {
+					ActivitiesResource.instance().getPhoto(activity, new ActivitiesResource.GetActivityPhotoResponseHandler() {
 						@Override public void finish(GetActivityPhotoResponse response) {
 							CustomTitle.setLoading(false);
 							showPhotoFor(activity);

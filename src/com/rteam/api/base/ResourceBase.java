@@ -22,6 +22,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Build;
+
 import com.rteam.android.common.RTeamLog;
 import com.rteam.api.common.Base64Utils;
 import com.rteam.api.common.UriBuilder;
@@ -32,23 +34,19 @@ public abstract class ResourceBase {
 	private String SECURE_BASE_URL;
 	
 	private IUserTokenStorage _tokenStorage;
-	private DefaultHttpClient _client;
+	private IApplicationVersion _appVersion;
 	
 	private final RTeamLog.TagSuffix LOG_SUFFIX = new RTeamLog.TagSuffix("api");
 	
 	/* .ctor */	
-	protected ResourceBase(IUserTokenStorage tokenStorage) {
-		this(tokenStorage, "http://rteamtest.appspot.com/", "https://rteamtest.appspot.com/");
+	protected ResourceBase(IUserTokenStorage tokenStorage, IApplicationVersion appVersion) {
+		this(tokenStorage, appVersion, "http://rteamtest.appspot.com/", "https://rteamtest.appspot.com/");
 	}
-	protected ResourceBase(IUserTokenStorage tokenStorage, String baseUrl, String secureBaseUrl) {
-		this(tokenStorage, baseUrl, secureBaseUrl, new DefaultHttpClient());
-	}
-	
-	private ResourceBase(IUserTokenStorage tokenStorage, String baseUrl, String secureBaseUrl, DefaultHttpClient client) {
+	protected ResourceBase(IUserTokenStorage tokenStorage, IApplicationVersion appVersion, String baseUrl, String secureBaseUrl) {
 		_tokenStorage = tokenStorage;
+		_appVersion = appVersion;
 		BASE_URL = baseUrl;
 		SECURE_BASE_URL = secureBaseUrl;
-		_client = client;
 	}
 	
 	/* Overridable Functions */
@@ -116,7 +114,7 @@ public abstract class ResourceBase {
 				logInfo(header.toString());
 			}
 						
-			return new APIResponse(_client.execute(request));
+			return new APIResponse(new DefaultHttpClient().execute(request));
 		} catch (ClientProtocolException e) {
 			logError(request.getMethod(), request.getURI().toString(), e);
 		} catch (IOException e) {
@@ -144,7 +142,7 @@ public abstract class ResourceBase {
 		request.setHeader("Accept", "*/*");
 		request.setHeader("Accept-Language", "en-us");
 		request.setHeader("Accept-Encoding", "gzip");
-		request.setHeader("User-Agent", "rTeam/1.0");
+		request.setHeader("User-Agent", String.format("rTeam/%s (Android %d)", _appVersion.getApplicationVersion(), Build.VERSION.SDK_INT));
 		
 		String authString = getAuthenticationHeaderString();
 		if (authString != null) {

@@ -1,6 +1,7 @@
 package com.rteam.android.teams.common;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,8 +9,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 
 import com.rteam.android.common.CustomTitle;
-import com.rteam.api.TeamsResource;
-import com.rteam.api.TeamsResource.TeamListResponse;
 import com.rteam.api.business.Team;
 
 public class TeamSelectDialog {
@@ -20,7 +19,7 @@ public class TeamSelectDialog {
 	
 	private Context _context;
 	private TeamSelectHandler _selectHandler;
-	private ArrayList<Team> _availableTeams;
+	private List<Team> _availableTeams;
 	private Team _selectedTeam;
 	
 	public TeamSelectDialog(Context context, TeamSelectHandler selectHandler) {
@@ -31,15 +30,9 @@ public class TeamSelectDialog {
 	
 	private void loadTeams() {
 		CustomTitle.setLoading(true, "Loading teams...");
-		new TeamsResource().getTeams(new TeamsResource.TeamListResponseHandler() {
-			@Override public void finish(TeamListResponse response) { loadTeamsFinished(response); }
-		});
-	}
-	
-	private void loadTeamsFinished(TeamListResponse response) {
-		_availableTeams = response.teams();
+		_availableTeams = TeamCache.getTeams();
 		
-		ArrayList<String> teams = new ArrayList<String>();
+		List<String> teams = new ArrayList<String>();
 		for(Team team : _availableTeams) {
 			teams.add(team.teamName());
 		}

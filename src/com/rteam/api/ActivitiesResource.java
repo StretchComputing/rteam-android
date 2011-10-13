@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
@@ -20,8 +21,14 @@ public class ActivitiesResource extends ResourceBase {
 	/////////////////////////////////////////////////////////////////////////////////
 	///// .ctor
 
-	public ActivitiesResource() {
-		super(AndroidTokenStorage.get());
+	public static ActivitiesResource instance() {
+		if (_instance == null) _instance = new ActivitiesResource();
+		return _instance;
+	}
+	private static ActivitiesResource _instance;
+	
+	private ActivitiesResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +135,9 @@ public class ActivitiesResource extends ResourceBase {
 	}
 
 	public CreateActivityResponse create(Activity activity) {
-		UriBuilder uri = createBuilder().addPath("team").addPath(activity.teamId()).addPath("activities");
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(activity.teamId())
+							.addPath("activities");
 		return new CreateActivityResponse(post(uri, activity.toJSONCreate()));
 	}
 	

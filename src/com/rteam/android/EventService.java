@@ -70,9 +70,9 @@ public class EventService extends Service {
 	private void loadUpcomingEvents() {
 		try {
 			_events = new HashMap<String, EventBase>();
-			GetPracticesResponse practiceResponse = new PracticeResource().getAll(new EventBase.GetAllEventBase(Event.Type.All), false);
+			GetPracticesResponse practiceResponse = PracticeResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All), false);
 			_events.putAll(practiceResponse.eventsMap());
-			GetGamesResponse gamesResponse = new GamesResource().getAll(new EventBase.GetAllEventBase(Event.Type.All));
+			GetGamesResponse gamesResponse = GamesResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All));
 			_events.putAll(gamesResponse.eventsMap());
 			
 			loadUpcomingEventsFinished();

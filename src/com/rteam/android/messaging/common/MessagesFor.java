@@ -105,7 +105,7 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 	
 	private void loadMessages() {
 		CustomTitle.setLoading(true, "Loading messages...");
-		new MessageThreadsResource().getMessageThreads(getMessageFilters(), this);
+		MessageThreadsResource.instance().getMessageThreads(getMessageFilters(), this);
 	}
 	
 	@Override
@@ -137,8 +137,8 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 			}
 		}
 		
-		new MessageThreadsResource().archive(fromInbox, Message.Group.Inbox, null); 
-		new MessageThreadsResource().archive(fromOutbox, Message.Group.Outbox, null);
+		MessageThreadsResource.instance().archive(fromInbox, Message.Group.Inbox, null); 
+		MessageThreadsResource.instance().archive(fromOutbox, Message.Group.Outbox, null);
 		
 		_selectedMessages.clear();
 		bindView();

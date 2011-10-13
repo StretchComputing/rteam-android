@@ -66,7 +66,7 @@ public class LaunchEventDetails extends RTeamActivity {
 	
 	private void loadPractice() {
 		CustomTitle.setLoading(true);
-		new PracticeResource().get(new GetEventBase(_eventId, _teamId, Event.Type.Practice), new PracticeResource.GetPracticeResponseHandler() {
+		PracticeResource.instance().get(new GetEventBase(_eventId, _teamId, Event.Type.Practice), new PracticeResource.GetPracticeResponseHandler() {
 			@Override
 			public void finish(GetPracticeResponse response) {
 				CustomTitle.setLoading(false);
@@ -82,7 +82,7 @@ public class LaunchEventDetails extends RTeamActivity {
 	
 	private void loadGame() {
 		CustomTitle.setLoading(true);
-		new GamesResource().get(new GetEventBase(_eventId, _teamId, Event.Type.All), new GamesResource.GetGameResponseHandler() {
+		GamesResource.instance().get(new GetEventBase(_eventId, _teamId, Event.Type.All), new GamesResource.GetGameResponseHandler() {
 			@Override
 			public void finish(GetGameResponse response) {
 				CustomTitle.setLoading(false);

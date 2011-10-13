@@ -1,6 +1,8 @@
 package com.rteam.android.teams.common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.rteam.api.TeamsResource;
@@ -19,7 +21,7 @@ public class TeamCache {
 	
 	public static Team get(String teamId) {
 		if (!_teams.containsKey(teamId)) {
-			GetTeamResponse response = new TeamsResource().getTeam(teamId);
+			GetTeamResponse response = TeamsResource.instance().getTeam(teamId);
 			if (response.checkResponse() && response.team() != null) {
 				put(response.team());
 			}
@@ -35,9 +37,13 @@ public class TeamCache {
 		return _teams.size();
 	}
 	
+	public static List<Team> getTeams() {
+		return new ArrayList<Team>(_teams.values());
+	}
+	
 	public static void initialize(final DoneLoadingCallback callback) {
 		if (_initialized) return;
-		new TeamsResource().getTeams(new TeamsResource.TeamListResponseHandler() {
+		TeamsResource.instance().getTeams(new TeamsResource.TeamListResponseHandler() {
 			@Override
 			public void finish(TeamListResponse response) {
 				_initialized = true;

@@ -78,7 +78,7 @@ public class PracticeDay extends RTeamActivityChildTab implements UpdateLocation
 			practice.latitude(Double.toString(location.getLatitude()));
 		}
 		CustomTitle.setLoading(true, "Saving...");
-		new PracticeResource().update(new Practice.Update(practice), new PracticeResource.UpdatePracticeResponseHandler() {
+		PracticeResource.instance().update(new Practice.Update(practice), new PracticeResource.UpdatePracticeResponseHandler() {
 			@Override 
 			public void finish(UpdatePracticeResponse response) {
 				CustomTitle.setLoading(false);

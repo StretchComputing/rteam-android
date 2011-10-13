@@ -1,7 +1,5 @@
 package com.rteam.android.common;
 
-import android.content.Context;
-
 import com.rteam.api.base.IUserTokenStorage;
 
 public class AndroidTokenStorage implements IUserTokenStorage {
@@ -16,13 +14,12 @@ public class AndroidTokenStorage implements IUserTokenStorage {
 	}
 	
 	private static AndroidTokenStorage _tokenStorage = null;
-	public static void initialize(Context context) {
+	public static AndroidTokenStorage get() {
 		if (_tokenStorage == null) {
-			SimpleSettings.initialize(context);
 			_tokenStorage = new AndroidTokenStorage(SimpleSettings.get());
 		}
+		return _tokenStorage; 
 	}
-	public static AndroidTokenStorage get() { return _tokenStorage; }
 	
 	@Override
 	public String getUserToken() {

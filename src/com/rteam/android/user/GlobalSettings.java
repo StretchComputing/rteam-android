@@ -76,7 +76,7 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 		user.password(newPassword);
 		user.passwordResetQuestion(null);
 		CustomTitle.setLoading(true, "Saving...");
-		new UsersResource().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
+		UsersResource.instance().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
 			@Override public void finish(UpdateUserResponse response) { saveSuccess(response); }
 		});			
 	}
@@ -95,7 +95,7 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 		user.passwordResetQuestion(question);
 		user.passwordResetAnswer(answer);
 		CustomTitle.setLoading(true, "Saving...");
-		new UsersResource().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
+		UsersResource.instance().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
 			@Override public void finish(UpdateUserResponse response) { saveSuccess(response); }
 		});
 	}
@@ -110,5 +110,5 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	}
 
 	
-	private UserCredentials getUser() { return new UsersResource().getUserInfo().getUser(); }
+	private UserCredentials getUser() { return UsersResource.instance().getUserInfo().getUser(); }
 }

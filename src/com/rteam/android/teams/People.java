@@ -131,7 +131,7 @@ public class People extends RTeamActivityChildTab {
 
 	private void loadMemberData() {
 		CustomTitle.setLoading(true, "Loading...");
-		new MembersResource().getMembers(getTeam().teamId(), true, new MembersResource.MemberListResponseHandler() {
+		MembersResource.instance().getMembers(getTeam().teamId(), true, new MembersResource.MemberListResponseHandler() {
 			@Override public void finish(MemberListResponse response) { loadMembersFinished(response); }
 		});
 	}

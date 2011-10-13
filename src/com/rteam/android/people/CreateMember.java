@@ -139,10 +139,9 @@ public class CreateMember extends RTeamActivity {
 	
 	private void createMemberClicked() {
 		final Member newMember = getMember();
-		new MembersResource().create(newMember, new MembersResource.CreateMemberResponseHandler() {
+		MembersResource.instance().create(newMember, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
-				newMember.memberId(response.memberId());
 				createMemberFinished(newMember);
 			}
 		});

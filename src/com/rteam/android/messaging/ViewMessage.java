@@ -80,8 +80,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		final MessageInfo message = getSelectedMessage();
 		if (message != null) {
 			CustomTitle.setLoading(true, "Loading message...");
-			MessageThreadsResource res = new MessageThreadsResource();
-			res.getMessageThread(message.teamId(), message.messageThreadId(), true, new MessageThreadsResource.GetMessageResponseHandler() {				
+			MessageThreadsResource.instance().getMessageThread(message.teamId(), message.messageThreadId(), true, new MessageThreadsResource.GetMessageResponseHandler() {				
 				@Override 
 				public void finish(GetMessageResponse response) {
 					if (response.showError(ViewMessage.this)) {
@@ -243,8 +242,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		if (!message.hasReplied()) {
 			message.setReply(response);
 			CustomTitle.setLoading(true, "Sending response...");
-			MessageThreadsResource res = new MessageThreadsResource();
-			res.updateMessageThread(new UpdateMessageInfo.Reply(message, response), new MessageThreadsResource.UpdateMessageResponseHandler() {
+			MessageThreadsResource.instance().updateMessageThread(new UpdateMessageInfo.Reply(message, response), new MessageThreadsResource.UpdateMessageResponseHandler() {
 				@Override
 				public void finish(UpdateMessageResponse response) {
 					CustomTitle.setLoading(false);
@@ -259,8 +257,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 			message.wasViewed(true);
 			
 			CustomTitle.setLoading(true);
-			MessageThreadsResource res = new MessageThreadsResource();
-			res.updateMessageThread(new UpdateMessageInfo.Viewed(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
+			MessageThreadsResource.instance().updateMessageThread(new UpdateMessageInfo.Viewed(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
 				@Override public void finish(UpdateMessageResponse response) { 
 					CustomTitle.setLoading(false);
 				}
@@ -299,8 +296,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		
 		// Push the change to the server
 		CustomTitle.setLoading(true, "Deleting...");
-		MessageThreadsResource res = new MessageThreadsResource();
-		res.updateMessageThread(new UpdateMessageInfo.Delete(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
+		MessageThreadsResource.instance().updateMessageThread(new UpdateMessageInfo.Delete(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
 			@Override public void finish(UpdateMessageResponse response) { messageDeleteFinished(message); }
 		});
 	}
@@ -318,8 +314,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		final MessageInfo message = getSelectedMessage();
 		message.wasViewed(false);
 		
-		MessageThreadsResource res = new MessageThreadsResource();
-		res.updateMessageThread(new UpdateMessageInfo.Viewed(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
+		MessageThreadsResource.instance().updateMessageThread(new UpdateMessageInfo.Viewed(message), new MessageThreadsResource.UpdateMessageResponseHandler() {
 			@Override public void finish(UpdateMessageResponse response) { markUnreadFinished(message); } 
 		});
 		

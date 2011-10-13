@@ -102,7 +102,7 @@ public class CreateTeam extends RTeamActivityChildTab {
 		_gridSport.setAdapter(new ImageAdapater(this, buttons, 72, 53));
 		_gridSport.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView parent, View v, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				selectSport(_teamSports[position]);
 			}
 	    });
@@ -193,11 +193,9 @@ public class CreateTeam extends RTeamActivityChildTab {
 	private void createTeamClicked() {
 		CustomTitle.setLoading(true, "Creating...");
 		final Team newTeam = getTeam();
-		new TeamsResource().createTeam(newTeam, new TeamsResource.CreateTeamResponseHandler() {
+		TeamsResource.instance().createTeam(newTeam, new TeamsResource.CreateTeamResponseHandler() {
 			@Override public void finish(CreateTeamResponse response) {
 				if (response.showError(CreateTeam.this)) {
-					newTeam.teamId(response.getTeamId()); 
-					newTeam.teamPageUrl(response.getTeamPageUrl());
 					teamCreated(newTeam, response.getTwitterAuthorizationUrl());
 				}
 			}

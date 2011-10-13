@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.IUserTokenStorage;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
@@ -18,9 +19,16 @@ public class UsersResource extends ResourceBase {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//// .ctor
+	
+	public static UsersResource instance() {
+		if (_instance == null) _instance = new UsersResource();
+		return _instance;
+	}
+	
+	private static UsersResource _instance;
 
-	public UsersResource() {
-		super(AndroidTokenStorage.get());
+	private UsersResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 		
 	/////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@ import com.rteam.android.EventService;
 import com.rteam.android.R;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 @ReportsCrashes(formKey = "dEhfMDBoV01hSThXWWIyaWVMd3Zvamc6MQ",
@@ -14,12 +15,17 @@ import android.content.Intent;
 				resToastText = R.string.crash_toast_text) 
 public class RTeamApplication extends Application {
 	
+	private static Context _appContext;
+	public static Context getAppContext() { return _appContext; }
+	
 	@Override
     public void onCreate() {
-		AndroidTokenStorage.initialize(this);
+		_appContext = getApplicationContext();
+		
         // The following line triggers the initialization of ACRA
         ACRA.init(this);
         startService(new Intent(this, EventService.class));
+                
         super.onCreate();
     }
 }

@@ -151,7 +151,7 @@ public class Register extends RTeamActivity {
 		}
 		
 		CustomTitle.setLoading(true, "Registering...");
-		new UsersResource().createUser(getUserCredentials(), new UsersResource.CreateUserResponseHandler() {
+		UsersResource.instance().createUser(getUserCredentials(), new UsersResource.CreateUserResponseHandler() {
 			@Override public void finish(CreateUserResponse response) {
 				CustomTitle.setLoading(false);
 				if (response.getStatus() == ResponseStatus.EmailAddressAlreadyUsed) {
@@ -196,7 +196,7 @@ public class Register extends RTeamActivity {
     
     private void attemptLogin() {
     	CustomTitle.setLoading(true, "Attempting to login");
-    	new UsersResource().getUserToken(new UserCredentials(_loginTxtEmail.getText().toString(), _loginTxtPassword.getText().toString()), new UsersResource.UserAuthenticationResponseHandler() {
+    	UsersResource.instance().getUserToken(new UserCredentials(_loginTxtEmail.getText().toString(), _loginTxtPassword.getText().toString()), new UsersResource.UserAuthenticationResponseHandler() {
 			@Override public void finish(UserAuthenticationResponse response) {
 				CustomTitle.setLoading(false);
 				if (response.getStatus() == ResponseStatus.InvalidUserCredentials) {

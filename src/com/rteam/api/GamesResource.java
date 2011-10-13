@@ -2,6 +2,7 @@ package com.rteam.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import org.json.JSONArray;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.android.common.RTeamLog;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
@@ -22,26 +24,28 @@ public class GamesResource extends ResourceBase {
 	/////////////////////////////////////////////////////////////////////////////////
 	///// .ctor
 
-	public GamesResource() {
-		super(AndroidTokenStorage.get());
+	public static GamesResource instance() {
+		if (_instance == null) _instance = new GamesResource();
+		return _instance;
+	}
+	private static GamesResource _instance;
+	
+	private GamesResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}	
 	
 	/////////////////////////////////////////////////////////////////////////////////
 	///// Response Classes
 	
 	public class CreateGameResponse extends ResourceResponse {
-
-		private String _gameId;
-		public String gameId() { return _gameId; }
-		
-		public CreateGameResponse(APIResponse response) {
+		protected CreateGameResponse(APIResponse response, Game game) {
 			super(response);
-			initialize();
+			initialize(game);
 		}
 		
-		private void initialize() {
+		private void initialize(Game game) {
 			if (isResponseGood()) {
-				_gameId = json().optString("gameId");
+				game.gameId(json().optString("gameId"));
 			}
 		}
 	}
@@ -51,24 +55,18 @@ public class GamesResource extends ResourceBase {
 	}
 	
 	public class CreateGamesResponse extends ResourceResponse {
-		
-		private ArrayList<String> _gameIds;
-		public ArrayList<String> gameIds() { return _gameIds; }
-		
-		public CreateGamesResponse(APIResponse response) {
+		public CreateGamesResponse(APIResponse response, List<Game> games) {
 			super(response);
-			initialize();
+			initialize(games);
 		}
 		
-		private void initialize() {
+		private void initialize(List<Game> games) {
 			if (isResponseGood()) {
-				_gameIds = new ArrayList<String>();
-				
 				JSONArray gameIds = json().optJSONArray("gameIds");
 				int count = gameIds != null ? gameIds.length() : 0;
 				
-				for(int i=0; i<count; i++) {
-					_gameIds.add(gameIds.optString(i));
+				for (int i = 0; i < count && i < games.size(); i++) {
+					games.get(i).gameId(gameIds.optString(i));
 				}
 			}
 		}
@@ -207,7 +205,10 @@ public class GamesResource extends ResourceBase {
 	///// Exposed Methods
 
 	public CreateGameResponse create(Game.Create game) {
-		return new CreateGameResponse(post(createBuilder().addPath("team").addPath(game.teamId()).addPath("games"), game.toJSON()));
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(game.teamId())
+							.addPath("games");
+		return new CreateGameResponse(post(uri, game.toJSON()), game.game());
 	}
 	
 	public void create(final Game.Create game, final CreateGameResponseHandler handler) {
@@ -232,7 +233,7 @@ public class GamesResource extends ResourceBase {
 		UriBuilder uri = createBuilder()
 							.addPath("team").addPath(games.teamId())
 							.addPath("games").addPath("recurring").addPath("multiple");
-		return new CreateGamesResponse(post(uri, games.toJSON()));
+		return new CreateGamesResponse(post(uri, games.toJSON()), games.games());
 	}
 	
 	public void create(final Game.CreateMultiple games, final CreateGamesResponseHandler handler) {

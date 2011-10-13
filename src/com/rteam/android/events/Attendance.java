@@ -83,7 +83,7 @@ public class Attendance extends RTeamActivityChildTab {
 		if (response.showError(this)) {
 			_attendance = response.getAttendance();
 			
-			new MembersResource().getMembers(getEvent().teamId(), new MembersResource.MemberListResponseHandler() {
+			MembersResource.instance().getMembers(getEvent().teamId(), new MembersResource.MemberListResponseHandler() {
 				@Override
 				public void finish(MemberListResponse response) { loadMembersFinished(response); }
 			});

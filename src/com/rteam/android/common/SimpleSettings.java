@@ -22,12 +22,12 @@ public class SimpleSettings extends SQLiteOpenHelper {
 							SETTING_NAME + " TEXT PRIMARY KEY UNIQUE, " + SETTING_VALUE + " TEXT);";
 	
 	private static SimpleSettings _settings = null;
-	public static void initialize(Context context) {
+	public static SimpleSettings get() {
 		if (_settings == null) {
-			_settings = new SimpleSettings(context);
+			_settings = new SimpleSettings(RTeamApplication.getAppContext());
 		}
-	}
-	public static SimpleSettings get() { return _settings; } 
+		return _settings; 
+	} 
 	
 	public SimpleSettings(Context context) {
 		super(context, RTeamConstants.DATABASE_NAME, null, DATABASE_VERSION);

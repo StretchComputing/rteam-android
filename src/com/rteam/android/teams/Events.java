@@ -46,8 +46,8 @@ public class Events extends RTeamActivityChildTab {
 	
 	private Team getTeam() { return TeamDetails.getTeam(); }
 	
-	private ArrayList<EventBase> _allEvents;
-	private ArrayList<EventBase> _checkedEvents;
+	private ArrayList<EventBase> _allEvents = new ArrayList<EventBase>();;
+	private ArrayList<EventBase> _checkedEvents = new ArrayList<EventBase>();;
 	
 	@Override
 	protected HelpProvider getHelpProvider() {
@@ -83,7 +83,7 @@ public class Events extends RTeamActivityChildTab {
 	private void bindView() {
 		boolean canEdit = getTeam().participantRole().atLeast(Member.Role.Coordinator);
 		_barBottom.setVisibility(canEdit ? View.VISIBLE : View.GONE);
-		_checkedEvents = new ArrayList<EventBase>();
+		_checkedEvents.clear();
 		
 		_listEvents.setAdapter(new EventListAdapter(this, canEdit, _allEvents, 
 			new EventCheckedHandler() {
@@ -126,10 +126,11 @@ public class Events extends RTeamActivityChildTab {
 	
 	private void addEvent(EventBase event) {
 		_allEvents.add(event);
+		Collections.sort(_allEvents);
+		Collections.reverse(_allEvents);
+		
 		bindView();
 	}
-	
-	
 	
 	private void deleteSelectedClicked() {
 		for(EventBase event : _checkedEvents) {
@@ -146,7 +147,7 @@ public class Events extends RTeamActivityChildTab {
 	
 	private void deleteGame(Game event) {
 		CustomTitle.setLoading(true, "Deleting game...");
-		new GamesResource()
+		GamesResource.instance()
 			.delete(event, new GamesResource.DeleteGameResponseHandler() {
 				@Override public void finish(DeleteGameResponse response) {
 					CustomTitle.setLoading(false);
@@ -157,7 +158,7 @@ public class Events extends RTeamActivityChildTab {
 	
 	private void deletePractice(Practice practice) {
 		CustomTitle.setLoading(true, "Deleting practice...");
-		new PracticeResource()
+		PracticeResource.instance()
 			.delete(practice, new PracticeResource.DeletePracticeResponseHandler() {
 				@Override public void finish(DeletePracticeResponse response) {
 					CustomTitle.setLoading(false);
@@ -172,18 +173,18 @@ public class Events extends RTeamActivityChildTab {
 	
 	private void loadEvents() {
 		CustomTitle.setLoading(true, "Loading games...");
-		new GamesResource()
+		GamesResource.instance()
 			.getForTeam(new EventBase.GetAllForTeamEventBase(getTeam().teamId(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
 			});
 	}
 	private void loadGamesFinished(GetGamesResponse response) {
 		if (response.showError(this)) {
-			_allEvents = new ArrayList<EventBase>();
+			_allEvents.clear();
 			_allEvents.addAll(response.games());
 			
 			CustomTitle.setLoading(true, "Loading practices...");
-			new PracticeResource()
+			PracticeResource.instance()
 				.getForTeam(new EventBase.GetAllForTeamEventBase(getTeam().teamId(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
 					@Override
 					public void finish(GetPracticesResponse response) {

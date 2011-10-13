@@ -176,7 +176,7 @@ public class TeamHome extends RTeamActivityChildTab {
 	
 	private void loadData() {
 		CustomTitle.setLoading(true, "Loading games...");
-		new GamesResource()
+		GamesResource.instance()
 			.getForTeam(new EventBase.GetAllForTeamEventBase(team().teamId(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {
 				@Override
 				public void finish(GetGamesResponse response) { loadGamesFinished(response); }
@@ -188,7 +188,7 @@ public class TeamHome extends RTeamActivityChildTab {
 			_allTeamGames = response.games();
 			
 			CustomTitle.setLoading(true, "Loading practices...");
-			new PracticeResource()
+			PracticeResource.instance()
 				.getForTeam(new EventBase.GetAllForTeamEventBase(team().teamId(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
 					@Override
 					public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }

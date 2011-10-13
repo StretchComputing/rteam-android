@@ -56,7 +56,7 @@ public class Fans extends RTeamActivityChildTab {
 	//// Load Data
 	private void loadFans() {
 		CustomTitle.setLoading(true, "Loading fans...");
-		new MembersResource().getMembers(EventDetails.getTeam().teamId(), true, new MembersResource.MemberListResponseHandler() {
+		MembersResource.instance().getMembers(EventDetails.getTeam().teamId(), true, new MembersResource.MemberListResponseHandler() {
 			@Override
 			public void finish(MemberListResponse response) { loadFansFinished(response); }
 		});

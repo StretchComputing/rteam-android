@@ -8,18 +8,27 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 
 import com.rteam.android.common.AndroidTokenStorage;
+import com.rteam.android.common.RTeamApplicationVersion;
 import com.rteam.api.base.ResourceBase;
 import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
 import com.rteam.api.business.Member;
+import com.rteam.api.common.UriBuilder;
 
 public class MembersResource extends ResourceBase {
 
 	///////////////////////////////////////////////////////////////////////////
 	/// .ctor
 	
-	public MembersResource() {
-		super(AndroidTokenStorage.get());
+	public static MembersResource instance() {
+		if (_instance == null) _instance = new MembersResource();
+		return _instance;
+	}
+	
+	private static MembersResource _instance;
+	
+	private MembersResource() {
+		super(AndroidTokenStorage.get(), RTeamApplicationVersion.get());
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -56,17 +65,14 @@ public class MembersResource extends ResourceBase {
 	}
 	
 	public class CreateMemberResponse extends ResourceResponse {
-		private String _memberId;
-		public String memberId() { return _memberId; }
-		
-		protected CreateMemberResponse(APIResponse response) {
+		protected CreateMemberResponse(APIResponse response, Member member) {
 			super(response);
-			initialize();
+			initialize(member);
 		}
 		
-		private void initialize() {
+		private void initialize(Member member) {
 			if (isResponseGood()) {
-				_memberId = json().optString("memberId");
+				member.memberId(json().optString("memberId"));
 			}
 		}
 	}
@@ -131,7 +137,11 @@ public class MembersResource extends ResourceBase {
 	}
 	
 	public MemberListResponse getMembers(String teamId, boolean includeFans) {
-		return new MemberListResponse(get(createBuilder().addPath("team").addPath(teamId).addPath("members").addParam("includeFans", Boolean.toString(includeFans))));
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(teamId)
+							.addPath("members")
+							.addParam("includeFans", Boolean.toString(includeFans));
+		return new MemberListResponse(get(uri));
 	}
 	
 	public void getMembers(final String teamId, final boolean includeFans, final MemberListResponseHandler handler) {
@@ -152,7 +162,10 @@ public class MembersResource extends ResourceBase {
 	
 	
 	public CreateMemberResponse create(Member member) {
-		return new CreateMemberResponse(post(createBuilder().addPath("team").addPath(member.teamId()).addPath("members"), member.toJSON()));
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(member.teamId())
+							.addPath("members");
+		return new CreateMemberResponse(post(uri, member.toJSON()), member);
 	}
 	
 	public void create(final Member member, final CreateMemberResponseHandler handler) {
@@ -172,11 +185,11 @@ public class MembersResource extends ResourceBase {
 	}
 	
 	public GetMemberResponse getFullMember(Member memberInfo, boolean includePhoto) {
-		return new GetMemberResponse(memberInfo, 
-						get(createBuilder()
-								.addPath("team").addPath(memberInfo.teamId())
-								.addPath("member").addPath(memberInfo.memberId())
-								.addParam("includePhoto", Boolean.toString(includePhoto).toLowerCase())));
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(memberInfo.teamId())
+							.addPath("member").addPath(memberInfo.memberId())
+							.addParam("includePhoto", Boolean.toString(includePhoto).toLowerCase());
+		return new GetMemberResponse(memberInfo, get(uri));
 	}
 	
 	public void getFullMember(final Member memberInfo, final boolean includePhoto, final GetMemberResponseHandler handler) {
@@ -194,10 +207,10 @@ public class MembersResource extends ResourceBase {
 	}
 	
 	public UpdateMemberResponse updateMember(Member member) {
-		return new UpdateMemberResponse(put(createBuilder()
-												.addPath("team").addPath(member.teamId())
-												.addPath("member").addPath(member.memberId()), 
-											member.toJSON()));
+		UriBuilder uri = createBuilder()
+							.addPath("team").addPath(member.teamId())
+							.addPath("member").addPath(member.memberId());
+		return new UpdateMemberResponse(put(uri, member.toJSON()));
 	}
 	
 	public void updateMember(final Member member, final UpdateMemberResponseHandler handler) {
