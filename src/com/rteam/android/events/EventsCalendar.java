@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.flurry.android.FlurryAgent;
 import com.jasonkostempski.android.calendar.CalendarDayMarker;
 import com.jasonkostempski.android.calendar.CalendarView;
 import com.jasonkostempski.android.calendar.CalendarView.OnMonthChangedListener;
@@ -177,6 +178,7 @@ public class EventsCalendar extends RTeamActivity {
 		
 	private void addEvent(EventBase event) {
 		_events.add(event);
+		FlurryAgent.logEvent("Event Added");
 		Collections.sort(_events);
 		
 		bindCalendar();	
