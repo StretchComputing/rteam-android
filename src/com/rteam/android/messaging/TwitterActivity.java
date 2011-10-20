@@ -254,12 +254,11 @@ public class TwitterActivity extends RTeamActivity {
 		if (_activities != null) {
 			ArrayList<Simple3LineAdapater.Data> data = new ArrayList<Simple3LineAdapater.Data>();
 			for(Activity activity : _activities) {
-				if (activity.teamId() != null) {
+				if (!StringUtils.isNullOrEmpty(activity.teamId())) {
 					activity.bindTeam(TeamCache.get(activity.teamId()));
 				}
-				if (activity.text().equalsIgnoreCase("Jen W post: a new friend for Bella!")) {
-					RTeamLog.i("Has Thumbnail: " + (activity.thumbNail() != null));
-					RTeamLog.i("Blah: " + activity.isVideo());
+				else if (_teamOnly && _team != null) {
+					activity.bindTeam(_team);
 				}
 				
 				data.add(new Simple3LineAdapater.Data(activity.text(), 

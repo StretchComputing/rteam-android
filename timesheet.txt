@@ -3,6 +3,9 @@
 	
 10/12/2011
 	120 minutes - Did some refactoring and bug fixing
+	
+10/19/2011
+	120 minutes - Bug fixes!
 		
 TODO :
 	- FUTURE TASK: View attendance for member

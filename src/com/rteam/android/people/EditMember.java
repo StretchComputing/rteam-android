@@ -29,6 +29,7 @@ import com.rteam.api.business.Member.Role;
 import com.rteam.api.business.Team;
 import com.rteam.api.common.ArrayListUtils;
 import com.rteam.api.common.ObjectUtils;
+import com.rteam.api.common.StringUtils;
 
 public class EditMember extends RTeamActivity {
 	
@@ -45,8 +46,9 @@ public class EditMember extends RTeamActivity {
 	private Team getTeam() { return TeamCache.get(_member.teamId()); }
 	private boolean canEdit() {
 		Team team = getTeam();
-		return (team != null && team.participantRole() != null) ? team.participantRole().atLeast(Role.Coordinator) : false;
+		return isFullyCreated() && ((team != null && team.participantRole() != null) ? team.participantRole().atLeast(Role.Coordinator) : false);
 	}
+	private boolean isFullyCreated() { return !StringUtils.isNullOrEmpty(_member.memberId()); }
 	
 	private ImageView _memberImage;
 	private EditText _txtFirstName;
@@ -167,10 +169,12 @@ public class EditMember extends RTeamActivity {
 	//// Loading Data
 	
 	private void loadMember() {
-		CustomTitle.setLoading(true, "Loading member info...");
-		MembersResource.instance().getFullMember(_member, true, new GetMemberResponseHandler() {			
-			@Override public void finish(GetMemberResponse response) { loadMemberFinished(response); }
-		});
+		if (isFullyCreated()) {
+			CustomTitle.setLoading(true, "Loading member info...");
+			MembersResource.instance().getFullMember(_member, true, new GetMemberResponseHandler() {			
+				@Override public void finish(GetMemberResponse response) { loadMemberFinished(response); }
+			});
+		}
 	}
 	
 	private void loadMemberFinished(GetMemberResponse response) {

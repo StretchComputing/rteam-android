@@ -86,7 +86,7 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	}
 	
 	private void bindView() {
-		_btnUpdateScore.setVisibility((getEvent().participantRole() != null && getEvent().participantRole() != Role.Fan) ? View.VISIBLE : View.GONE);
+		_btnUpdateScore.setVisibility((getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) ? View.VISIBLE : View.GONE);
 		_txtTypeVsOpponent.setText(getEvent().eventType().toPrettyString() + " vs. " + getEvent().opponent());
 		_txtStartDate.setText(DateUtils.toPrettyString(getEvent().startDate()));
 		_txtLocation.setText(getEvent().location());

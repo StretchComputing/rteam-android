@@ -50,7 +50,7 @@ public class AllScores extends RTeamActivity {
 	
 	private void loadData() {
 		CustomTitle.setLoading(true, "Loading scores...");
-		GamesResource.instance().getForTeam(new GetAllForTeamEventBase(TeamDetails.getTeam().teamId(), Event.Type.Game), new GetGamesResponseHandler() {
+		GamesResource.instance().getForTeam(new GetAllForTeamEventBase(TeamDetails.getTeam(), Event.Type.Game), new GetGamesResponseHandler() {
 			@Override 
 			public void finish(GetGamesResponse response) {
 				CustomTitle.setLoading(false);

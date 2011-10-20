@@ -109,32 +109,46 @@ public abstract class EventBase implements Serializable, Comparable<EventBase> {
 		////////////////////////////////////////////////////////////////////////////////////
 		//// .ctor
 		
-		public GetEventBase(String id, String teamId, Event.Type eventType) {
-			super(teamId, eventType);
+		public GetEventBase(String id, Team team, Event.Type eventType) {
+			super(team, eventType);
 			_id = id;
 		}
 		
-		public GetEventBase(String id, String teamId, String timeZone, Event.Type eventType) {
-			super(teamId, timeZone, eventType);
+		public GetEventBase(String id, Team team, String timeZone, Event.Type eventType) {
+			super(team, timeZone, eventType);
+			_id = id;
+		}
+		
+		public GetEventBase(String id, String teamId, Event.Type eventType) {
+			super(teamId, eventType);
 			_id = id;
 		}
 	}
 	
 	public static class GetAllForTeamEventBase extends GetAllEventBase {
+		private Team _team;
+		public Team team() { return _team; }
+		
 		private String _teamId;
 		public String teamId() { return _teamId; }
-		public void teamId(String value) { _teamId = value; }
 		
 		////////////////////////////////////////////////////////////////////////////////////
 		//// .ctor
 		
-		public GetAllForTeamEventBase(String teamId, Event.Type eventType) {
+		public GetAllForTeamEventBase(Team team, Event.Type eventType) {
 			super(eventType);
-			_teamId = teamId;
+			_team = team;
+			_teamId = _team != null ? _team.teamId() : null;
 		}
 		
-		public GetAllForTeamEventBase(String teamId, String timeZone, Event.Type eventType) {
+		public GetAllForTeamEventBase(Team team, String timeZone, Event.Type eventType) {
 			super(timeZone, eventType);
+			_team = team;
+			_teamId = _team != null ? _team.teamId() : null;
+		}
+		
+		protected GetAllForTeamEventBase(String teamId, Event.Type eventType) {
+			super(eventType);
 			_teamId = teamId;
 		}
 	}

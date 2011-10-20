@@ -220,6 +220,9 @@ public class CalendarView extends LinearLayout {
 	
 	private TextView _lastDayClicked = null;
 	private void markDaySelected(TextView daySelected) {
+		if (_lastDayClicked == daySelected) {
+			return;
+		}
 		if (_lastDayClicked != null) {
 			_lastDayClicked.setTextColor(Color.LTGRAY);
 			_lastDayClicked.setTextSize(daySelected.getTextSize());

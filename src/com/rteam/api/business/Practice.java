@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.rteam.api.common.StringUtils;
-
 public class Practice extends EventBase {
 
 	/**
@@ -64,12 +62,16 @@ public class Practice extends EventBase {
 	}
 	
 	public Practice(JSONObject json) { this(json, null); }
-	public Practice(JSONObject json, String defaultTeamId) {
+	public Practice(JSONObject json, Team defaultTeam) {
 		super(json);
 
 		_practiceId = json.optString("practiceId");
-		
-		if (!StringUtils.isNullOrEmpty(defaultTeamId)) teamId(defaultTeamId);
+		if (defaultTeam != null) {
+			teamId(defaultTeam.teamId());
+			if (participantRole() == null) {
+				participantRole(defaultTeam.participantRole());
+			}
+		}
 	}
 
 	

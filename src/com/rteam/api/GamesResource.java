@@ -102,21 +102,17 @@ public class GamesResource extends ResourceBase {
 		public ArrayList<EventBase> events() { return new ArrayList<EventBase>(_events.values()); }
 		private ArrayList<Game> _games;
 		public ArrayList<Game> games() { return _games; }
-		
-		private String _defaultTeamId;
-		
-		public GetGamesResponse(APIResponse response) {
-			super(response);
-			initialize();
+			
+		protected GetGamesResponse(APIResponse response) {
+			this(response, null);
 		}
 		
-		public GetGamesResponse(APIResponse response, String defaultTeamId) {
+		protected GetGamesResponse(APIResponse response, EventBase.GetAllForTeamEventBase info) {
 			super(response);
-			_defaultTeamId = defaultTeamId;
-			initialize();
+			initialize(info);
 		}
 		
-		private void initialize() {
+		private void initialize(EventBase.GetAllForTeamEventBase info) {
 			if (isResponseGood()) {
 				_games = new ArrayList<Game>();
 				_events = new HashMap<String, EventBase>();
@@ -125,9 +121,13 @@ public class GamesResource extends ResourceBase {
 				RTeamLog.i("Response responded with : %d games.", games != null ? games.length() : -1);
 				int count = games != null ? games.length() : 0;
 				for(int i=0; i<count; i++) {
-					Game g = new Game(games.optJSONObject(i), _defaultTeamId);
+					Game g = new Game(games.optJSONObject(i), info != null ? info.team() : null);
 					_games.add(g);
-					if (!_events.containsKey(g.eventId())) _events.put(g.eventId(), g);
+					if (!_events.containsKey(g.eventId())) {
+						
+						
+						_events.put(g.eventId(), g);
+					}
 				}
 			}
 		}
@@ -283,7 +283,7 @@ public class GamesResource extends ResourceBase {
 							.addPath("team").addPath(info.teamId())
 							.addPath("games")
 							.addPath(info.timeZone());
-		return new GetGamesResponse(get(uri), info.teamId());
+		return new GetGamesResponse(get(uri), info);
 	}
 	
 	public void getForTeam(final EventBase.GetAllForTeamEventBase info, final GetGamesResponseHandler handler) {

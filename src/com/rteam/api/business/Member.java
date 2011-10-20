@@ -273,7 +273,9 @@ public class Member {
 			json.putOpt("lastName", lastName());
 			json.putOpt("emailAddress", emailAddress());
 			json.putOpt("jerseyNumber", jerseyNumber());
-			json.putOpt("phoneNumber", phoneNumber().replace(" ", "").replace("(", "").replace(")", "").replace("-", "").replace(".", ""));
+			if (phoneNumber() != null) {
+				json.putOpt("phoneNumber",  phoneNumber().replace(" ", "").replace("(", "").replace(")", "").replace("-", "").replace(".", ""));
+			}
 			
 			if (guardians() != null && guardians().size() > 0) {
 				JSONArray guardians = new JSONArray();
@@ -305,7 +307,6 @@ public class Member {
 				json.putOpt("isPortrait", memberImage().getWidth() > memberImage().getHeight());
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -44,7 +44,7 @@ public class EventDetails extends RTeamTabActivity {
 		if (isGame) tabs.add(new TabInfo(GameDay.class, "GameDay", "Game Day", R.drawable.events_tab_gameday));
 		else tabs.add(new TabInfo(PracticeDay.class, "PracticeDay", "Practice Day", R.drawable.events_tab_practiceday));
 		
-		if (getEvent().participantRole() != null && getEvent().participantRole() == Role.Coordinator) {
+		if (getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) {
 			tabs.add(new TabInfo(Attendance.class, "Attendance", "Attendance", R.drawable.events_tab_attendance));
 		}
 		if (isGame) tabs.add(new TabInfo(Messages.class, "Messages", "Messages", R.drawable.tab_messages));

@@ -257,7 +257,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	private void loadGames() {
 		CustomTitle.setLoading(true, "Loading games...");
 		if (hasTeam()) {
-			GamesResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
+			GamesResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
 				@Override public void finish(GetGamesResponse response) { addGames(response.games()); }
 			});
 		}
@@ -271,7 +271,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	private void loadPractices() {
 		CustomTitle.setLoading(true, "Loading practices...");
 		if (hasTeam()) {
-			PracticeResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam().teamId(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
+			PracticeResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
 				@Override public void finish(GetPracticesResponse response) { addPractices(response.practices()); }
 			});
 		}

@@ -111,19 +111,15 @@ public class PracticeResource extends ResourceBase {
 		private ArrayList<Practice> _practicesTomorrow;
 		public ArrayList<Practice> practicesTomorrow() { return _practicesTomorrow; }
 		
-		private String _defaultTeamId;
-		
-		public GetPracticesResponse(APIResponse response) {
-			super(response);
-			initialize();
+		protected GetPracticesResponse(APIResponse response) {
+			this(response, null);
 		}
-		public GetPracticesResponse(APIResponse response, String defaultTeamId) {
+		protected GetPracticesResponse(APIResponse response, EventBase.GetAllForTeamEventBase info) {
 			super(response);
-			_defaultTeamId = defaultTeamId;
-			initialize();
+			initialize(info);
 		}
 		
-		private void initialize() {
+		private void initialize(EventBase.GetAllForTeamEventBase info) {
 			if (isResponseGood()) {
 				_practices = new ArrayList<Practice>();
 				_events = new HashMap<String, EventBase>();
@@ -131,7 +127,7 @@ public class PracticeResource extends ResourceBase {
 				JSONArray practices = json().optJSONArray("practices");
 				int count = practices != null ? practices.length() : 0;
 				for(int i=0; i<count; i++) {
-					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
+					Practice practice = new Practice(practices.optJSONObject(i), info != null ? info.team() : null);
 					_practices.add(practice);
 					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
 				}
@@ -140,7 +136,7 @@ public class PracticeResource extends ResourceBase {
 				practices = json().optJSONArray("today");
 				count = practices != null ? practices.length() : 0;
 				for(int i=0; i<count; i++) {
-					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
+					Practice practice = new Practice(practices.optJSONObject(i), info != null ? info.team() : null);
 					_practicesToday.add(practice);
 					_practices.add(practice);
 					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
@@ -150,7 +146,7 @@ public class PracticeResource extends ResourceBase {
 				practices = json().optJSONArray("tomorrow");
 				count = practices != null ? practices.length() : 0;
 				for(int i=0; i<count; i++) {
-					Practice practice = new Practice(practices.optJSONObject(i), _defaultTeamId);
+					Practice practice = new Practice(practices.optJSONObject(i), info != null ? info.team() : null);
 					_practicesTomorrow.add(practice);
 					_practices.add(practice);
 					if (!_events.containsKey(practice.eventId())) _events.put(practice.eventId(), practice);
@@ -266,7 +262,7 @@ public class PracticeResource extends ResourceBase {
 							.addPath("practices")
 							.addPath(info.timeZone())
 							.addParamIf("eventType", info.eventType() != null ? info.eventType().toString() : "", info.eventType() != null);
-		return new GetPracticesResponse(get(uri), info.teamId());
+		return new GetPracticesResponse(get(uri), info);
 	}
 	
 	public void getForTeam(final EventBase.GetAllForTeamEventBase info, final GetPracticesResponseHandler handler) {

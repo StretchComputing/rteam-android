@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.rteam.api.common.EnumUtils;
-import com.rteam.api.common.StringUtils;
 
 public class Game extends EventBase {
 	
@@ -191,7 +190,7 @@ public class Game extends EventBase {
 	public Game(JSONObject json) {
 		this(json, null);
 	}
-	public Game(JSONObject json, String defaultTeamId) {	
+	public Game(JSONObject json, Team defaultTeam) {	
 		super(json);
 
 		_scoreUs = json.optInt("scoreUs", 0);
@@ -203,7 +202,12 @@ public class Game extends EventBase {
 		
 		_gameId = json.optString("gameId");
 		
-		if (!StringUtils.isNullOrEmpty(defaultTeamId)) teamId(defaultTeamId);
+		if (defaultTeam != null) {
+			teamId(defaultTeam.teamId());
+			if (participantRole() == null) {
+				participantRole(defaultTeam.participantRole());
+			}
+		}
 	}
 	
 	
