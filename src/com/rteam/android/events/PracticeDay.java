@@ -66,6 +66,8 @@ public class PracticeDay extends RTeamActivityChildTab implements UpdateLocation
 	//// Event Handlers
 	
 	private void updateLocationClicked() {
+		if (isFinishing()) return;
+		
 		new UpdateLocationDialog(this, getPractice(), this).showDialog();
 	}
 	

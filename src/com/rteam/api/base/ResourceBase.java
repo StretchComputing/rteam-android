@@ -119,6 +119,8 @@ public abstract class ResourceBase {
 			logError(request.getMethod(), request.getURI().toString(), e);
 		} catch (IOException e) {
 			logError(request.getMethod(), request.getURI().toString(), e);
+		} catch (Exception e) {
+			logError(request.getMethod(), request.getURI().toString(), e);
 		}
 		
 		logInfo("Error occurred while making request.");

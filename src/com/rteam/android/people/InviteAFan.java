@@ -111,6 +111,8 @@ public class InviteAFan extends RTeamActivityChildTab {
 	//// Loading Teams
 	
 	private void loadTeams() {
+		if (isFinishing()) return;
+		
 		new TeamSelectDialog(this, new TeamSelectDialog.TeamSelectHandler() {
 			@Override 
 			public void teamSelected(Team team) {
@@ -129,13 +131,15 @@ public class InviteAFan extends RTeamActivityChildTab {
 		MembersResource.instance().create(fan, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
-				inviteFanFinished(fan);
+				CustomTitle.setLoading(false);
+				if (response.showError(InviteAFan.this)) {
+					inviteFanFinished(fan);
+				}
 			}
 		});
 	}
 	
 	private void inviteFanFinished(Member newFan) {
-		CustomTitle.setLoading(false);
 		if (hasFanAdded()) {
 			FanAdded handler = getFanAdded();
 			handler.onFanAdd(newFan);

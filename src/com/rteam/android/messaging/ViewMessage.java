@@ -96,6 +96,8 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 	}
 	
 	private void doneLoadingMessageInfo() {
+		if (isFinishing()) return;
+		
 		MessageInfo message = getSelectedMessage();
 		
 		if (message == null) {
@@ -201,6 +203,8 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 	}
 	
 	private void showPollChoices(MessageInfo message) {
+		if (isFinishing()) return;
+		
 		if (message.pollChoices() != null && message.pollChoices().size() > 0) {
 			_pollMessage.setText("Please choose an option to respond: ");
 			for(String option : message.pollChoices()) {
@@ -214,6 +218,8 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 	}
 	
 	private void showPollSummary(MessageInfo message) {
+		if (isFinishing()) return;
+		
 		_pollMessage.setText("The poll has been marked as completed by the creator. Poll results:");
 		
 		HashMap<String, Integer> responses = message.getPollResponses();
@@ -239,6 +245,8 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 	}
 	
 	private void respondToMessage(final MessageInfo message, String response) {
+		if (isFinishing()) return;
+		
 		if (!message.hasReplied()) {
 			message.setReply(response);
 			CustomTitle.setLoading(true, "Sending response...");
@@ -246,13 +254,17 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 				@Override
 				public void finish(UpdateMessageResponse response) {
 					CustomTitle.setLoading(false);
-					initializeMessage(message);
+					if (response.showError(ViewMessage.this)) {
+						initializeMessage(message);
+					}
 				}
 			});
 		}
 	}
 	
 	private void updateMessageViewed(MessageInfo message) {
+		if (isFinishing()) return;
+		
 		if(!message.wasViewed()) {
 			message.wasViewed(true);
 			

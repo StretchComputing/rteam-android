@@ -55,9 +55,9 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	@Override
 	protected void initialize() {
 		if (getGame() == null) {
+			Toast.makeText(this, "Unable to find game, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
 			finish();
 			startActivity(new Intent(this, Home.class));
-			Toast.makeText(this, "Unable to find game, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
 		}
 		
 		initializeView();
@@ -87,7 +87,9 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	
 	private void bindView() {
 		_btnUpdateScore.setVisibility((getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) ? View.VISIBLE : View.GONE);
-		_txtTypeVsOpponent.setText(getEvent().eventType().toPrettyString() + " vs. " + getEvent().opponent());
+		_txtTypeVsOpponent.setText(String.format("%s vs. %s", 
+				getEvent().eventType() != null ? getEvent().eventType().toPrettyString() : "Event",
+				getEvent().opponent()));
 		_txtStartDate.setText(DateUtils.toPrettyString(getEvent().startDate()));
 		_txtLocation.setText(getEvent().location());
 		bindScoring();
@@ -130,6 +132,8 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	}
 	
 	private void showScoringDialog() {
+		if (isFinishing()) return;
+		
 		new ScoringDialog(this, getGame(), new ScoringDialog.ScoresUpdatedHandler() {
 			@Override public void scoresUpdated() { bindScoring(); }
 		}).showDialog();

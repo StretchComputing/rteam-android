@@ -115,6 +115,7 @@ public abstract class RTeamActivity extends Activity {
 		
 	private void ensureOnline() {
 		if (!NetworkUtils.isOnline(this)) {
+			if (isFinishing()) return;
 			new AlertDialog.Builder(this)
 					.setTitle("Error!")
 					.setMessage("Error, internet access is required to run rTeam.  Please ensure that you are connected to the internet to continue using rTeam.")

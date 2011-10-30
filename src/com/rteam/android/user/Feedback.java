@@ -48,7 +48,7 @@ public class Feedback extends RTeamActivityChildTab {
 	}
 	
 	private void rate() {
-		Intent rate = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=com.rteam"));
+		Intent rate = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=com.rteam"));	// TODO: Fix this url
 		startActivity(rate);
 	}
 	

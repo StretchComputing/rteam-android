@@ -43,7 +43,7 @@ public class EditMember extends RTeamActivity {
 	protected String getCustomTitle() { return "rTeam - edit member"; }
 	
 	private boolean isFan() { return _member.participantRole() == Role.Fan; }
-	private Team getTeam() { return TeamCache.get(_member.teamId()); }
+	private Team getTeam() { return _member != null ? TeamCache.get(_member.teamId()) : null; }
 	private boolean canEdit() {
 		Team team = getTeam();
 		return isFullyCreated() && ((team != null && team.participantRole() != null) ? team.participantRole().atLeast(Role.Coordinator) : false);
@@ -193,6 +193,8 @@ public class EditMember extends RTeamActivity {
 	
 	private static int TAKE_PICTURE = 1;
 	private void memberImageClicked() {
+		if (isFinishing()) return;
+		
 		if (getMemberImage() != null) {
 			ImageView image = new ImageView(this);
 			image.setImageBitmap(getMemberImage());
@@ -229,6 +231,8 @@ public class EditMember extends RTeamActivity {
 	}
 	
 	private void guardiansClicked() {
+		if (isFinishing()) return;
+		
 		new GuardiansDialog(this, getGuardians(), new GuardiansDialog.SetGuardiansHandler() {
 			@Override
 			public void setGuardians(ArrayList<Guardian> guardians) {

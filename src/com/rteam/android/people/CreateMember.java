@@ -128,6 +128,8 @@ public class CreateMember extends RTeamActivity {
 
 	
 	private void setGuardians() {
+		if (isFinishing()) return;
+		
 		new GuardiansDialog(this, _guardians, new GuardiansDialog.SetGuardiansHandler() {
 			@Override
 			public void setGuardians(ArrayList<Guardian> guardians) {
@@ -142,7 +144,9 @@ public class CreateMember extends RTeamActivity {
 		MembersResource.instance().create(newMember, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
-				createMemberFinished(newMember);
+				if (response.showError(CreateMember.this)) {
+					createMemberFinished(newMember);
+				}
 			}
 		});
 	}

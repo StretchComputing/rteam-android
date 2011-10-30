@@ -175,6 +175,8 @@ public class TeamHome extends RTeamActivityChildTab {
 	//// Loading games
 	
 	private void loadData() {
+		if (team() == null) return;
+		
 		CustomTitle.setLoading(true, "Loading games...");
 		GamesResource.instance()
 			.getForTeam(new EventBase.GetAllForTeamEventBase(team(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {

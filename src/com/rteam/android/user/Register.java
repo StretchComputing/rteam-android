@@ -145,6 +145,8 @@ public class Register extends RTeamActivity {
     }
     
     private void onCreateAccountClick() {
+    	if (isFinishing()) return;
+    	
 		if (!hasAllFields()) {
 			setOutput("All fields are required to register.");
 			return;
@@ -177,10 +179,14 @@ public class Register extends RTeamActivity {
     }
     
     private void onForgotPasswordClick() {
+    	if (isFinishing()) return;
+    	
     	new ResetPasswordDialog(this).showDialog();
     }
     
     private void loginExistingMember() {
+    	if (isFinishing()) return;
+    	
     	initializeLoginView();
     	
     	new AlertDialog.Builder(this)

@@ -184,7 +184,7 @@ public class AddEventDialog extends Dialog {
 				@Override
 				public void finish(CreateGameResponse response) {
 					CustomTitle.setLoading(false);
-					if (response.showError(getContext())) {
+					if (response.showError(getOwnerActivity())) {
 						finishAdding(event);
 					}
 				}
@@ -203,7 +203,7 @@ public class AddEventDialog extends Dialog {
 				@Override
 				public void finish(CreatePracticeResponse response) {
 					CustomTitle.setLoading(false);
-					if (response.showError(getContext())) {
+					if (response.showError(getOwnerActivity())) {
 						finishAdding(practice);
 					}
 				}

@@ -93,7 +93,8 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 	private void bindDeleted() {
 		int numberMessagesSelected = 0;
 		for (MessageInfo message : _selectedMessages) {
-			if (TeamCache.get(message.teamId()).participantRole().atLeast(Role.Coordinator) || message.senderMemberId() == getTokenStorage().getUserToken()) {
+			Team messageTeam = TeamCache.get(message.teamId());
+			if (messageTeam != null && messageTeam.participantRole().atLeast(Role.Coordinator) || getTokenStorage().getUserToken().equals(message.senderMemberId())) {
 				numberMessagesSelected++;
 			}
 		}
@@ -111,10 +112,12 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 	@Override
 	public void getMessageThreadsFinish(GetMessagesResponse response) {
 		CustomTitle.setLoading(false);
-		_inbox = response.getInboxMessages();
-		_outbox = response.getOutboxMessages();
-		
-		bindView();
+		if (response.showError(this)) {
+			_inbox = response.getInboxMessages();
+			_outbox = response.getOutboxMessages();
+			
+			bindView();
+		}
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +148,8 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 	}
 	
 	private void sendClicked() {
+		if (isFinishing()) return;
+		
 		new AlertDialog.Builder(this)
 				.setTitle("What type of message?")
 				.setItems(new String[] { "Message", "Poll" }, new DialogInterface.OnClickListener() {

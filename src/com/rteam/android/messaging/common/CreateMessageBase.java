@@ -92,6 +92,8 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void showTeamsDialog() {
 		CustomTitle.setLoading(false);
+		if (isFinishing()) return;
+		
 		ArrayList<String> teamNames = new ArrayList<String>();		
 		for(Team team : _teams) {
 			teamNames.add(team.teamName());
@@ -124,8 +126,10 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void finishLoadingMembers(MemberListResponse response) {
 		CustomTitle.setLoading(false);
-		_members = response.members();
-		showMembersDialog();
+		if (response.showError(this)) {
+			_members = response.members();
+			showMembersDialog();
+		}
 	}
 	
 	
@@ -170,6 +174,8 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	}
 	
 	private void showMembersDialog() {
+		if (isFinishing()) return;
+		
 		_pendingRecipientList = new ArrayList<Member>(_selectedRecipientList);
 		
 		ArrayList<String> memberNames = new ArrayList<String>();
@@ -258,12 +264,20 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 		CustomTitle.setLoading(true, "Loading games...");
 		if (hasTeam()) {
 			GamesResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
-				@Override public void finish(GetGamesResponse response) { addGames(response.games()); }
+				@Override public void finish(GetGamesResponse response) { 
+					if (response.showError(CreateMessageBase.this)) {
+						addGames(response.games()); 
+					}
+				}
 			});
 		}
 		else {
 			GamesResource.instance().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
-				@Override public void finish(GetGamesResponse response) { addGames(response.games()); }
+				@Override public void finish(GetGamesResponse response) {
+					if (response.showError(CreateMessageBase.this)) {
+						addGames(response.games()); 
+					}
+				}
 			});
 		}
 	}
@@ -272,23 +286,35 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 		CustomTitle.setLoading(true, "Loading practices...");
 		if (hasTeam()) {
 			PracticeResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
-				@Override public void finish(GetPracticesResponse response) { addPractices(response.practices()); }
+				@Override public void finish(GetPracticesResponse response) { 
+					if (response.showError(CreateMessageBase.this)) {
+						addPractices(response.practices()); 
+					}
+				}
 			});
 		}
 		else {
 			PracticeResource.instance().getAll(new GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
-				@Override public void finish(GetPracticesResponse response) { addPractices(response.practices()); }
+				@Override public void finish(GetPracticesResponse response) {
+					if (response.showError(CreateMessageBase.this)) {
+						addPractices(response.practices());
+					}
+				}
 			});
 		}
 	}
 	
 	private void addGames(ArrayList<Game> games) {
-		for(EventBase game : games) _allEvents.add(game);		
+		if (games != null) {
+			for(EventBase game : games) _allEvents.add(game);
+		}
 		loadPractices();
 	}
 	
 	private void addPractices(ArrayList<Practice> practices) {
-		for(EventBase practice : practices) _allEvents.add(practice);
+		if (practices != null) {
+			for(EventBase practice : practices) _allEvents.add(practice);
+		}
 		Collections.sort(_allEvents);
 		Date now = new Date();
 		for(EventBase event : _allEvents) {
@@ -301,6 +327,8 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void showEventsDialog() {
 		CustomTitle.setLoading(false);
+		if (isFinishing()) return;
+		
 		if (_upcomingEvents.size() == 0) {
 			Toast.makeText(this, "There are no upcoming games or practices schedules.", Toast.LENGTH_SHORT).show();		
 		}
@@ -352,6 +380,8 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void sendMessageFinished(CreateMessageResponse response) {
 		CustomTitle.setLoading(false);
+		if (isFinishing()) return;
+		
 		if (response.getStatus() == ResponseStatus.Success) {
 			FlurryAgent.onEvent("Message Sent Successfully");
 			clear();

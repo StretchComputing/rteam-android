@@ -6,6 +6,12 @@
 	
 10/19/2011
 	120 minutes - Bug fixes!
+	
+10/29/2011
+	60 minutes - Bug fixes from release doc
+	
+10/30/2011
+	180 minutes - Bug fixes from release doc and fixin most crashes from error log.
 		
 TODO :
 	- FUTURE TASK: View attendance for member

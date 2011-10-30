@@ -66,6 +66,8 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	}
 	
 	private void changePassword() {
+		if (isFinishing()) return;
+		
 		new ChangePasswordDialog(this, this).showDialog();
 	}
 	@Override
@@ -85,6 +87,8 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	
 	
 	private void setPasswordReset() {
+		if (isFinishing()) return;
+		
 		new SetResetPasswordDialog(this, this).showDialog();
 	}
 	@Override

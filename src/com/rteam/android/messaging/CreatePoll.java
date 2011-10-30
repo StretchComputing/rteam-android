@@ -181,6 +181,8 @@ public class CreatePoll extends CreateMessageBase {
 	/// Selecting Poll Choices
 	
 	private void showPollChoicesDialog() {
+		if (isFinishing()) return;
+		
 		final ArrayList<String> pollTypes = new ArrayList<String>();
 		for(Poll.Type type : Poll.Type.values()) {
 			pollTypes.add(type.toStringPretty());
@@ -213,6 +215,8 @@ public class CreatePoll extends CreateMessageBase {
 	}
 	
 	private void showCustomPollChoicesDialog() {	
+		if (isFinishing()) return;
+		
 		final View customView = getCustomPollChoiceView();
 		
 		new AlertDialog.Builder(this)

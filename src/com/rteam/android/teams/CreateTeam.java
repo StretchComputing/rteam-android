@@ -90,7 +90,7 @@ public class CreateTeam extends RTeamActivityChildTab {
 		bindButtons();
 	}
 	
-	private void initializeTeamSportDialog() {
+	private void initializeTeamSportDialog() {		
 		_dlgTeamSportView = getLayoutInflater().inflate(R.layout.dlg_teamsports, null);
 		
 		_gridSport = (GridView) _dlgTeamSportView.findViewById(R.id.gridSport);
@@ -162,6 +162,8 @@ public class CreateTeam extends RTeamActivityChildTab {
 	};
 	
 	private void teamTypeClicked() {
+		if (isFinishing()) return;
+		
 		initializeTeamSportDialog();
 		
 		_dlgTeamSport = 
@@ -176,6 +178,8 @@ public class CreateTeam extends RTeamActivityChildTab {
 	}
 	
 	private void selectSport(SportHolder sport) {
+		if (isFinishing()) return;
+		
 		_dlgTeamSport.dismiss();
 		selectTeamSport(sport.Sport);
 	}
@@ -192,10 +196,13 @@ public class CreateTeam extends RTeamActivityChildTab {
 	
 	
 	private void createTeamClicked() {
+		if (isFinishing()) return;
+		
 		CustomTitle.setLoading(true, "Creating...");
 		final Team newTeam = getTeam();
 		TeamsResource.instance().createTeam(newTeam, new TeamsResource.CreateTeamResponseHandler() {
 			@Override public void finish(CreateTeamResponse response) {
+				CustomTitle.setLoading(false);
 				if (response.showError(CreateTeam.this)) {
 					teamCreated(newTeam, response.getTwitterAuthorizationUrl());
 				}
@@ -205,7 +212,6 @@ public class CreateTeam extends RTeamActivityChildTab {
 	
 	private void teamCreated(final Team newTeam, String twitterAuthUrl) {
 		FlurryAgent.onEvent("Team Created");
-		CustomTitle.setLoading(false);
 		TeamCache.put(newTeam);
 		
 		if (!StringUtils.isNullOrEmpty(twitterAuthUrl)) {

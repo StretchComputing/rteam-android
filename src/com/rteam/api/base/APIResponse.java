@@ -43,7 +43,6 @@ public class APIResponse {
 		if (_stringResponse.length() != 0) {
 			try {
 				_jsonResponse = new JSONObject(_stringResponse);
-				RTeamLog.d(LOG_SUFFIX, "JSON Parsed: '%s'.", _jsonResponse.toString());
 				
 				if (_jsonResponse.has("apiStatus")) {
 					_status = ResponseStatus.valueOfCode(_jsonResponse.getString("apiStatus"));

@@ -23,9 +23,9 @@ public class TeamDetails  extends RTeamTabActivity {
 	@Override
 	protected void initialize() {
 		if (getTeam() == null) {
-			Toast.makeText(this, "Missing team information, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
 			finish();
 			startActivity(new Intent(this, Home.class));
+			Toast.makeText(this, "Missing team information, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	

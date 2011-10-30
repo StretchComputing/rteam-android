@@ -151,7 +151,7 @@ public class Home extends RTeamActivity {
     	}
     }
     
-    private void bindQuickLinks() {
+    private void bindQuickLinks() {    	
     	_viewQuickLinks.removeAllViewsInLayout();
     	if (_gamesInProgress.size() == 0 && _eventsToday.size() == 0 && _eventsTomorrow.size() == 0)
     	{
@@ -180,7 +180,7 @@ public class Home extends RTeamActivity {
     	CustomTitle.setLoading(true);
     	MessageThreadsResource.instance().getMessageCount(new MessageThreadsResource.GetMessageCountResponseHandler() {
 			@Override
-			public void finish(GetMessageCountResponse response) { 
+			public void finish(GetMessageCountResponse response) {
 				if (response.showError(Home.this)) {
 					_numberUnreadMessages = Integer.toString(response.messageCount());
 					bindUnreadMessages();

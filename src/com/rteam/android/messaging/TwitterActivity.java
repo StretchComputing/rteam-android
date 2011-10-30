@@ -169,6 +169,8 @@ public class TwitterActivity extends RTeamActivity {
 	private static final int TAKE_VIDEO = 2;
 	
 	private void clickTakePicture() {
+		if (isFinishing()) return;
+		
 		if (_postPhoto != null) {
 			showPhoto(_postPhoto, _txtMessage.getText().toString(), _txtPostTeam.getText().toString(), new View.OnClickListener() {
 				@Override
@@ -186,6 +188,8 @@ public class TwitterActivity extends RTeamActivity {
 	}
 	
 	private void clickTakeVideo() {
+		if (isFinishing()) return;
+		
 		if (_postVideoPath != null) {
 			showVideo(_postVideoPath, _txtMessage.getText().toString(), _txtPostTeam.getText().toString(), new View.OnClickListener() {
 				@Override
@@ -310,6 +314,8 @@ public class TwitterActivity extends RTeamActivity {
 	///// Loading activity
 	
 	private void loadActivity() {
+		if (isFinishing()) return;
+		
 		Calendar c = Calendar.getInstance();
 		c.roll(Calendar.DATE, -ACTIVITY_RANGE);
 		Activity.ActivityFilter filters = new Activity.RangedActivityFilter(c.getTime(), ACTIVITY_RANGE);
@@ -332,6 +338,8 @@ public class TwitterActivity extends RTeamActivity {
 	
 	private void setPostTeam() {
 		if (_teamOnly) return;
+		if (isFinishing()) return;
+		
 		new TeamSelectDialog(this, new TeamSelectDialog.TeamSelectHandler() {
 			@Override
 			public void teamSelected(Team team) {
@@ -424,6 +432,7 @@ public class TwitterActivity extends RTeamActivity {
 	}
 	
 	private void showPhoto(Bitmap photo, String message, String team, View.OnClickListener neutralListener) {
+		if (isFinishing()) return;
 		
 		String title = 	StringUtils.valueOr(message, 
 			  	 			String.format("Post Message%s%s", 
@@ -454,7 +463,8 @@ public class TwitterActivity extends RTeamActivity {
 	}
 	
 	private void showVideo(String videoPath, String message, String team, View.OnClickListener neutralListener) {
-	    
+		if (isFinishing()) return;
+		
 	    String title = 	StringUtils.valueOr(message, 
   	 			String.format("Post Message%s%s", 
   	 					StringUtils.isNullOrEmpty(team) ? "" : " for ",

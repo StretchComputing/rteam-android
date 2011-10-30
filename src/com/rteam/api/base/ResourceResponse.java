@@ -2,7 +2,7 @@ package com.rteam.api.base;
 
 import org.json.JSONObject;
 
-import android.content.Context;
+import android.app.Activity;
 import android.widget.Toast;
 
 import com.rteam.android.common.RTeamLog;
@@ -49,11 +49,19 @@ public class ResourceResponse {
 		return getStatus() == ResponseStatus.Success;
 	}
 	
-	public boolean showError(Context context) {
+	public boolean showError(Activity context) {
+		// Make sure the activity context is still active
+		if (context.isFinishing()) {
+			// Indicate an error, to stop doing anything else
+			return false;
+		}
+		
+		// Check the response
 		if (checkResponse()) {
 			return true;
 		}
 		
+		// Make a toast with the error message if there is one
 		if (getStatus().hasErrorMessage()) {
 			Toast.makeText(context, getStatus().getErrorMessage(), Toast.LENGTH_SHORT).show();
 		}

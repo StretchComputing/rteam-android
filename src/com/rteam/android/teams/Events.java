@@ -118,6 +118,8 @@ public class Events extends RTeamActivityChildTab {
 	
 	
 	private void addEventClicked() {
+		if (isFinishing()) return;
+		
 		new AddEventDialog(this, getTeam(), new AddEventDialog.AddClickedHandler() {
 			@Override
 			public void addClicked(EventBase event) { addEvent(event); }

@@ -99,12 +99,16 @@ public class LaunchEventDetails extends RTeamActivity {
 	
 	
 	private void launchEventDetails(EventBase event) {
+		if (isFinishing()) return;
+		
 		EventDetails.setup(event, TeamCache.get(_teamId));
 		finish();
 		startActivity(new Intent(this, EventDetails.class));
 	}
 	
 	private void notifyFailed() {
+		if (isFinishing()) return;
+		
 		Toast.makeText(this, "Unable to find the event.", Toast.LENGTH_SHORT).show();
 		goHome();
 	}
