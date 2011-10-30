@@ -226,18 +226,18 @@ public class TeamHome extends RTeamActivityChildTab {
 		
 		// Find the next game/event
 		_nextGame = null;
-		for(Game g : _allTeamGames) {
+		for (int i = _allTeamGames.size() - 1; i >= 0 && _nextGame == null; i--) {
+			Game g = _allTeamGames.get(i);
 			if (g.startDate().after(today)) {
 				_nextGame = g;
-				break;
 			}
 		}
 		
 		_nextEvent = null;
-		for (Practice p : _allTeamEvents) {
+		for (int i = _allTeamEvents.size() - 1; i >= 0 && _nextEvent == null; i--) {
+			Practice p = _allTeamEvents.get(i);
 			if (p.startDate().after(today)) {
 				_nextEvent = p;
-				break;
 			}
 		}
 		
