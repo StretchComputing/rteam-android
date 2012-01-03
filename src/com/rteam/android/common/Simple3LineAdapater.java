@@ -17,7 +17,7 @@ public class Simple3LineAdapater extends BaseAdapter {
 	
 	//////////////////////////////////////////////////////////////
 	//// Helper Classes
-	
+		
 	public static class Data {
 		public String Line1;
 		public String Line2;
@@ -41,6 +41,8 @@ public class Simple3LineAdapater extends BaseAdapter {
 	private ArrayList<Data> _data;
 	private int _layoutResourceId;
 	
+	private ViewHolder _lastViewHolder;
+	
 	//////////////////////////////////////////////////////////////
 	//// .ctor
 	
@@ -52,13 +54,24 @@ public class Simple3LineAdapater extends BaseAdapter {
 		_data = data;
 		_layoutResourceId = layoutResourceId;
 	}
-	
+
+	public void dispose() {
+		// Set all the images to null
+		for (Data data : _data) {
+			data.Image = null;
+		}
+		
+		if (_lastViewHolder != null) {
+			_lastViewHolder.imageMain.setImageBitmap(null);
+		}
+		
+		System.gc();
+	}
+
 	
 	//////////////////////////////////////////////////////////////
 	//// Overrides
 	
-	
-
 	@Override
 	public int getCount() { return _data.size(); }
 
@@ -98,10 +111,10 @@ public class Simple3LineAdapater extends BaseAdapter {
 			holder.imageMain.setVisibility(View.GONE);
 		}
 		
+		_lastViewHolder = holder;
 		return convertView;
 	}
-
-	
+		
 	static class ViewHolder {
 		public TextView lblLine1;
 		public TextView lblLine2;

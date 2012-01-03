@@ -256,6 +256,10 @@ public class TwitterActivity extends RTeamActivity {
 	
 	private void bindActivities() {
 		if (_activities != null) {
+			if (_listActivity.getAdapter() != null) {
+				((Simple3LineAdapater)_listActivity.getAdapter()).dispose();
+			}
+			
 			ArrayList<Simple3LineAdapater.Data> data = new ArrayList<Simple3LineAdapater.Data>();
 			for(Activity activity : _activities) {
 				if (!StringUtils.isNullOrEmpty(activity.teamId())) {

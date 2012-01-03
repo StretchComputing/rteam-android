@@ -21,4 +21,10 @@ public class SentMessages extends MessageListActivity  {
 	protected HelpProvider getHelpProvider() {
 		return new HelpProvider(new HelpContent("Overview", "Shows the messages that you have sent out."));
 	}
+	
+
+	@Override
+	protected String getEmptyMessage() {
+		return "No sent messages";
+	}
 }

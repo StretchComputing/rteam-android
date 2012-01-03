@@ -26,6 +26,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class AddEventDialog extends Dialog {
@@ -89,7 +90,6 @@ public class AddEventDialog extends Dialog {
 		_btnTypePractice = (ToggleButton) findViewById(R.id.btnTypePractice);
 		_btnTypeOther = (ToggleButton) findViewById(R.id.btnTypeOther);
 		
-		//_dateEventDate = (DatePicker) findViewById(R.id.dateEventDate);
 		_textStartTime = (EditText) findViewById(R.id.textStartTime);
 		_textOpponent = (EditText) findViewById(R.id.textOpponent);
 		_textDescription = (EditText) findViewById(R.id.textDescription);
@@ -164,6 +164,11 @@ public class AddEventDialog extends Dialog {
 	
 	private void addClicked() {
 		EventBase event = getEventInfo();
+		if (event.startDate().before(new Date())) {
+			Toast.makeText(getContext(), "Cannot create events in the past.", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if (event.isGame()) {
 			createGame((Game) event);
 		}

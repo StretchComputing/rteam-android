@@ -25,10 +25,6 @@ public abstract class RTeamActivity extends Activity {
 	///////////////////////////////////////////////////////////////////////////////
 	//// Members
 	
-	private Bundle _state;
-	
-	protected Bundle getState() { return _state; }
-	
 	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
 	
 	///////////////////////////////////////////////////////////////////////////////
@@ -53,7 +49,6 @@ public abstract class RTeamActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		_state = savedInstanceState;
 		
 		boolean customTitleSupported = false;
 		try {

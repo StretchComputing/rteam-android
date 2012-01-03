@@ -175,6 +175,9 @@ public class EditMember extends RTeamActivity {
 				@Override public void finish(GetMemberResponse response) { loadMemberFinished(response); }
 			});
 		}
+		else {
+			bindView();
+		}
 	}
 	
 	private void loadMemberFinished(GetMemberResponse response) {

@@ -21,9 +21,6 @@ import android.view.MenuItem;
 
 public class RTeamActivityChildTab extends Activity {
 	
-	private Bundle _state;
-	
-	protected Bundle getState() { return _state; }
 	protected boolean isSecure() { return true; }
 	protected void initialize() {}
 	protected void reInitialize() {}
@@ -40,7 +37,6 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
-		_state = savedInstanceState;		
 		if (ensureSecure()) {		
 			initialize();
 			ensureOnline();

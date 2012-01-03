@@ -1,10 +1,11 @@
 package com.rteam.android.events;
 
+import java.util.Date;
+
 import android.content.Intent;
 import android.location.Location;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Game;
 import com.rteam.api.business.Member.Role;
 import com.rteam.api.common.DateUtils;
+import com.rteam.api.common.StringUtils;
 
 public class GameDay extends RTeamActivityChildTab implements UpdateLocationDialog.SaveLocationHandler {
 	
@@ -30,21 +32,33 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	
 	@Override protected String getCustomTitle() { return "rTeam - game day"; }
 	
-	private TextView _txtTypeVsOpponent;
-	private TextView _txtStartDate;
+	private TextView _lblWho;
+	private TextView _lblOpponent;
+	private TextView _lblTime;
+	private TextView _lblLocation;
+	private Button _btnUpdateLocation;
+	private TextView _lblInfo;
+	private TextView _lblDescription;
 	
-	private EditText _txtLocation;
+	private TextView _lblInterval;
+	private TextView _lblIntervalNumber;
 	
-	private TextView _lblScoreSummary;
+	private TextView _lblScoreUs;
+	private TextView _lblScoreThem;
+	private TextView _lblScoreUsName;
+	private TextView _lblScoreThemName;
+	
 	private Button _btnUpdateScore;
-	
 	
 	private EventBase getEvent() { return EventDetails.getEvent(); }
 	private Game getGame() { return (Game) getEvent(); }
+	private boolean isCoordinator() {
+		return getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator);
+	}
 	
 	@Override
 	protected HelpProvider getHelpProvider() {
-		return new HelpProvider(new HelpContent("Overview", "Shows an overview of the current event."),
+		return new HelpProvider(new HelpContent("Overview", "Shows an overview of the current game."),
 								new HelpContent("Location", "Shows the location that the event is currently set to."),
 								new HelpContent("Scoring", "A general way to keep the score of the game, press update score to keep track of the current score of the game."));
 	}
@@ -68,15 +82,25 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	private void initializeView() {
 		setContentView(R.layout.events_gameday);
 		
-		_txtTypeVsOpponent = (TextView) findViewById(R.id.txtTypeVsOpponent);
-		_txtStartDate = (TextView) findViewById(R.id.txtStartDate);
+		_lblWho = (TextView) findViewById(R.id.lblWho);
+		_lblOpponent = (TextView) findViewById(R.id.lblOpponent);
+		_lblTime = (TextView) findViewById(R.id.lblTime);
+		_lblLocation = (TextView) findViewById(R.id.lblLocation);
+		_btnUpdateLocation = (Button) findViewById(R.id.btnUpdateLocation);
+		_lblInfo = (TextView) findViewById(R.id.lblInfo);
+		_lblDescription = (TextView) findViewById(R.id.lblDescription);
 		
-		_txtLocation = (EditText) findViewById(R.id.txtLocation);
-
-		_lblScoreSummary = (TextView) findViewById(R.id.lblScoreSummary);
+		_lblInterval = (TextView) findViewById(R.id.lblInterval);
+		_lblIntervalNumber = (TextView) findViewById(R.id.lblIntervalNumber);
+		
+		_lblScoreUs = (TextView) findViewById(R.id.lblScoreUs);
+		_lblScoreThem = (TextView) findViewById(R.id.lblScoreThem);
+		_lblScoreUsName = (TextView) findViewById(R.id.lblScoreUsName);
+		_lblScoreThemName = (TextView) findViewById(R.id.lblScoreThemName);
+		
 		_btnUpdateScore = (Button) findViewById(R.id.btnUpdateScore);
 		
-		_txtLocation.setOnClickListener(new View.OnClickListener(){
+		_btnUpdateLocation.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { updateLocationClicked(); }
 		});
 		
@@ -86,29 +110,60 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 	}
 	
 	private void bindView() {
-		_btnUpdateScore.setVisibility((getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) ? View.VISIBLE : View.GONE);
-		_txtTypeVsOpponent.setText(String.format("%s vs. %s", 
-				getEvent().eventType() != null ? getEvent().eventType().toPrettyString() : "Event",
-				getEvent().opponent()));
-		_txtStartDate.setText(DateUtils.toPrettyString(getEvent().startDate()));
-		_txtLocation.setText(getEvent().location());
+		bindWho();
+		bindWhen();
+		bindWhere();
+		bindInfo();
 		bindScoring();
 	}
 	
-	private void bindScoring() {
-		StringBuilder sb = new StringBuilder();
+	private void bindWho() {
+		String opponentName = getEvent().opponent();
+		int visibility = StringUtils.isNullOrEmpty(opponentName) ? View.GONE : View.VISIBLE;
 		
-		sb.append(String.format("Interval: %s\n", getGame().interval().toString()));
-		if (getGame().interval().isGameOver())   sb.append(String.format("Final Score: Us=%d  Them=%d\n", getGame().scoreUs(), getGame().scoreThem()));
-		if (getGame().interval().isInProgress()) sb.append(String.format("Current Score: Us=%d  Them=%d\n", getGame().scoreUs(), getGame().scoreThem()));
-
-		_lblScoreSummary.setText(sb.toString());
+		_lblWho.setVisibility(visibility);
+		_lblOpponent.setVisibility(visibility);
+		_lblOpponent.setText(String.format("vs. %s", opponentName));		
+	}
+	
+	private void bindWhen() {
+		_lblTime.setText(DateUtils.toPrettyString(getEvent().startDate()));
+	}
+	
+	private void bindWhere() {
+		_lblLocation.setText(StringUtils.valueOr(getEvent().location(), "Unknown"));
+		_btnUpdateLocation.setVisibility(isCoordinator() && !getEvent().startDate().before(new Date()) ? View.VISIBLE : View.GONE);
+	}
+	
+	private void bindInfo() {
+		String description = getEvent().description();
+		int visibility = StringUtils.isNullOrEmpty(description) ? View.GONE : View.VISIBLE;
+		
+		_lblInfo.setVisibility(visibility);
+		_lblDescription.setVisibility(visibility);
+		_lblDescription.setText(description);
+	}
+	
+	private void bindScoring() {
+		_lblInterval.setText(String.format("%s: ", getGame().intervalName()));
+		_lblIntervalNumber.setText(getGame().interval().toString());
+		
+		boolean notStarted = getGame().interval().isNotStarted();
+		_lblScoreUs.setText(notStarted ? "N/A" : Integer.toString(getGame().scoreUs()));
+		_lblScoreThem.setText(notStarted ? "N/A" : Integer.toString(getGame().scoreThem()));
+		
+		_lblScoreUsName.setText(StringUtils.valueOr(getEvent().teamName(), "Us"));
+		_lblScoreThemName.setText(StringUtils.valueOr(getEvent().opponent(), "Opponent"));
+		
+		_btnUpdateScore.setVisibility(isCoordinator() ? View.VISIBLE : View.GONE);
 	}
 		
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	//// Event Handlers
 	
 	private void updateLocationClicked() {
+		if (isFinishing()) return;
+		
 		new UpdateLocationDialog(this, getGame(), this).showDialog();
 	}
 	
@@ -120,6 +175,7 @@ public class GameDay extends RTeamActivityChildTab implements UpdateLocationDial
 			game.longitude(Double.toString(location.getLongitude()));
 			game.latitude(Double.toString(location.getLatitude()));
 		}
+		
 		CustomTitle.setLoading(true, "Saving...");
 		GamesResource.instance().update(new Game.Update(game), new GamesResource.UpdateGameResponseHandler() {
 			@Override public void finish(UpdateGameResponse response) {

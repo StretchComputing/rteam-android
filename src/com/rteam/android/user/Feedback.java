@@ -1,9 +1,11 @@
 package com.rteam.android.user;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.rteam.android.R;
 import com.rteam.android.common.RTeamActivityChildTab;
@@ -40,16 +42,24 @@ public class Feedback extends RTeamActivityChildTab {
 	
 	
 	private void sendFeedback() {
-		Intent email = new Intent(android.content.Intent.ACTION_SEND);
-		email.setType("plain/text");
-		email.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "feedback@rteam.com" });
-		email.putExtra(android.content.Intent.EXTRA_SUBJECT, "rTeam android feedback");
-		startActivity(email);
+		try {
+			Intent email = new Intent(android.content.Intent.ACTION_SEND);
+			email.setType("plain/text");
+			email.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "feedback@rteam.com" });
+			email.putExtra(android.content.Intent.EXTRA_SUBJECT, "rTeam android feedback");
+			startActivity(email);
+		} catch(ActivityNotFoundException e) {
+			Toast.makeText(this, "Unknown error trying to load the email client.", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	private void rate() {
-		Intent rate = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=com.rteam"));	// TODO: Fix this url
-		startActivity(rate);
+		try {
+			Intent rate = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=com.rteam.android"));	// TODO: Fix this url
+			startActivity(rate);
+		} catch(ActivityNotFoundException e) {
+			Toast.makeText(this, "Unknown error trying to load the market.", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 }

@@ -5,7 +5,9 @@ import java.util.Collections;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
@@ -26,6 +28,11 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 	protected void initialize() {
 		loadMessages();
 		setListAdapter(new MessageInfoAdapter(this, _messages));
+		
+		TextView emptyText = new TextView(getBaseContext());
+		emptyText.setText(getEmptyMessage());
+		emptyText.setLayoutParams(new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		getListView().setEmptyView(emptyText);
 	}
 	
 	@Override
@@ -76,4 +83,6 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 	}
 	
 	protected abstract MessageFilters getMessageFilters();
+	
+	protected abstract String getEmptyMessage();
 }

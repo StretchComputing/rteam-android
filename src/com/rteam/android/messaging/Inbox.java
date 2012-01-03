@@ -35,6 +35,11 @@ public class Inbox extends MessageListActivity {
 	protected HelpProvider getHelpProvider() {
 		return new HelpProvider(new HelpContent("Overview", "Shows the current messages for all teams."));
 	}
+
+	@Override
+	protected String getEmptyMessage() {
+		return "No messages found";
+	}
 	
 	private void clickSendMessage() {
 		startActivity(new Intent(this, SendMessage.class));

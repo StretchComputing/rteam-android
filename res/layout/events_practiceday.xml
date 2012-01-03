@@ -3,13 +3,18 @@
 			 android:stretchColumns="1" android:padding="5dp"
   			 android:layout_width="fill_parent" android:layout_height="fill_parent">
   			  
+    <TableRow>
+        <TextView android:id="@+id/lblWho" android:layout_marginRight="10dp" android:text="Who: " android:textStyle="bold" />
+        <TextView android:id="@+id/lblOpponent" android:text="vs. Opponent" />
+    </TableRow>
+    
  	<TableRow>
- 		<TextView android:layout_marginRight="10dp" android:text="When: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblWhen" android:layout_marginRight="10dp" android:text="When: " android:textStyle="bold" />
  		<TextView android:id="@+id/lblTime" android:text="3/22/2011 at 3:00pm" />
  	</TableRow>
  	
  	<TableRow>
- 		<TextView android:layout_marginRight="10dp" android:text="Where: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblWhere" android:layout_marginRight="10dp" android:text="Where: " android:textStyle="bold" />
  		<TextView android:id="@+id/lblLocation" android:text="Location location location" />
  	</TableRow>
  	
@@ -20,7 +25,7 @@
  	</TableRow>
  	
  	<TableRow>
- 		<TextView android:layout_marginRight="10dp" android:text="Info: " android:textStyle="bold" />
+ 		<TextView android:id="@+id/lblInfo" android:layout_marginRight="10dp" android:text="Info: " android:textStyle="bold" />
  		<TextView android:id="@+id/lblDescription" android:text="Description" />
  	</TableRow>
   			   			  

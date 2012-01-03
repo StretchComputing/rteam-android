@@ -102,8 +102,7 @@ public class ScoringDialog {
 	
 	private void bindView() {
 		_lblScore.setText(String.format("%s  -  %s", _game.scoreUs(), _game.scoreThem()));
-		_lblQuarter.setText(String.format("Interval: %s", _game.interval().toString()));
-		// TODO : Interval -- localize it for the game type?
+		_lblQuarter.setText(String.format("%s: %s", _game.intervalName(), _game.interval().toString()));
 	}
 	
 	private View.OnClickListener _clickListener = new View.OnClickListener() {

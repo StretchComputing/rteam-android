@@ -11,25 +11,31 @@ import com.rteam.api.common.EnumUtils;
 public class Team {
 
 	public static class Sport {
-		public static final Sport Football = new Sport("Football", false);
-		public static final Sport Basketball = new Sport("Basketball", false);
-		public static final Sport Soccer = new Sport("Soccer", false);
-		public static final Sport Baseball = new Sport("Baseball", false);
-		public static final Sport Hockey = new Sport("Hockey", false);
-		public static final Sport Lacrosse = new Sport("Lacrosse", false);
-		public static final Sport Tennis = new Sport("Tennis", false);
-		public static final Sport Volleyball = new Sport("Volleyball", false);
+		public static final String DefaultIntervalName = "Interval";
+		
+		public static final Sport Football = new Sport("Football", false, "Quarter");
+		public static final Sport Basketball = new Sport("Basketball", false, "Quarter");
+		public static final Sport Soccer = new Sport("Soccer", false, "Period");
+		public static final Sport Baseball = new Sport("Baseball", false, "Inning");
+		public static final Sport Hockey = new Sport("Hockey", false, "Period");
+		public static final Sport Lacrosse = new Sport("Lacrosse", false, "Period");
+		public static final Sport Tennis = new Sport("Tennis", false, DefaultIntervalName);
+		public static final Sport Volleyball = new Sport("Volleyball", false, DefaultIntervalName);
 		
 		private String _text;
 		private boolean _isOther;
 		public boolean isOther() { return _isOther; }
 		
+		private String _intervalName;
+		public String intervalName() { return _intervalName; }
+		
 		public Sport(String text) {
-			this(text, true);
+			this(text, true, DefaultIntervalName);
 		}
-		private Sport(String text, boolean isOther) {
+		private Sport(String text, boolean isOther, String intervalName) {
 			_text = text;
 			_isOther = isOther;
+			_intervalName = intervalName;
 		}
 					
 		@Override

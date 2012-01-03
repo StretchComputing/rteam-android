@@ -41,7 +41,7 @@ public class CustomTitle {
 	public static void setInstance(CustomTitle instance) {
 		if (instance != null) {
 			_instance = instance; 
-			_instance.bindTitle();
+			_instance.bindTitle(null);
 		}
 		setupClearLoading();
 	}
@@ -49,7 +49,7 @@ public class CustomTitle {
 	public static void setTitle(String title) {
 		_title = title;
 		if (hasInstance()) {
-			_instance.bindTitle();
+			_instance.bindTitle(null);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class CustomTitle {
 	public static void setLoading(boolean loading, String loadingMessage) {
 		_loading = loading;
 		_loadingMessage = loadingMessage;
-		if (hasInstance()) _instance.bindTitle();
+		if (hasInstance()) _instance.bindTitle(null);
 		setupClearLoading();
 	}
 	
@@ -74,8 +74,6 @@ public class CustomTitle {
 	////////////////////////////////////////////////////////////////////////////////////
 	//// Members
 	
-	private Activity _activity;
-	
 	private TextView _lblTitle;
 	private TextView _lblLoadingMessage;
 	private ProgressBar _loadingProgress;	
@@ -85,20 +83,19 @@ public class CustomTitle {
 	//// .ctor
 	
 	public CustomTitle(Activity activity) {
-		_activity = activity;
-		_activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+		activity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		
 	    _lblTitle = (TextView) activity.findViewById(R.id.lblTitle);
         _lblLoadingMessage = (TextView) activity.findViewById(R.id.lblLoadingMessage);
         _loadingProgress = (ProgressBar) activity.findViewById(R.id.loadingProgress);
         
-        bindTitle();
+        bindTitle(activity);
 	}
 	
 	
-	private void bindTitle() {
+	private void bindTitle(Activity activity) {
 		if (_lblTitle != null) 		_lblTitle.setText(_title);
-		else if (_activity != null) _activity.setTitle(_title);
+		else if (activity != null) activity.setTitle(_title);
 		
 		if (_lblLoadingMessage != null && _loadingProgress != null) {
 			_loadingProgress.setVisibility(_loading ? View.VISIBLE : View.GONE);

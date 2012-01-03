@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.rteam.api.business.Member.Role;
 import com.rteam.api.common.DateUtils;
 import com.rteam.api.common.EnumUtils;
 import com.rteam.api.common.TimeZoneUtils;
@@ -243,7 +244,7 @@ public abstract class EventBase implements Serializable, Comparable<EventBase> {
 		
 		_teamId = json.optString("teamId");
 		_teamName = json.optString("teamName");
-		_participantRole = EnumUtils.fromString(Member.Role.class, json.optString("participantRole"));
+		_participantRole = EnumUtils.fromString(Member.Role.class, json.optString("participantRole"), Role.Unknown);
 
 	}
 	

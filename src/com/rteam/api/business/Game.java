@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.rteam.android.teams.common.TeamCache;
 import com.rteam.api.common.EnumUtils;
 
 public class Game extends EventBase {
@@ -15,11 +16,17 @@ public class Game extends EventBase {
 	private static final long serialVersionUID = 1L;
 
 	public static class GameInterval {
-		public static final GameInterval GameCancelled = new GameInterval(-4);
-		public static final GameInterval GameInProgressNoTimeInterval = new GameInterval(-3);
-		public static final GameInterval GameCurrentlyOvertime = new GameInterval(-2);
-		public static final GameInterval GameOver = new GameInterval(-1);
-		public static final GameInterval GameNotStarted = new GameInterval(0);
+		private static final int CancelledInterval = -4; 
+		private static final int NAInterval = -3;
+		private static final int OvertimeInterval = -2;
+		private static final int GameOverInterval = -1;
+		private static final int GameNotStartedInterval = 0;
+		
+		public static final GameInterval GameCancelled = new GameInterval(CancelledInterval);
+		public static final GameInterval GameInProgressNoTimeInterval = new GameInterval(NAInterval);
+		public static final GameInterval GameCurrentlyOvertime = new GameInterval(OvertimeInterval);
+		public static final GameInterval GameOver = new GameInterval(GameOverInterval);
+		public static final GameInterval GameNotStarted = new GameInterval(GameNotStartedInterval);
 		
 		
 		public boolean isCancelled()  { return _interval == GameCancelled.getInterval(); }
@@ -40,11 +47,11 @@ public class Game extends EventBase {
 		public String toString() {
 			if (_interval > 0) return Integer.toString(_interval);
 			switch (_interval) {
-			case -4: return "Cancelled";
-			case -3: return "N/A";
-			case -2: return "Overtime";
-			case -1: return "Game Over";
-			case  0: return "Not Started";
+			case CancelledInterval: return "Cancelled";
+			case NAInterval: return "N/A";
+			case OvertimeInterval: return "Overtime";
+			case GameOverInterval: return "Game Over";
+			case GameNotStartedInterval: return "Not Started";
 			}
 			return "";
 		}
@@ -150,8 +157,6 @@ public class Game extends EventBase {
 	//////////////////////////////////////////////////////////////////////
 	/// Members
 			
-	
-	
 	private int _scoreUs;
 	public int scoreUs() { return _scoreUs; }
 	public void scoreUs(int value) { _scoreUs = value; }
@@ -183,6 +188,20 @@ public class Game extends EventBase {
 	
 	public String eventId() { return _gameId; }
 	
+	private Team _team;
+	
+	public String intervalName() {
+		if (_team == null && teamId() != null) {
+			_team = TeamCache.get(teamId());
+		}
+		
+		if (_team == null || _team.sport() == null) {
+			return Team.Sport.DefaultIntervalName;
+		}
+		
+		return _team.sport().intervalName();
+	}
+	
 	public Game() {
 		eventType(Event.Type.Game);
 	}
@@ -203,6 +222,7 @@ public class Game extends EventBase {
 		_gameId = json.optString("gameId");
 		
 		if (defaultTeam != null) {
+			_team = defaultTeam;
 			teamId(defaultTeam.teamId());
 			if (participantRole() == null) {
 				participantRole(defaultTeam.participantRole());

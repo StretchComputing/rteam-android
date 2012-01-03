@@ -51,7 +51,7 @@ public class ResourceResponse {
 	
 	public boolean showError(Activity context) {
 		// Make sure the activity context is still active
-		if (context.isFinishing()) {
+		if (context == null || context.isRestricted() || context.isFinishing()) {
 			// Indicate an error, to stop doing anything else
 			return false;
 		}

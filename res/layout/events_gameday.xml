@@ -1,35 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			  android:orientation="vertical"
-  			  android:layout_width="fill_parent" android:layout_height="fill_parent">
+  			  android:layout_width="fill_parent" android:layout_height="wrap_content">
   			  
-	<TextView android:text="Game Information"
-			  android:textSize="8pt" android:textStyle="bold"
-			  android:layout_gravity="center_horizontal"
-			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	<TableLayout android:stretchColumns="1" android:padding="5dp"
+	  			 android:layout_width="fill_parent" android:layout_height="fill_parent">
+	  			  
+	    <TableRow>
+	        <TextView android:id="@+id/lblWho" android:layout_marginRight="10dp" android:text="Who: " android:textStyle="bold" />
+	        <TextView android:id="@+id/lblOpponent" android:text="vs. Opponent" />
+	    </TableRow>
+	    
+	 	<TableRow>
+	 		<TextView android:id="@+id/lblWhen" android:layout_marginRight="10dp" android:text="When: " android:textStyle="bold" />
+	 		<TextView android:id="@+id/lblTime" android:text="3/22/2011 at 3:00pm" />
+	 	</TableRow>
+	 	
+	 	<TableRow>
+	 		<TextView android:id="@+id/lblWhere" android:layout_marginRight="10dp" android:text="Where: " android:textStyle="bold" />
+	 		<TextView android:id="@+id/lblLocation" android:text="Location location location" />
+	 	</TableRow>
+	 	
+	 	<TableRow>
+	 		<TextView />
+	 		<Button android:id="@+id/btnUpdateLocation" android:text="Update location"
+	 				android:layout_marginRight="20dp" android:layout_marginLeft="20dp" />
+	 	</TableRow>
+	 	
+	 	<TableRow>
+	 		<TextView android:id="@+id/lblInfo" android:layout_marginRight="10dp" android:text="Info: " android:textStyle="bold" />
+	 		<TextView android:id="@+id/lblDescription" android:text="Description" />
+	 	</TableRow>	  			   
+	 		 				  
+	</TableLayout>
 
-	<View android:layout_width="fill_parent" android:layout_height="2dip" android:background="@color/separator" android:padding="2dp" />		  
-  				  
-
-	<TextView android:id="@+id/txtTypeVsOpponent" android:text="Game vs. Opponent"
-			  android:layout_marginLeft="5dp"
-			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-	  
-	<TextView android:id="@+id/txtStartDate" android:text="Feb. 20 2011, 8:00 PM"
-			  android:layout_marginLeft="5dp"
-			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
-  
-  	<EditText android:id="@+id/txtLocation" android:hint="Location"
-  			  android:focusable="false"
-  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
-  	
-	<View android:layout_width="fill_parent" android:layout_height="2dip" android:background="@color/separator" android:padding="2dp" />
+   	<TextView android:id="@+id/lblScoreSummary" android:text="Score Summary: " android:textSize="10.0pt" android:textStyle="bold"
+   	    	  android:layout_width="fill_parent" android:layout_height="fill_parent" />
+ 	
+ 	<TableLayout android:stretchColumns="1" android:padding="5dp"
+	  			 android:layout_width="fill_parent" android:layout_height="fill_parent">
+	  			  
+	 	<TableRow>
+	 	    <TextView android:id="@+id/lblInterval" android:layout_marginRight="10dp" android:text="Interval: " android:textStyle="bold" />
+	 	    <TextView android:id="@+id/lblIntervalNumber" android:text="1" />
+	 	</TableRow>
+	 	
+	</TableLayout>
 	
-	<TextView android:id="@+id/lblScoreSummary" android:text="Score Summary"
-			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	
+ 	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+  	    
+ 	    <TextView android:id="@+id/lblScoreUs" android:gravity="right" android:text="3" 
+ 	        	  android:layout_weight="1" android:layout_width="80pt" android:layout_height="wrap_content" />
+ 	    <TextView android:id="@+id/lblScoreSeparator" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:text="-" android:layout_gravity="center" 
+				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+ 	    <TextView android:id="@+id/lblScoreThem" android:text="1" 
+				  android:layout_weight="1" android:layout_width="80pt" android:layout_height="wrap_content" />
+ 	    
+ 	</LinearLayout>
+ 	    
+ 	<LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+ 	    
+ 	    <TextView android:id="@+id/lblScoreUsName" android:gravity="right" android:text="Us" 
+				  android:layout_weight="1" android:layout_width="80pt" android:layout_height="wrap_content" />
+ 	    <TextView android:id="@+id/lblScoreVs" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:text="vs." android:layout_gravity="center" 
+				  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+ 	    <TextView android:id="@+id/lblScoreThemName" android:text="Them Them Them Them" 
+				  android:layout_weight="1" android:layout_width="80pt" android:layout_height="wrap_content" />
+ 	    
+ 	</LinearLayout>
+ 	
 	<Button android:id="@+id/btnUpdateScore" android:text="Update Score"
-			android:layout_gravity="center_horizontal"
+			android:layout_marginLeft="45dp"
 			android:layout_width="wrap_content" android:layout_height="wrap_content" />
 			  			  
 </LinearLayout>

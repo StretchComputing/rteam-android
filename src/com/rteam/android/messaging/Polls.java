@@ -51,4 +51,9 @@ public class Polls extends MessageListActivity {
 	protected HelpProvider getHelpProvider() {
 		return new HelpProvider(new HelpContent("Overview", "Shows polls that you have sent out."));
 	}
+
+	@Override
+	protected String getEmptyMessage() {
+		return "No polls found";
+	}
 }
