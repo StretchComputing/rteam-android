@@ -5,6 +5,9 @@
 	360 minutes - Fixing bugs
 	120 minutes - Testing user scenarios for android 2.1
 		
+1/3/2012
+	150 minutes - Fixed a bunch of the new bugs in Action Items
+		
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen

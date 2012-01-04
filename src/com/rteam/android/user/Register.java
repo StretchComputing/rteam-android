@@ -174,7 +174,7 @@ public class Register extends RTeamActivity {
     	// Make sure the db is set that the user hasn't seen the wizard in the off chance they re-create an account
     	// on the same device.
     	SimpleSetting.SeenWizard.set(false);
-    	Register.this.finish();
+    	finish();
 		startActivity(new Intent(Register.this, Home.class));
     }
     

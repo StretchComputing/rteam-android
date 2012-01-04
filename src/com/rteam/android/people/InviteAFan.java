@@ -69,7 +69,6 @@ public class InviteAFan extends RTeamActivityChildTab {
 		promptForTeam();
 	}
 
-	
 	private void initializeView() {
 		setContentView(R.layout.people_invite_fan);
 		
@@ -128,10 +127,12 @@ public class InviteAFan extends RTeamActivityChildTab {
 	private void inviteFan() {
 		final Member fan = getFan();
 		CustomTitle.setLoading(true, "Savings...");
+		_btnInvite.setEnabled(false);
 		MembersResource.instance().create(fan, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
 				CustomTitle.setLoading(false);
+				_btnInvite.setEnabled(true);
 				if (response.showError(InviteAFan.this)) {
 					inviteFanFinished(fan);
 				}
@@ -144,6 +145,7 @@ public class InviteAFan extends RTeamActivityChildTab {
 			FanAdded handler = getFanAdded();
 			handler.onFanAdd(newFan);
 		}
+		
 		clear();
 		finish();
 		Toast.makeText(this, "Saved Fan, an email has been sent to the user inviting them to follow this team.", Toast.LENGTH_SHORT).show();

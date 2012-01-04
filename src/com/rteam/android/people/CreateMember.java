@@ -6,9 +6,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.rteam.android.R;
+import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.common.RTeamActivity;
@@ -95,7 +97,6 @@ public class CreateMember extends RTeamActivity {
 			@Override public void onClick(View v) { createMemberClicked(); }
 		});
 		
-		
 		_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
 			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
 		});
@@ -141,9 +142,13 @@ public class CreateMember extends RTeamActivity {
 	
 	private void createMemberClicked() {
 		final Member newMember = getMember();
+		CustomTitle.setLoading(true, "Creating member...");
+		_btnCreate.setEnabled(false);
 		MembersResource.instance().create(newMember, new MembersResource.CreateMemberResponseHandler() {
 			@Override
 			public void finish(CreateMemberResponse response) {
+				CustomTitle.setLoading(false);
+				_btnCreate.setEnabled(false);
 				if (response.showError(CreateMember.this)) {
 					createMemberFinished(newMember);
 				}
@@ -157,6 +162,8 @@ public class CreateMember extends RTeamActivity {
 		}
 		clear();
 		finish();
+		
+		Toast.makeText(this, "Member added successfully to the team.", Toast.LENGTH_SHORT).show();
 	}
 	
 	////////////////////////////////////////////////////////////////////

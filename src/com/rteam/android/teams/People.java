@@ -99,7 +99,32 @@ public class People extends RTeamActivityChildTab {
 	}
 	
 	private void memberClick(Member member) {		
-		EditMember.setupMember(member);		
+		EditMember.setupMember(member, new EditMember.MemberUpdated() {
+			@Override
+			public void onMemberUpdate(Member updatedMember) {
+				updatedMember.bindTeam(getTeam());
+				int existingIndex = -1;
+				for(int i = 0; i < _members.size(); i++) {
+					Member member = _members.get(i);
+					if(member.memberId().equalsIgnoreCase(updatedMember.memberId())) {
+						existingIndex = i;
+						break;
+					}
+				}
+				
+				if(existingIndex == -1) {
+					_members.add(updatedMember);
+				}
+				else {
+					_members.remove(existingIndex);
+					_members.add(existingIndex, updatedMember);
+				}
+
+				bindView();
+				
+				loadMemberData();
+			}
+		});		
 		startActivity(new Intent(this, EditMember.class));
 	}
 	
@@ -110,8 +135,11 @@ public class People extends RTeamActivityChildTab {
 				newMember.bindTeam(getTeam());
 				_members.add(newMember);
 				bindView();
+				
+				loadMemberData();
 			}
 		});
+		
 		startActivity(new Intent(this, CreateMember.class));
 	}
 	
@@ -121,8 +149,11 @@ public class People extends RTeamActivityChildTab {
 			public void onFanAdd(Member newFan) {
 				_fans.add(newFan);
 				bindView();	// TODO : Do this better!! shouldn't re-bind the entire frickin list
+				
+				loadMemberData();
 			}
 		});
+		
 		startActivity(new Intent(this, InviteAFan.class));
 	}
 	

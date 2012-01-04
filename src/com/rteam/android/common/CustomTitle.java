@@ -92,15 +92,22 @@ public class CustomTitle {
         bindTitle(activity);
 	}
 	
-	
 	private void bindTitle(Activity activity) {
-		if (_lblTitle != null) 		_lblTitle.setText(_title);
-		else if (activity != null) activity.setTitle(_title);
+		if (_lblTitle != null) {
+			_lblTitle.setText(_title);
+		}
+		else if (activity != null) { 
+			activity.setTitle(_title);
+		}
 		
 		if (_lblLoadingMessage != null && _loadingProgress != null) {
+			boolean hasLoadingMessage = (_loading && !StringUtils.isNullOrEmpty(_loadingMessage));
 			_loadingProgress.setVisibility(_loading ? View.VISIBLE : View.GONE);
-			_lblLoadingMessage.setVisibility((_loading && !StringUtils.isNullOrEmpty(_loadingMessage)) ? View.VISIBLE : View.GONE);
+			_lblLoadingMessage.setVisibility(hasLoadingMessage ? View.VISIBLE : View.GONE);
 			_lblLoadingMessage.setText(_loadingMessage);
+			if (_lblTitle != null) {
+				_lblTitle.setVisibility(hasLoadingMessage ? View.INVISIBLE : View.VISIBLE);
+			}
 		}
 	}
 }

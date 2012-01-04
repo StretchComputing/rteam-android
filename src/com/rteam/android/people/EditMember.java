@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.graphics.Bitmap;
 
 import com.rteam.android.R;
@@ -34,21 +36,33 @@ import com.rteam.api.common.StringUtils;
 public class EditMember extends RTeamActivity {
 	
 	////////////////////////////////////////////////////////////////
+	//// Helper Class
+	
+	public interface MemberUpdated {
+		public void onMemberUpdate(Member updatedMember);
+	}
+	
+	////////////////////////////////////////////////////////////////
 	//// Members
 	
-	private static Member _member;
-	public static void setupMember(Member member) { _member = member; }
+	private static MemberUpdated _memberUpdated;
+	private static Member _origMember;
+	public static void setupMember(Member member, MemberUpdated memberUpdated) { 
+		_origMember = member; 
+		_memberUpdated = memberUpdated;
+	}
+	private Member _member;
 	
 	@Override
 	protected String getCustomTitle() { return "rTeam - edit member"; }
 	
-	private boolean isFan() { return _member.participantRole() == Role.Fan; }
+	private boolean isFan() { return _origMember.participantRole() == Role.Fan; }
 	private Team getTeam() { return _member != null ? TeamCache.get(_member.teamId()) : null; }
 	private boolean canEdit() {
 		Team team = getTeam();
 		return isFullyCreated() && ((team != null && team.participantRole() != null) ? team.participantRole().atLeast(Role.Coordinator) : false);
 	}
-	private boolean isFullyCreated() { return !StringUtils.isNullOrEmpty(_member.memberId()); }
+	private boolean isFullyCreated() { return !StringUtils.isNullOrEmpty(_origMember.memberId()); }
 	
 	private ImageView _memberImage;
 	private EditText _txtFirstName;
@@ -117,9 +131,26 @@ public class EditMember extends RTeamActivity {
 		_btnSendMessage.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { sendMessageToMember(); }
 		});
-				
-		_txtJerseyNumber.setVisibility(isFan() ? View.INVISIBLE : View.VISIBLE);
-		_txtGuardians.setVisibility(isFan() ? View.INVISIBLE : View.VISIBLE);
+		
+		if(canEdit()) {
+			_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
+				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+			});
+			_txtLastName.setOnKeyListener(new View.OnKeyListener() {
+				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+			});
+			_txtEmailAddress.setOnKeyListener(new View.OnKeyListener() {
+				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+			});
+			_txtPhoneNumber.setOnKeyListener(new View.OnKeyListener() {
+				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
+			});
+		}
+		
+		_txtJerseyNumber.setVisibility(isFan() ? View.GONE : View.VISIBLE);
+		_txtGuardians.setVisibility(isFan() ? View.GONE : View.VISIBLE);
+		
+		bindInputs();
 	}
 	
 	private void bindView() {
@@ -129,27 +160,24 @@ public class EditMember extends RTeamActivity {
 		_txtEmailAddress.setText(_member.emailAddress());
 		_txtPhoneNumber.setText(_member.phoneNumber());
 		
-		if (canEdit()) {
-			_btnSave.setText("Save Changes");
-			_txtFirstName.setEnabled(true);
-			_txtLastName.setEnabled(true);
-			_txtJerseyNumber.setEnabled(true);
-			_txtEmailAddress.setEnabled(true);
-			_txtPhoneNumber.setEnabled(true);
-			_txtGuardians.setEnabled(true);
-		}
-		else {
-			_btnSave.setText("Done");
-			_txtFirstName.setEnabled(false);
-			_txtLastName.setEnabled(false);
-			_txtJerseyNumber.setEnabled(false);
-			_txtEmailAddress.setEnabled(false);
-			_txtPhoneNumber.setEnabled(false);
-			_txtGuardians.setEnabled(false);
-		}
-		
+		bindInputs();
 		bindGuardians();
 		bindImage();
+		bindButtons();
+	}
+	
+	private void bindInputs() {
+		boolean canEdit = canEdit();
+		String saveButtonText = canEdit ? "Save Changes" : "Done";
+		boolean enabled = canEdit && _member != null;
+		
+		_btnSave.setText(saveButtonText);
+		_txtFirstName.setEnabled(enabled);
+		_txtLastName.setEnabled(enabled);
+		_txtJerseyNumber.setEnabled(enabled);
+		_txtEmailAddress.setEnabled(enabled);
+		_txtPhoneNumber.setEnabled(enabled);
+		_txtGuardians.setEnabled(enabled);
 	}
 	
 	private void bindGuardians() {
@@ -165,13 +193,21 @@ public class EditMember extends RTeamActivity {
 		}
 	}
 	
+	private void bindButtons() {
+		if(canEdit()) {
+			_btnSave.setEnabled(StringUtils.hasText(_txtFirstName)
+					&& StringUtils.hasText(_txtLastName)
+					&& (StringUtils.hasText(_txtEmailAddress) || StringUtils.hasText(_txtPhoneNumber)));
+		}
+	}	
+	
 	///////////////////////////////////////////////////////////////////////////////////
 	//// Loading Data
 	
 	private void loadMember() {
 		if (isFullyCreated()) {
 			CustomTitle.setLoading(true, "Loading member info...");
-			MembersResource.instance().getFullMember(_member, true, new GetMemberResponseHandler() {			
+			MembersResource.instance().getFullMember(_origMember, true, new GetMemberResponseHandler() {			
 				@Override public void finish(GetMemberResponse response) { loadMemberFinished(response); }
 			});
 		}
@@ -196,7 +232,9 @@ public class EditMember extends RTeamActivity {
 	
 	private static int TAKE_PICTURE = 1;
 	private void memberImageClicked() {
-		if (isFinishing()) return;
+		if (isFinishing() || _member == null) {
+			return;
+		}
 		
 		if (getMemberImage() != null) {
 			ImageView image = new ImageView(this);
@@ -234,7 +272,9 @@ public class EditMember extends RTeamActivity {
 	}
 	
 	private void guardiansClicked() {
-		if (isFinishing()) return;
+		if (isFinishing() || _member == null) {
+			return;
+		}
 		
 		new GuardiansDialog(this, getGuardians(), new GuardiansDialog.SetGuardiansHandler() {
 			@Override
@@ -254,6 +294,7 @@ public class EditMember extends RTeamActivity {
 		if (canEdit()) {
 			_member = getMember();
 			CustomTitle.setLoading(true, "Saving member...");
+			_btnSave.setEnabled(false);
 			MembersResource.instance().updateMember(_member, new MembersResource.UpdateMemberResponseHandler() {
 				@Override public void finish(UpdateMemberResponse response) { saveMemberFinished(response); }
 			});
@@ -265,9 +306,13 @@ public class EditMember extends RTeamActivity {
 	
 	private void saveMemberFinished(UpdateMemberResponse response) {
 		CustomTitle.setLoading(false);
+		_btnSave.setEnabled(true);
 		if (response.showError(this)) {
+			Toast.makeText(this, "Successfully saved member.", Toast.LENGTH_SHORT).show();
+			
 			_newMemberImage = null;
 			_newGuardians = null;
+			_memberUpdated.onMemberUpdate(_member);
 			
 			bindView();
 		}
