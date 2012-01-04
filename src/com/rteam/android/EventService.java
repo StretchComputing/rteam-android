@@ -128,7 +128,7 @@ public class EventService extends Service {
     	return String.format("%s %s%s for %s", 
     							event.isGame() ? "Game" : "Practice",
 								event.isInProgress() ? "In Progress" : (event.isUpcomingToday() ? "Today" : "Tomorrow"),
-								event.isInProgress() ? "" : "at " + DateUtils.toStringTime(event.startDate()),
+								event.isInProgress() ? "" : " at" + DateUtils.toStringTime(event.startDate()),
 								event.teamName());
     }
 

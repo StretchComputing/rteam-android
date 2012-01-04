@@ -20,8 +20,8 @@ import com.rteam.api.common.DateUtils;
 import com.rteam.api.common.StringUtils;
 import com.rteam.api.common.TimeZoneUtils;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -61,15 +61,17 @@ public class AddEventDialog extends Dialog {
 	/////////////////////////////////////////////////////////////
 	//// .ctor	
 
-	public AddEventDialog(Context context, Team team, AddClickedHandler addClickHandler) {
+	public AddEventDialog(Activity context, Team team, AddClickedHandler addClickHandler) {
 		this(context, team, new Date(), addClickHandler);
 	}
-	public AddEventDialog(Context context, Team team, Date defaultDate, AddClickedHandler addClickHandler) {
+	public AddEventDialog(Activity context, Team team, Date defaultDate, AddClickedHandler addClickHandler) {
 		this(context, team, defaultDate, Event.Type.Game, addClickHandler);
 	}
 	
-	public AddEventDialog(Context context, Team team, Date defaultDate, Event.Type defaultEventType, AddClickedHandler addClickHandler) {
+	public AddEventDialog(Activity context, Team team, Date defaultDate, Event.Type defaultEventType, AddClickedHandler addClickHandler) {
 		super(context);
+		
+		setOwnerActivity(context);
 		
 		_startDateTime = defaultDate;
 		_team = team;
@@ -216,8 +218,8 @@ public class AddEventDialog extends Dialog {
 	}
 	
 	private void finishAdding(EventBase event) {
-		_addClickHandler.addClicked(event);
 		dismiss();
+		_addClickHandler.addClicked(event);
 	}
 	
 	private EventBase getEventInfo() {

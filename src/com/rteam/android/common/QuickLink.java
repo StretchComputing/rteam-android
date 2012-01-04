@@ -12,7 +12,7 @@ import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Team;
 import com.rteam.api.common.DateUtils;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +33,7 @@ public abstract class QuickLink {
 		
 		////////////////////////////////////////////////////////////////
 		//// .ctor
-		public QuickLinkShowEvent(Context context, EventBase event) {
+		public QuickLinkShowEvent(Activity context, EventBase event) {
 			super(context);
 			_event = event;
 		}
@@ -79,7 +79,7 @@ public abstract class QuickLink {
 		
 		//////////////////////////////////////////////////////////////////
 		//// .ctor
-		public QuickLinkCreateEvent(Context context, boolean practice, Team defaultTeam, RefreshEventsHandler refresh) {
+		public QuickLinkCreateEvent(Activity context, boolean practice, Team defaultTeam, RefreshEventsHandler refresh) {
 			super(context);
 			_defaultTeam = defaultTeam;
 			_practice = practice;
@@ -124,7 +124,7 @@ public abstract class QuickLink {
 	/////////////////////////////////////////////////////////////////
 	//// Members
 	private LayoutInflater _layoutInflater;
-	protected Context _context;
+	protected Activity _context;
 	
 	private View _view;
 	
@@ -134,7 +134,7 @@ public abstract class QuickLink {
 	/////////////////////////////////////////////////////////////////
 	///// .ctor
 
-	protected QuickLink(Context context) {
+	protected QuickLink(Activity context) {
 		_context = context;
 		_layoutInflater = LayoutInflater.from(context);		
 	}

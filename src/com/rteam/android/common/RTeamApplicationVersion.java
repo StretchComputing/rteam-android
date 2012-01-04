@@ -3,6 +3,7 @@ package com.rteam.android.common;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.rteam.api.base.IApplicationVersion;
+import com.rteam.api.common.StringUtils;
 
 public class RTeamApplicationVersion implements IApplicationVersion {
 
@@ -11,13 +12,15 @@ public class RTeamApplicationVersion implements IApplicationVersion {
 	@Override
 	public String getApplicationVersion() {
 		if (_applicationVersion == null) {
+			String appVersionName = null;
 			try {
-				_applicationVersion = RTeamApplication.getAppContext()
+				appVersionName = RTeamApplication.getAppContext()
 										.getPackageManager().getPackageInfo("com.rteam.android", 0).versionName;
 			} catch (NameNotFoundException e) {
 				e.printStackTrace();
 			}
-			_applicationVersion = "UNKNOWN";
+			
+			_applicationVersion = StringUtils.valueOr(appVersionName, "UNKNOWN");
 		}
 		return _applicationVersion;	
 	}
