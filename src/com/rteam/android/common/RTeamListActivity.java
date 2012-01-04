@@ -43,6 +43,7 @@ public abstract class RTeamListActivity extends ListActivity {
 			initialize();
 			ensureOnline();
 		}
+		
 		CustomTitle.setTitle(getCustomTitle());
 	}
 	

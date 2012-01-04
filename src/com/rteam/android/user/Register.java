@@ -220,6 +220,7 @@ public class Register extends RTeamActivity {
     }
     
     private void attemptLoginFinish() {
+    	finish();
     	startActivity(new Intent(this, Home.class));
     }
     

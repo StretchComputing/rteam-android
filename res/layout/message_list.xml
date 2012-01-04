@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		 android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent">
+    		 
+    <ListView android:id="@android:id/list" android:drawSelectorOnTop="false" 
+        	  android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    
+    <ScrollView android:id="@android:id/empty" 
+        		android:layout_width="fill_parent" android:layout_height="fill_parent">
+        		
+        <TextView android:id="@+id/lblEmpty" android:text="No messages found" 
+            	  android:layout_width="fill_parent" android:layout_height="fill_parent" />
+        
+    </ScrollView>
+    
+</FrameLayout>

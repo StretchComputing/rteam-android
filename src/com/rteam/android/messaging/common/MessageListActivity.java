@@ -5,10 +5,10 @@ import java.util.Collections;
 
 import android.content.Intent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamListActivity;
@@ -16,23 +16,22 @@ import com.rteam.android.common.SimpleMenuItem;
 import com.rteam.api.MessageThreadsResource;
 import com.rteam.api.business.MessageFilters;
 import com.rteam.api.business.MessageInfo;
+import com.rteam.api.common.StringUtils;
 import com.rteam.android.messaging.ViewMessage;
 
 public abstract class MessageListActivity extends RTeamListActivity implements MessageThreadsResource.GetMessagesResponseHandler {
 	private ArrayList<MessageInfo> _messages = new ArrayList<MessageInfo>();
+	
+	private TextView _emptyText;
 			
 	///////////////////////////////////////////////////////////////////
 	/// Super Overrides 
 			
 	@Override
 	protected void initialize() {
+		initializeView();		
 		loadMessages();
 		setListAdapter(new MessageInfoAdapter(this, _messages));
-		
-		TextView emptyText = new TextView(getBaseContext());
-		emptyText.setText(getEmptyMessage());
-		emptyText.setLayoutParams(new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		getListView().setEmptyView(emptyText);
 	}
 	
 	@Override
@@ -74,6 +73,13 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 		CustomTitle.setLoading(false);
 	}
 	
+	
+	private void initializeView() {
+		setContentView(R.layout.message_list);
+		
+		_emptyText = (TextView) findViewById(R.id.lblEmpty);
+		_emptyText.setText(StringUtils.valueOr(getEmptyMessage(), "No messages were found"));
+	}
 	
 	//////////////////////////////////////////////////////////////////
 	/// Abstract Methods

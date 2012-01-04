@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Intent;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,21 +34,21 @@ import com.rteam.api.PracticeResource;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Team;
+import com.rteam.api.common.StringUtils;
 
 public class Home extends RTeamActivity {
 	
 	//////////////////////////////////////////////////////////////////
 	/// Members
 	
-	private ImageView _btnTeams;
-	private ImageView _btnActivities;
-	private ImageView _btnMessages;
-	private ImageView _btnEvents;
-	private ImageView _btnCreateTeam;
-	private ImageView _btnMyTeam;
+	private Button _btnTeams;
+	private Button _btnActivities;
+	private Button _btnMessages;
+	private Button _btnEvents;
+	private Button _btnCreateTeam;
+	private Button _btnMyTeam;
 	
 	private TextView _txtUnreadMessages;
-	private TextView _txtMyTeam;
 	
 	private LinearLayout _viewQuickLinks;
 	private ProgressBar _quickLinksProgress;
@@ -91,6 +91,7 @@ public class Home extends RTeamActivity {
 				bindHomeTeam();
 			}
 		});
+    	
     	initializeView();
     	loadMessages();
     	loadUpcomingEvents();
@@ -99,6 +100,7 @@ public class Home extends RTeamActivity {
     
     @Override
     protected void reInitialize() {
+    	_cacheLoaded = true;
     	bindUnreadMessages();
     	bindHomeTeam();
     }
@@ -107,14 +109,13 @@ public class Home extends RTeamActivity {
     	setContentView(R.layout.home);
     	
     	_txtUnreadMessages = (TextView) findViewById(R.id.txtUnreadMessages);
-    	_txtMyTeam = (TextView) findViewById(R.id.txtMyTeam);
     	
-    	_btnTeams = (ImageView) findViewById(R.id.btnTeams);
-    	_btnActivities = (ImageView) findViewById(R.id.btnActivities);
-    	_btnMessages = (ImageView) findViewById(R.id.btnMessages);
-    	_btnEvents = (ImageView) findViewById(R.id.btnEvents);
-    	_btnCreateTeam = (ImageView) findViewById(R.id.btnCreateTeam);
-    	_btnMyTeam = (ImageView) findViewById(R.id.btnMyTeam);
+    	_btnTeams = (Button) findViewById(R.id.btnTeams);
+    	_btnActivities = (Button) findViewById(R.id.btnActivities);
+    	_btnMessages = (Button) findViewById(R.id.btnMessages);
+    	_btnEvents = (Button) findViewById(R.id.btnEvents);
+    	_btnCreateTeam = (Button) findViewById(R.id.btnCreateTeam);
+    	_btnMyTeam = (Button) findViewById(R.id.btnMyTeam);
     	
     	_viewQuickLinks = (LinearLayout) findViewById(R.id.viewQuickLinks);
     	_quickLinksProgress = (ProgressBar) findViewById(R.id.progressQuickLinks);
@@ -130,13 +131,15 @@ public class Home extends RTeamActivity {
     	bindHomeTeam();
     }
     
-    private boolean hasHomeTeam() { return getHomeTeam() != null; }
+    private boolean hasHomeTeamSet() {
+    	return SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null;
+    }
     
     private Team getHomeTeam() {
-    	if (SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null)
-    	{
+    	if(hasHomeTeamSet()) {
     		return TeamCache.get(SimpleSetting.MyTeam.get());
     	}
+    	
     	return null;
     }
     
@@ -146,9 +149,16 @@ public class Home extends RTeamActivity {
     }
     
     private void bindHomeTeam() {
-    	if (_cacheLoaded) {
-    		_txtMyTeam.setText(hasHomeTeam() ? getHomeTeam().teamName() : "Create Team");
+    	String myTeamText = "Create Team"; 
+    	if(hasHomeTeamSet()) {
+    		myTeamText = "Loading...";
+    		if (_cacheLoaded) {
+    			Team homeTeam = getHomeTeam();
+    			myTeamText = homeTeam != null ? StringUtils.truncate(homeTeam.teamName(), 12) : "Unknown";
+        	}
     	}
+    	
+    	_btnMyTeam.setText(myTeamText);
     }
     
     private void bindQuickLinks() {    	
@@ -243,7 +253,6 @@ public class Home extends RTeamActivity {
     	bindQuickLinks();
     }
     
-    
     private void checkForWizard() {
     	if (!SimpleSetting.SeenWizard.getBoolean()) {
     		if (TeamCache.getTeamsCount() == 0) {
@@ -255,21 +264,33 @@ public class Home extends RTeamActivity {
     	}
     }
     
-    
 	//////////////////////////////////////////////////////////////////
 	/// Event Handlers
     
-    private void teamsClicked() 		{ startActivity(new Intent(this, MyTeams.class)); }
-    private void activitiesClicked() 	{
+    private void teamsClicked() { 
+    	startActivity(new Intent(this, MyTeams.class)); 
+    }
+    
+    private void activitiesClicked() {
     	TwitterActivity.clear();
     	startActivity(new Intent(this, TwitterActivity.class)); 
 	}
-    private void messagesClicked()		{ startActivity(new Intent(this, Messages.class)); }
-    private void createTeamClicked()	{ startActivity(new Intent(this, CreateTeam.class)); }
-    private void eventsClicked()		{ startActivity(new Intent(this, EventsCalendar.class)); }
-    private void myTeamClicked()		{
-    	if (SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null) {
-    		TeamDetails.setTeam(TeamCache.get(SimpleSetting.MyTeam.get()));
+    
+    private void messagesClicked() { 
+    	startActivity(new Intent(this, Messages.class)); 
+	}
+    
+    private void createTeamClicked() { 
+    	startActivity(new Intent(this, CreateTeam.class)); 
+	}
+    
+    private void eventsClicked() { 
+    	startActivity(new Intent(this, EventsCalendar.class)); 
+	}
+    
+    private void myTeamClicked() {
+    	if (hasHomeTeamSet()) {
+    		TeamDetails.setTeam(getHomeTeam());
     		startActivity(new Intent(this, TeamDetails.class));
     	}
     	else {
