@@ -66,6 +66,11 @@ public class Home extends RTeamActivity {
 	/// Initialize
 	
 	@Override
+    public void onBackPressed() {
+    	moveTaskToBack(true);
+    }
+	
+	@Override
 	protected HelpProvider getHelpProvider() {
 		return new HelpProvider(new HelpContent("Overview", "This is the rTeam home screen.  It provides quick access to most of the major features of rTeam."),
 								new HelpContent("Teams", "Opens a view showing all of the teams that you are currently enrolled in or following."),
@@ -101,6 +106,11 @@ public class Home extends RTeamActivity {
     @Override
     protected void reInitialize() {
     	_cacheLoaded = true;
+    	// make sure the view is initialized...
+    	if(_txtUnreadMessages == null) {
+    		initializeView();
+    	}
+    	
     	bindUnreadMessages();
     	bindHomeTeam();
     }

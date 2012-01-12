@@ -75,7 +75,6 @@ public class Register extends RTeamActivity {
     /////////////////////////////////////////////////////////////////////
 	//// Initialization
 	
-    
     @Override
     protected void initialize() {
     	initializeView();

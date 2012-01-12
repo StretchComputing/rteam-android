@@ -6,7 +6,7 @@
     			 android:name=".common.RTeamApplication" android:debuggable="true">
     	<!-- <uses-library android:name="com.google.android.maps" /> -->
     
-	    <activity android:name="Home" android:label="rTeam" android:screenOrientation="portrait">
+	    <activity android:name="Home" android:label="rTeam" android:screenOrientation="portrait" android:clearTaskOnLaunch="true">
 	    	<intent-filter>
 	        	<action android:name="android.intent.action.MAIN" />
 	            <category android:name="android.intent.category.LAUNCHER" />
