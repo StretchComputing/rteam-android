@@ -3,6 +3,7 @@ package com.rteam.android.events;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,17 +22,12 @@ import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivity;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.events.common.EventListAdapter;
+import com.rteam.android.events.common.EventLoader;
 import com.rteam.android.teams.common.AddEventDialog;
 import com.rteam.android.teams.common.TeamSelectDialog;
-import com.rteam.api.GamesResource;
 import com.rteam.api.TeamsResource;
-import com.rteam.api.GamesResource.GetGamesResponse;
-import com.rteam.api.PracticeResource;
-import com.rteam.api.PracticeResource.GetPracticesResponse;
 import com.rteam.api.TeamsResource.GetTeamResponse;
-import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
-import com.rteam.api.business.EventBase.GetAllEventBase;
 import com.rteam.api.business.Team;
 import com.rteam.api.common.DateUtils;
 
@@ -125,44 +121,24 @@ public class EventsCalendar extends RTeamActivity {
 	
 	private void loadEvents() {
 		_events.clear();
-		loadGames();
-	}
-	
-	private void loadGames() {
-		CustomTitle.setLoading(true, "Loading games...");
-		GamesResource.instance().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
-			@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
-		});
-	}
-	
-	private void loadGamesFinished(GetGamesResponse response) {
-		if (response.showError(this)) {
-			_events.addAll(response.games());
-			loadPractices();
-		}
-		else {
-			CustomTitle.setLoading(false);
-		}
-	}
-	
-	private void loadPractices() {
-		CustomTitle.setLoading(true, "Loading practices...");
-		PracticeResource.instance().getAll(new GetAllEventBase(Event.Type.All), true, new PracticeResource.GetPracticesResponseHandler() {
-			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
-		});
-	}
-	
-	private void loadPracticesFinished(GetPracticesResponse response) {
-		CustomTitle.setLoading(false);
-		if (response.showError(this)) {
-			_events.addAll(response.practices());
-			Collections.sort(_events);
+		EventLoader loader = new EventLoader(this, new EventLoader.EventLoaderCallback() {
+			@Override
+			public void loading(boolean isLoading, String message) {
+				CustomTitle.setLoading(isLoading, message);
+			}
 			
-			bindCalendar();	
-			bindEventInfo();
-		}
+			@Override
+			public void done(List<EventBase> eventsLoaded) {
+				_events.addAll(eventsLoaded);
+				
+				bindCalendar();
+				bindEventInfo();
+			}
+		});
+		
+		loader.load();
 	}
-	
+		
 	////////////////////////////////////////////////////////////////////////////
 	//// Event Handlers
 	

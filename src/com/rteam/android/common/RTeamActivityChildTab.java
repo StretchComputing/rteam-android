@@ -24,6 +24,7 @@ public class RTeamActivityChildTab extends Activity {
 	protected boolean isSecure() { return true; }
 	protected void initialize() {}
 	protected void reInitialize() {}
+	protected void destroy() {}
 	
 	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
 	
@@ -84,11 +85,11 @@ public class RTeamActivityChildTab extends Activity {
 	}
 	
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		FlurryAgent.onPageView();
 		FlurryAgent.onEndSession(this);
+		destroy();
 	}	
 	
 	///////////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,9 @@
 	
 1/11/2012
 	45 minutes - Fixed a couple more bugs, hitting back button on Register and on home back to register is now fixed.
+	
+1/18/2012
+	300 minutes - Bug fixing and testing, fixed issues with messaging, home page, event calendar, cleaned up some of the art assets
 		
 TODO :
 	- FUTURE TASK: View attendance for member

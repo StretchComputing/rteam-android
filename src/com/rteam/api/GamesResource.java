@@ -124,8 +124,6 @@ public class GamesResource extends ResourceBase {
 					Game g = new Game(games.optJSONObject(i), info != null ? info.team() : null);
 					_games.add(g);
 					if (!_events.containsKey(g.eventId())) {
-						
-						
 						_events.put(g.eventId(), g);
 					}
 				}

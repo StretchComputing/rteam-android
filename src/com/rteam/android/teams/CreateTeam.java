@@ -36,6 +36,12 @@ public class CreateTeam extends RTeamActivityChildTab {
 	private static CreateTeamHandler getHandler() { return _handler; }
 	private static boolean hasHandler() { return getHandler() != null; }
 	
+	@Override
+	protected void destroy() {
+		clearHandler();
+		
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	//// Members
 	

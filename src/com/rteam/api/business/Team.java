@@ -67,7 +67,9 @@ public class Team {
 
 	private String _teamId;
 	public String teamId() { return _teamId; }
-	public void teamId(String value) { _teamId = value; }
+	public void teamId(String value) { 
+		_teamId = value; 
+	}
 	
 	private String _teamName;
 	public String teamName() { return _teamName; }

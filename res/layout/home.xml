@@ -27,10 +27,11 @@
 		        		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 			    
 				<TextView android:id="@+id/txtUnreadMessages" android:text="22"
+				    	  android:textColor="#333"
 						  android:background="@drawable/badge" android:gravity="center"
-				  		  android:layout_gravity="top|left" android:layout_marginLeft="9dp" android:layout_marginTop="14dp" 
-				  		  android:textSize="3.5pt"
-				  		  android:layout_width="18dp" android:layout_height="18dp" />
+				  		  android:layout_gravity="top|left" android:layout_marginLeft="10dp" android:layout_marginTop="15dp" 
+				  		  android:textSize="3.5pt" android:textStyle="bold"
+				  		  android:layout_width="20dp" android:layout_height="20dp" />
 				
 			</FrameLayout>
 			

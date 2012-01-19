@@ -3,6 +3,7 @@ package com.rteam.android;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
@@ -19,18 +20,15 @@ import com.rteam.android.common.QuickLink;
 import com.rteam.android.common.RTeamActivity;
 import com.rteam.android.common.SimpleSetting;
 import com.rteam.android.events.EventsCalendar;
+import com.rteam.android.events.common.EventLoader;
 import com.rteam.android.messaging.Messages;
 import com.rteam.android.messaging.TwitterActivity;
 import com.rteam.android.teams.CreateTeam;
 import com.rteam.android.teams.MyTeams;
 import com.rteam.android.teams.TeamDetails;
 import com.rteam.android.teams.common.TeamCache;
-import com.rteam.api.GamesResource;
 import com.rteam.api.MessageThreadsResource;
-import com.rteam.api.GamesResource.GetGamesResponse;
 import com.rteam.api.MessageThreadsResource.GetMessageCountResponse;
-import com.rteam.api.PracticeResource.GetPracticesResponse;
-import com.rteam.api.PracticeResource;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Team;
@@ -54,7 +52,6 @@ public class Home extends RTeamActivity {
 	private ProgressBar _quickLinksProgress;
 	
 	private String _numberUnreadMessages = null;
-	private boolean _cacheLoaded = false;
 	
 	private Map<String, EventBase> _events;
 	
@@ -92,7 +89,6 @@ public class Home extends RTeamActivity {
     	TeamCache.initialize(new TeamCache.DoneLoadingCallback() {
 			@Override
 			public void doneLoading() {
-				_cacheLoaded = true;
 				bindHomeTeam();
 			}
 		});
@@ -105,7 +101,6 @@ public class Home extends RTeamActivity {
     
     @Override
     protected void reInitialize() {
-    	_cacheLoaded = true;
     	// make sure the view is initialized...
     	if(_txtUnreadMessages == null) {
     		initializeView();
@@ -142,7 +137,7 @@ public class Home extends RTeamActivity {
     }
     
     private boolean hasHomeTeamSet() {
-    	return SimpleSetting.MyTeam.exists() && TeamCache.get(SimpleSetting.MyTeam.get()) != null;
+    	return SimpleSetting.MyTeam.exists();
     }
     
     private Team getHomeTeam() {
@@ -162,7 +157,7 @@ public class Home extends RTeamActivity {
     	String myTeamText = "Create Team"; 
     	if(hasHomeTeamSet()) {
     		myTeamText = "Loading...";
-    		if (_cacheLoaded) {
+    		if (TeamCache.isInitialized()) {
     			Team homeTeam = getHomeTeam();
     			myTeamText = homeTeam != null ? StringUtils.truncate(homeTeam.teamName(), 12) : "Unknown";
         	}
@@ -212,31 +207,28 @@ public class Home extends RTeamActivity {
     private void loadUpcomingEvents() {
     	_quickLinksProgress.setVisibility(View.VISIBLE);
     	_events = new HashMap<String, EventBase>();
-    	PracticeResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
-			@Override public void finish(GetPracticesResponse response) { loadPracticesFinished(response); }
+    	EventLoader loader = new EventLoader(this, new EventLoader.EventLoaderCallback() {
+			@Override
+			public void loading(boolean isLoading, String message) {
+				_quickLinksProgress.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+			}
+			
+			@Override
+			public void done(List<EventBase> eventsLoaded) {
+				for(EventBase event : eventsLoaded) {
+					if(!_events.containsKey(event.eventId())) {
+						_events.put(event.eventId(), event);
+					}
+				}
+				
+				loadUpcomingEventsFinished();
+			}
 		});
+    	
+    	// begin loading
+    	loader.load();
     }
-    
-    private void loadPracticesFinished(GetPracticesResponse response) {
-    	if (response.showError(this)) {
-    		_events.putAll(response.eventsMap());
-	    	GamesResource.instance().getAll(new EventBase.GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
-				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
-			});
-    	}
-    	else {
-    		_quickLinksProgress.setVisibility(View.GONE);
-    	}
-    }
-    
-    private void loadGamesFinished(GetGamesResponse response) {
-    	if (response.showError(this)) {
-    		_events.putAll(response.eventsMap());
-	    	loadUpcomingEventsFinished();
-    	}
-    	_quickLinksProgress.setVisibility(View.GONE);
-    }
-    
+        
     private void loadUpcomingEventsFinished() {
     	_gamesInProgress = new ArrayList<EventBase>();
     	_eventsToday = new ArrayList<EventBase>();

@@ -44,6 +44,11 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		_selectedIndex = selectedIndex;
 	}
 	
+	@Override
+	protected void destroy() {
+		setMessages(null, 0);
+	}
+	
 	////////////////////////////////////////////////////////////////////
 	//// Members
 			

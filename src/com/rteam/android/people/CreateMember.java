@@ -48,6 +48,11 @@ public class CreateMember extends RTeamActivity {
 	public static void clear() { setup(null, null); }
 	
 	@Override
+	protected void destroy() {
+		clear();
+	}
+	
+	@Override
 	protected HelpProvider getHelpProvider() {
 		return new HelpProvider(new HelpContent("Overview", "Creates a new member for the current team."));
 	}

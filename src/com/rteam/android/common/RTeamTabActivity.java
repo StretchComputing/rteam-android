@@ -15,6 +15,7 @@ public abstract class RTeamTabActivity extends TabActivity {
 		
 	private CustomTitle _titleInstance;
 	protected abstract TabInfo[] getTabs(); 
+	protected void destroy() {}
 		
 	// TODO : Add security to these.
 	
@@ -78,10 +79,10 @@ public abstract class RTeamTabActivity extends TabActivity {
 	}
 	
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		FlurryAgent.onPageView();
 		FlurryAgent.onEndSession(this);
+		destroy();
 	}	
 }

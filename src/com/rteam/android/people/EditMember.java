@@ -51,6 +51,12 @@ public class EditMember extends RTeamActivity {
 		_origMember = member; 
 		_memberUpdated = memberUpdated;
 	}
+	
+	@Override
+	protected void destroy() {
+		setupMember(null, null);
+	}
+	
 	private Member _member;
 	
 	@Override

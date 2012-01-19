@@ -56,4 +56,9 @@ public class Polls extends MessageListActivity {
 	protected String getEmptyMessage() {
 		return "No polls found";
 	}
+	
+	@Override 
+	protected boolean addOutboxMessages() { 
+		return false;
+	}
 }

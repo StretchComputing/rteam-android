@@ -1,7 +1,6 @@
 package com.rteam.android.messaging.common;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,26 +13,18 @@ import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.common.Simple3LineAdapater;
+import com.rteam.android.events.common.EventLoader;
 import com.rteam.android.teams.common.TeamCache;
-import com.rteam.api.GamesResource;
 import com.rteam.api.MembersResource;
 import com.rteam.api.MessageThreadsResource;
-import com.rteam.api.PracticeResource;
-import com.rteam.api.GamesResource.GetGamesResponse;
 import com.rteam.api.MembersResource.MemberListResponse;
 import com.rteam.api.MembersResource.MemberListResponseHandler;
 import com.rteam.api.MessageThreadsResource.CreateMessageResponse;
-import com.rteam.api.PracticeResource.GetPracticesResponse;
 import com.rteam.api.base.ResponseStatus;
-import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
-import com.rteam.api.business.Game;
 import com.rteam.api.business.Member;
 import com.rteam.api.business.NewMessageInfo;
-import com.rteam.api.business.Practice;
 import com.rteam.api.business.Team;
-import com.rteam.api.business.EventBase.GetAllEventBase;
-import com.rteam.api.business.EventBase.GetAllForTeamEventBase;
 import com.rteam.api.common.DateUtils;
 
 public abstract class CreateMessageBase extends RTeamActivityChildTab {
@@ -48,6 +39,13 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private static boolean _clearOnSend;
 	public static void clearOnSend(boolean clear) { _clearOnSend = clear; }
+	
+	@Override
+	protected void destroy() {
+		_selectedTeam = null;
+		_selectedEvent = null;
+		_clearOnSend = false;
+	}
 	
 	
 	//////////////////////////////////////////////////////////////
@@ -120,11 +118,11 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 		CustomTitle.setLoading(true, "Loading Members...");
 		MembersResource.instance().getMembers(_selectedTeam.teamId(), true, new MemberListResponseHandler() {
 			@Override
-			public void finish(MemberListResponse response) { finishLoadingMembers(response); }
+			public void finish(MemberListResponse response) { loadTeamMembersFinished(response); }
 		});	
 	}
 	
-	private void finishLoadingMembers(MemberListResponse response) {
+	private void loadTeamMembersFinished(MemberListResponse response) {
 		CustomTitle.setLoading(false);
 		if (response.showError(this)) {
 			_members = response.members();
@@ -246,6 +244,9 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	private void cancelRecipients() {
 		_pendingRecipientList = null;
+		if(_clearOnSend) {
+			_selectedTeam = null;
+		}
 	}
 
 	
@@ -256,73 +257,26 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	protected void loadUpcomingEvents() {
 		_allEvents = new ArrayList<EventBase>();
 		_upcomingEvents = new ArrayList<EventBase>();
-		loadGames();
-	}
-	
-	
-	private void loadGames() {
-		CustomTitle.setLoading(true, "Loading games...");
-		if (hasTeam()) {
-			GamesResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {				
-				@Override public void finish(GetGamesResponse response) { 
-					if (response.showError(CreateMessageBase.this)) {
-						addGames(response.games()); 
-					}
-				}
-			});
-		}
-		else {
-			GamesResource.instance().getAll(new GetAllEventBase(Event.Type.All), new GamesResource.GetGamesResponseHandler() {
-				@Override public void finish(GetGamesResponse response) {
-					if (response.showError(CreateMessageBase.this)) {
-						addGames(response.games()); 
-					}
-				}
-			});
-		}
-	}
-	
-	private void loadPractices() {
-		CustomTitle.setLoading(true, "Loading practices...");
-		if (hasTeam()) {
-			PracticeResource.instance().getForTeam(new GetAllForTeamEventBase(getSelectedTeam(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
-				@Override public void finish(GetPracticesResponse response) { 
-					if (response.showError(CreateMessageBase.this)) {
-						addPractices(response.practices()); 
-					}
-				}
-			});
-		}
-		else {
-			PracticeResource.instance().getAll(new GetAllEventBase(Event.Type.All), false, new PracticeResource.GetPracticesResponseHandler() {
-				@Override public void finish(GetPracticesResponse response) {
-					if (response.showError(CreateMessageBase.this)) {
-						addPractices(response.practices());
-					}
-				}
-			});
-		}
-	}
-	
-	private void addGames(ArrayList<Game> games) {
-		if (games != null) {
-			for(EventBase game : games) _allEvents.add(game);
-		}
-		loadPractices();
-	}
-	
-	private void addPractices(ArrayList<Practice> practices) {
-		if (practices != null) {
-			for(EventBase practice : practices) _allEvents.add(practice);
-		}
-		Collections.sort(_allEvents);
-		Date now = new Date();
-		for(EventBase event : _allEvents) {
-			if (event.startDate().after(now)) {
-				_upcomingEvents.add(event);
+		EventLoader loader = new EventLoader(this, getSelectedTeam(), new EventLoader.EventLoaderCallback() {
+			@Override 
+			public void loading(boolean isLoading, String message) { 
+				CustomTitle.setLoading(isLoading, message); 
 			}
-		}
-		showEventsDialog();
+			
+			@Override
+			public void done(List<EventBase> eventsLoaded) {
+				_allEvents.addAll(eventsLoaded);
+				Date now = new Date();
+				for(EventBase event : _allEvents) {
+					if (event.startDate().after(now)) {
+						_upcomingEvents.add(event);
+					}
+				}
+				showEventsDialog();
+			}
+		});
+		
+		loader.load();
 	}
 	
 	private void showEventsDialog() {
@@ -341,7 +295,7 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 			}
 			
 			new AlertDialog.Builder(this)
-				.setTitle("Choose an event to associate with the message")
+				.setTitle("Choose an event:")
 				.setAdapter(new Simple3LineAdapater(this, events, R.layout.list_item_simple3_white), new DialogInterface.OnClickListener() {
 					@Override 
 					public void onClick(DialogInterface dialog, int which) { setEvent(_upcomingEvents.get(which)); }

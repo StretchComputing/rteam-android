@@ -27,4 +27,9 @@ public class SentMessages extends MessageListActivity  {
 	protected String getEmptyMessage() {
 		return "No sent messages";
 	}
+	
+	@Override 
+	protected boolean addInboxMessages() { 
+		return false;
+	}
 }

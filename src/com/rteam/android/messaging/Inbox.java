@@ -44,4 +44,9 @@ public class Inbox extends MessageListActivity {
 	private void clickSendMessage() {
 		startActivity(new Intent(this, SendMessage.class));
 	}
+	
+	@Override 
+	protected boolean addOutboxMessages() { 
+		return false;
+	}
 }

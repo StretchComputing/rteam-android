@@ -50,8 +50,11 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 			
 	private void logout() {
 		AndroidTokenStorage.get().setUserToken(null);
-		startActivity(new Intent(this, Home.class));
+		moveTaskToBack(true);
+		Intent home = new Intent(this, Home.class);
+		home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		finish();
+		startActivity(home);
 	}
 	
 	private void setAutoLogin(boolean autoLogin) {

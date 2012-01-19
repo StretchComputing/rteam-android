@@ -2,6 +2,7 @@ package com.rteam.android.teams;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.content.Intent;
 import android.view.View;
@@ -14,17 +15,15 @@ import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.events.EventDetails;
+import com.rteam.android.events.common.EventLoader;
 import com.rteam.android.teams.common.AddEventDialog;
 import com.rteam.android.teams.common.EventListAdapter;
 import com.rteam.android.teams.common.EventListAdapter.EventCheckedHandler;
 import com.rteam.android.teams.common.EventListAdapter.EventClickedHandler;
 import com.rteam.api.GamesResource;
 import com.rteam.api.GamesResource.DeleteGameResponse;
-import com.rteam.api.GamesResource.GetGamesResponse;
 import com.rteam.api.PracticeResource.DeletePracticeResponse;
-import com.rteam.api.PracticeResource.GetPracticesResponse;
 import com.rteam.api.PracticeResource;
-import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Game;
 import com.rteam.api.business.Member;
@@ -174,40 +173,23 @@ public class Events extends RTeamActivityChildTab {
 	//// Data Loading
 	
 	private void loadEvents() {
-		CustomTitle.setLoading(true, "Loading games...");
-		GamesResource.instance()
-			.getForTeam(new EventBase.GetAllForTeamEventBase(getTeam(), Event.Type.All), new GamesResource.GetGamesResponseHandler() {
-				@Override public void finish(GetGamesResponse response) { loadGamesFinished(response); }
-			});
-	}
-	private void loadGamesFinished(GetGamesResponse response) {
-		if (response.showError(this)) {
-			_allEvents.clear();
-			_allEvents.addAll(response.games());
+		_allEvents.clear();
+		EventLoader loader = new EventLoader(this, getTeam(), new EventLoader.EventLoaderCallback() {
+			@Override
+			public void loading(boolean isLoading, String message) {
+				CustomTitle.setLoading(isLoading, message);
+			}
 			
-			CustomTitle.setLoading(true, "Loading practices...");
-			PracticeResource.instance()
-				.getForTeam(new EventBase.GetAllForTeamEventBase(getTeam(), Event.Type.All), new PracticeResource.GetPracticesResponseHandler() {
-					@Override
-					public void finish(GetPracticesResponse response) {
-						loadPracticesFinished(response);
-					}
-				});
-		}
-		else {
-			CustomTitle.setLoading(false);
-		}
-	}
-	
-	private void loadPracticesFinished(GetPracticesResponse response) {
-		CustomTitle.setLoading(false);
-		if (response.showError(this)) {
-			_allEvents.addAll(response.practices());
-			
-			Collections.sort(_allEvents);
-			Collections.reverse(_allEvents);
-			
-			bindView();
-		}
+			@Override
+			public void done(List<EventBase> eventsLoaded) {
+				_allEvents.addAll(eventsLoaded);
+				Collections.reverse(_allEvents);
+				
+				bindView();
+			}
+		});
+		
+		// Begin loading
+		loader.load();
 	}
 }

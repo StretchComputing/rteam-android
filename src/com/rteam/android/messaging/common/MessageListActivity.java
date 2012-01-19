@@ -64,7 +64,13 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 	@Override
 	public void getMessageThreadsFinish(MessageThreadsResource.GetMessagesResponse response) {
 		_messages.clear();
-		_messages.addAll(cleanMessages(response.getInboxMessages()));
+		if(addInboxMessages()) {
+			_messages.addAll(cleanMessages(response.getInboxMessages()));
+		}
+		
+		if(addOutboxMessages()) {
+			_messages.addAll(cleanMessages(response.getOutboxMessages()));
+		}
 		
 		Collections.sort(_messages);
 		Collections.reverse(_messages);
@@ -91,4 +97,12 @@ public abstract class MessageListActivity extends RTeamListActivity implements M
 	protected abstract MessageFilters getMessageFilters();
 	
 	protected abstract String getEmptyMessage();
+	
+	protected boolean addInboxMessages() {
+		return true;
+	}
+	
+	protected boolean addOutboxMessages() {
+		return true;
+	}
 }

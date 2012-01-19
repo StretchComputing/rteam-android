@@ -44,6 +44,13 @@ public class SendMessage extends CreateMessageBase {
 		_recipientList.add(member);
 	}
 	
+	@Override
+	protected void destroy() {
+		_recipientList.clear();
+		_subjectIn = "";
+		_replyToMessage = null;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////
 	//// Members
 	
@@ -62,11 +69,7 @@ public class SendMessage extends CreateMessageBase {
 	private CheckBox _withConfirmation;
 	private CheckBox _withAlert;
 	
-	private Button _send;
-	
-	/////////////////////////////////////////////////////////////////////
-	//// Data Members
-		
+	private Button _send;	
 		
 	////////////////////////////////////////////////////////////////////////
 	/// Initialization

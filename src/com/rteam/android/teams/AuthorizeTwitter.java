@@ -24,6 +24,10 @@ public class AuthorizeTwitter extends RTeamActivity {
 	}
 	public static void clear() { setup(null, null, null); }
 	
+	@Override
+	protected void destroy() {
+		clear();
+	}
 	
 	@Override 
 	protected String getCustomTitle() { return "rTeam - authorize twitter access"; }

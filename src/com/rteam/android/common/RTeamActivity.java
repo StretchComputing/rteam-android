@@ -33,6 +33,7 @@ public abstract class RTeamActivity extends Activity {
 	protected boolean isSecure() { return true; }
 	protected void initialize() {}
 	protected void reInitialize() {}
+	protected void destroy() {}
 	protected String getCustomTitle() { return "rTeam - custom title"; }
 	protected boolean showMenu() { return true; }
 	
@@ -80,11 +81,11 @@ public abstract class RTeamActivity extends Activity {
 	}
 	
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		FlurryAgent.onPageView();
 		FlurryAgent.onEndSession(this);
+		destroy();
 	}
 	
 	@Override

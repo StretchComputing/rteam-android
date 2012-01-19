@@ -28,7 +28,7 @@ public abstract class RTeamListActivity extends ListActivity {
 	protected String getCustomTitle() { return "rTeam - messages"; }
 	protected void initialize() {}
 	protected void reInitialize() {}
-	
+	protected void destroy() {}
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() { return new ArrayList<SimpleMenuItem>(); }
 	
 	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
@@ -78,11 +78,11 @@ public abstract class RTeamListActivity extends ListActivity {
 	}
 	
 	@Override
-	protected void onStop()
-	{
+	protected void onStop() {
 		super.onStop();
 		FlurryAgent.onPageView();
 		FlurryAgent.onEndSession(this);
+		destroy();
 	}	
 	
 	@Override

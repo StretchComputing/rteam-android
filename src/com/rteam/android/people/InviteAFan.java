@@ -46,6 +46,11 @@ public class InviteAFan extends RTeamActivityChildTab {
 		setup(null, null);
 	}
 	
+	@Override
+	protected void destroy() {
+		clear();
+	}
+	
 	///////////////////////////////////////////////////////////
 	//// Members
 	

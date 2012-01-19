@@ -18,6 +18,7 @@ public class TeamCache {
 	
 	private static Map<String, Team> _teams = new HashMap<String, Team>();
 	private static boolean _initialized = false;
+	public static boolean isInitialized() { return _initialized; }
 	
 	public static Team get(String teamId) {
 		if (!_teams.containsKey(teamId)) {
