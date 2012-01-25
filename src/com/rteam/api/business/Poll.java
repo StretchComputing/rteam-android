@@ -3,7 +3,7 @@ package com.rteam.api.business;
 public class Poll {
 
 	public enum Type {
-		YesNo("Yes/No"), Custom("Custom Options");
+		ConfirmDeny("Confirm/Deny"), Custom("Custom Options");
 		
 		private String _prettyString;
 		

@@ -170,7 +170,7 @@ public class CreatePoll extends CreateMessageBase {
 		message.eventType(hasEvent() ? getSelectedEvent().eventType() : null);
 		message.isPublic(_chkShowResults.isChecked());
 		message.isAlert(false); // TODO ?
-		message.type(_pollType == Poll.Type.YesNo ? Message.Type.Confirm : Message.Type.Poll);
+		message.type(_pollType == Poll.Type.ConfirmDeny ? Message.Type.Confirm : Message.Type.Poll);
 		message.includeFans(false);	// TODO?
 		message.pollChoices(_pollChoiceList);
 		
@@ -201,10 +201,10 @@ public class CreatePoll extends CreateMessageBase {
 	private void selectPollStyle(Poll.Type pollType) {
 		_pollType = pollType;
 		
-		if (pollType == Poll.Type.YesNo) {
+		if (pollType == Poll.Type.ConfirmDeny) {
 			_pollChoiceList.clear();
-			_pollChoiceList.add("Yes");
-			_pollChoiceList.add("No");
+			_pollChoiceList.add("Confirm");
+			_pollChoiceList.add("Deny");
 			
 			bindPollChoices();
 			bindButtons();

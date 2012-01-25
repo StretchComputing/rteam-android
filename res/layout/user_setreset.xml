@@ -6,7 +6,7 @@
  	<EditText android:id="@+id/txtQuestion" android:hint="New Password Reset Question" android:lines="4"
  			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
  			  
-  	<EditText android:id="@+id/txtAnswer" android:hint="Reset Answer" android:inputType="textPassword"
+  	<EditText android:id="@+id/txtAnswer" android:hint="Reset Answer" android:inputType="text"
   			  android:layout_width="fill_parent" android:layout_height="wrap_content" />
   			  
 </LinearLayout>

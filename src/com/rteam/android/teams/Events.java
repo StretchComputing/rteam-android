@@ -92,6 +92,7 @@ public class Events extends RTeamActivityChildTab {
 				@Override
 				public void onClick(int index, long id) { eventClicked(_allEvents.get(index)); }
 			}));
+		
 		bindDeletedButton();
 	}
 	

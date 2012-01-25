@@ -18,6 +18,7 @@ import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.common.QuickLink;
 import com.rteam.android.common.RTeamActivity;
+import com.rteam.android.common.RTeamLog;
 import com.rteam.android.common.SimpleSetting;
 import com.rteam.android.events.EventsCalendar;
 import com.rteam.android.events.common.EventLoader;
@@ -32,6 +33,7 @@ import com.rteam.api.MessageThreadsResource.GetMessageCountResponse;
 import com.rteam.api.business.Event;
 import com.rteam.api.business.EventBase;
 import com.rteam.api.business.Team;
+import com.rteam.api.business.Member.Role;
 import com.rteam.api.common.StringUtils;
 
 public class Home extends RTeamActivity {
@@ -48,6 +50,7 @@ public class Home extends RTeamActivity {
 	
 	private TextView _txtUnreadMessages;
 	
+	private TextView _quickLinksLabel;
 	private LinearLayout _viewQuickLinks;
 	private ProgressBar _quickLinksProgress;
 	
@@ -93,6 +96,15 @@ public class Home extends RTeamActivity {
 			}
 		});
     	
+    	RTeamLog.i("Simple Settings: Auto Login: %s", SimpleSetting.AutoLogin.get());
+    	RTeamLog.i("Simple Settings: Show Alerts: %s", SimpleSetting.ShowAlerts.get());
+    	
+    	SimpleSetting.AutoLogin.set(false);
+    	RTeamLog.i("Simple Settings after Set to false: Auto Login: %s", SimpleSetting.AutoLogin.get());
+    	
+		SimpleSetting.AutoLogin.set(true);
+    	RTeamLog.i("Simple Settings after Set to true: Auto Login: %s", SimpleSetting.AutoLogin.get());
+    	
     	initializeView();
     	loadMessages();
     	loadUpcomingEvents();
@@ -122,6 +134,7 @@ public class Home extends RTeamActivity {
     	_btnCreateTeam = (Button) findViewById(R.id.btnCreateTeam);
     	_btnMyTeam = (Button) findViewById(R.id.btnMyTeam);
     	
+    	_quickLinksLabel = (TextView) findViewById(R.id.lblQuicklinks);
     	_viewQuickLinks = (LinearLayout) findViewById(R.id.viewQuickLinks);
     	_quickLinksProgress = (ProgressBar) findViewById(R.id.progressQuickLinks);
     	
@@ -170,12 +183,17 @@ public class Home extends RTeamActivity {
     	_viewQuickLinks.removeAllViewsInLayout();
     	if (_gamesInProgress.size() == 0 && _eventsToday.size() == 0 && _eventsTomorrow.size() == 0)
     	{
-    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
-				@Override public void refreshEvents() { loadUpcomingEvents(); } 
-			}).getView());
-    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, true, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
-				@Override public void refreshEvents() { loadUpcomingEvents(); } 
-			}).getView());
+    		if(getHomeTeam().participantRole().atLeast(Role.Coordinator)) {    		
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+					@Override public void refreshEvents() { loadUpcomingEvents(); } 
+				}).getView());
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, true, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+					@Override public void refreshEvents() { loadUpcomingEvents(); } 
+				}).getView());
+    		}
+    		else {
+    			_quickLinksLabel.setVisibility(View.GONE);
+    		}
     	}
     	else
     	{

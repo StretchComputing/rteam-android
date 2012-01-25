@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 
 public class RTeamActivityChildTab extends Activity {
 	
@@ -35,13 +36,27 @@ public class RTeamActivityChildTab extends Activity {
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() { return new ArrayList<SimpleMenuItem>(); }
 	protected boolean showHomeButton() { return true; }
 	
+	private CustomTitle _titleInstance;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
-		if (ensureSecure()) {		
+				
+		boolean customTitleSupported = false;
+		try {
+			customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		} catch(Exception e) {}
+		
+		if (ensureSecure()) {
 			initialize();
 			ensureOnline();
 		}
+		
+		if (customTitleSupported) {
+			_titleInstance = new CustomTitle(this);
+			CustomTitle.setInstance(_titleInstance);
+			CustomTitle.setTitle(getCustomTitle());
+	    }
 	}
 	
 	private boolean ensureSecure() {
@@ -81,6 +96,8 @@ public class RTeamActivityChildTab extends Activity {
 		if (ensureSecure()) {
 			reInitialize();
 		}
+		
+		CustomTitle.setInstance(_titleInstance);
 		CustomTitle.setTitle(getCustomTitle());
 	}
 	

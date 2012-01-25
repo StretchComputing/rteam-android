@@ -6,10 +6,12 @@ import android.widget.Toast;
 import com.rteam.android.Home;
 import com.rteam.android.common.AndroidTokenStorage;
 import com.rteam.android.common.CustomTitle;
+import com.rteam.android.common.RTeamLog;
 import com.rteam.android.common.SimpleExpandableListActivity;
 import com.rteam.android.common.SimpleExpandableListClickListener;
 import com.rteam.android.common.SimpleListItem;
 import com.rteam.android.common.SimpleSetting;
+import com.rteam.android.teams.common.TeamCache;
 import com.rteam.api.UsersResource;
 import com.rteam.api.UsersResource.UpdateUserResponse;
 import com.rteam.api.business.UserCredentials;
@@ -28,10 +30,10 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 			@Override public void onClick(SimpleListItem item) { setPasswordReset(); }
 		});
 		
-		addCheckItem("Other : ", "Auto Login", true, new SimpleExpandableListClickListener() {
+		addCheckItem("Other : ", "Auto Login", SimpleSetting.AutoLogin.getBoolean(true), new SimpleExpandableListClickListener() {
 			public void onClick(SimpleListItem item) { setAutoLogin(item.isChecked()); }
 		});
-		addCheckItem("Other : ", "Alerts", true, new SimpleExpandableListClickListener() {
+		addCheckItem("Other : ", "Alerts", SimpleSetting.ShowAlerts.getBoolean(true), new SimpleExpandableListClickListener() {
 			public void onClick(SimpleListItem item) { setAlerts(item.isChecked()); }
 		});
 		addItem("Other : ", "Log Out", new SimpleExpandableListClickListener() {
@@ -49,6 +51,7 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	}
 			
 	private void logout() {
+		TeamCache.clear();
 		AndroidTokenStorage.get().setUserToken(null);
 		moveTaskToBack(true);
 		Intent home = new Intent(this, Home.class);
@@ -58,6 +61,7 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	}
 	
 	private void setAutoLogin(boolean autoLogin) {
+		RTeamLog.i("Setting Auto Login: %s", Boolean.toString(autoLogin));
 		SimpleSetting.AutoLogin.set(autoLogin);
 		if (AndroidTokenStorage.get() != null) {
 			AndroidTokenStorage.get().clear();
@@ -65,6 +69,7 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	}
 	
 	private void setAlerts(boolean alerts) {
+		RTeamLog.i("Setting Show Alerts: %s", Boolean.toString(alerts));
 		SimpleSetting.ShowAlerts.set(alerts);
 	}
 	

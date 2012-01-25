@@ -16,7 +16,10 @@
 	
 1/18/2012
 	300 minutes - Bug fixing and testing, fixed issues with messaging, home page, event calendar, cleaned up some of the art assets
-		
+
+1/22/2012
+	180 minutes - Almost done with testing, and more bug fixes in the process.
+	
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen

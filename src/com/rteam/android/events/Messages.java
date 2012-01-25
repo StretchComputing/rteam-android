@@ -17,6 +17,7 @@ public class Messages extends MessagesFor {
 	protected MessageFilters getMessageFilters() {
 		MessageFilters filters = new MessageFilters();
 		
+		filters.teamId(getEvent().teamId());
 		filters.eventId(getEvent().eventId());
 		filters.eventType(getEvent().eventType());
 		filters.timeZone(TimeZoneUtils.getTimeZone());

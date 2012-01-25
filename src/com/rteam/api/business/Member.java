@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.rteam.api.common.BitmapUtils;
 import com.rteam.api.common.EnumUtils;
+import com.rteam.api.common.StringUtils;
 
 import android.graphics.Bitmap;
 
@@ -273,7 +274,7 @@ public class Member {
 			json.putOpt("lastName", lastName());
 			json.putOpt("emailAddress", emailAddress());
 			json.putOpt("jerseyNumber", jerseyNumber());
-			if (phoneNumber() != null) {
+			if (!StringUtils.isNullOrEmpty(phoneNumber())) {
 				json.putOpt("phoneNumber",  phoneNumber().replace(" ", "").replace("(", "").replace(")", "").replace("-", "").replace(".", ""));
 			}
 			

@@ -59,6 +59,15 @@ public class TeamCache {
 		});
 	}
 	
+	public static void clear() {
+		if(!_initialized) {
+			return;
+		}
+		
+		_teams.clear();
+		_initialized = false;
+	}
+	
 	public static void put(Team team) {
 		_teams.put(team.teamId(), team);
 	}
