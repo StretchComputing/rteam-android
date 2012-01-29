@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import com.rteam.android.R;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.common.SimpleMenuItem;
@@ -20,7 +21,7 @@ public class Polls extends MessageListActivity {
 	@Override
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() {
 		ArrayList<SimpleMenuItem> items = new ArrayList<SimpleMenuItem>();
-		items.add(new SimpleMenuItem("Create Poll", new MenuItem.OnMenuItemClickListener() {
+		items.add(new SimpleMenuItem("Create Poll", R.drawable.menu_send_message, new MenuItem.OnMenuItemClickListener() {
 				@Override public boolean onMenuItemClick(MenuItem item) { createPollClicked(); return true; } }));		
 		return items;
 	}

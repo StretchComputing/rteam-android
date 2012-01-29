@@ -74,31 +74,32 @@ public class MessageThreadsResource extends ResourceBase {
 		public ArrayList<MessageInfo> getOutboxMessages() { return _outboxMessages; }
 		
 
-		protected GetMessagesResponse(APIResponse response) {
+		protected GetMessagesResponse(APIResponse response, MessageFilters filters) {
 			super(response);			
-			initialize(response);
+			initialize(response, filters);
 		}
 		
-		private void initialize(APIResponse response) {
+		private void initialize(APIResponse response, MessageFilters filters) {
 			_inboxMessages = new ArrayList<MessageInfo>();
 			_outboxMessages = new ArrayList<MessageInfo>();
 			
 			if (isResponseGood()) {
-				_inboxMessages = getMessages(response.getJSONResponse().optJSONArray("inbox"));
-				_outboxMessages = getMessages(response.getJSONResponse().optJSONArray("outbox"));
+				_inboxMessages = getMessages(response.getJSONResponse().optJSONArray("inbox"), filters);
+				_outboxMessages = getMessages(response.getJSONResponse().optJSONArray("outbox"), filters);
 			}
 		}
 		
-		private ArrayList<MessageInfo> getMessages(JSONArray array) {
+		private ArrayList<MessageInfo> getMessages(JSONArray array, MessageFilters filters) {
 			ArrayList<MessageInfo> messages = new ArrayList<MessageInfo>();
 			if (array != null) {
 				for(int i=0; i<array.length(); i++) {
 					JSONObject m = array.optJSONObject(i);
 					if (m != null) {
-						messages.add(new MessageInfo(m));
+						messages.add(new MessageInfo(m, filters.teamId(), filters.eventId()));
 					}
 				}
 			}
+			
 			return messages;
 		}
 		
@@ -204,7 +205,7 @@ public class MessageThreadsResource extends ResourceBase {
 							.addPath("messageThreads")
 							.addPath(filters.timeZone())
 							.addParams(filters.getParams());
-		return new GetMessagesResponse(get(uri));
+		return new GetMessagesResponse(get(uri), filters);
 	}
 	
 	public void getMessageThreads(final MessageFilters filters, final GetMessagesResponseHandler handler) {

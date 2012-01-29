@@ -74,7 +74,7 @@ public class Attendance extends RTeamActivityChildTab {
 	
 	private void loadAttendance() {
 		CustomTitle.setLoading(true, "Refreshing...");
-		new AttendanceResource().get(new AttendanceFilter.EventAttendance(getEvent().eventId(), getEvent().eventType()), new AttendanceResource.AttendanceResponseHandler() {
+		AttendanceResource.instance().get(new AttendanceFilter.EventAttendance(getEvent().eventId(), getEvent().eventType()), new AttendanceResource.AttendanceResponseHandler() {
 			@Override public void finish(AttendanceResponse response) { loadAttendanceFinished(response); }
 		});
 	}

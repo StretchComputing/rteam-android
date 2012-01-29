@@ -7,8 +7,8 @@ import com.rteam.api.UsersResource.PasswordResetResponse;
 import com.rteam.api.base.ResponseStatus;
 import com.rteam.api.common.StringUtils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class ResetPasswordDialog {
 	
-	private Context _context;
+	private Activity _context;
 	
 	private View _view;
 	
@@ -34,7 +34,7 @@ public class ResetPasswordDialog {
 	private Button _btnResetPassword;
 	
 	
-	public ResetPasswordDialog(Context context) {
+	public ResetPasswordDialog(Activity context) {
 		_context = context;
 		initializeView();
 	}
@@ -74,16 +74,21 @@ public class ResetPasswordDialog {
 	}
 	
 	private void checkEmailFinished(GetPasswordResetResponse response) {
-		if (StringUtils.isNullOrEmpty(response.getPasswordResetQuestion())) {
-			reset();
+		if(response.showError(_context)) {
+			if (StringUtils.isNullOrEmpty(response.getPasswordResetQuestion())) {
+				reset();
+			}
+			else {
+				_btnCheckEmail.setVisibility(View.GONE);
+				_loadingProgress.setVisibility(View.GONE);
+				_txtEmail.setVisibility(View.GONE);
+				_lblLabel.setText(response.getPasswordResetQuestion());
+				_txtAnswer.setVisibility(View.VISIBLE);
+				_btnResetPassword.setEnabled(true);
+			}
 		}
 		else {
-			_btnCheckEmail.setVisibility(View.GONE);
 			_loadingProgress.setVisibility(View.GONE);
-			_txtEmail.setVisibility(View.GONE);
-			_lblLabel.setText(response.getPasswordResetQuestion());
-			_txtAnswer.setVisibility(View.VISIBLE);
-			_btnResetPassword.setEnabled(true);
 		}
 	}
 	

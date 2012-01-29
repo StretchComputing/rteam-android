@@ -151,12 +151,24 @@ public class MessageInfo implements Serializable, Comparable<MessageInfo> {
 	public MessageInfo() {}
 	
 	public MessageInfo(JSONObject json) {
+		this(json, null, null);
+	}
+	
+	public MessageInfo(JSONObject json, String defaultTeamId, String defaultEventId) {
 		teamId(json.optString("teamId"));
+		if(StringUtils.isNullOrEmpty(teamId())) {
+			teamId(defaultTeamId);
+		}
+		
 		teamName(json.optString("teamName"));
 		messageThreadId(json.optString("messageThreadId"));
 		subject(json.optString("subject"));
 		body(json.optString("body"));
 		eventId(json.optString("eventId"));
+		if(StringUtils.isNullOrEmpty(eventId())) {
+			eventId(defaultEventId);
+		}
+		
 		eventType(EnumUtils.fromString(Event.Type.class, json.optString("eventType"), Event.Type.None));
 		status(EnumUtils.fromString(Message.Status.class, json.optString("status"), Message.Status.None));
 		pollChoices(JSONUtils.convertToStrings(json.optJSONArray("pollChoices")));

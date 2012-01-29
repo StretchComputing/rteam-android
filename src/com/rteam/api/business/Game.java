@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.rteam.android.teams.common.TeamCache;
+import com.rteam.api.business.Member.Role;
 import com.rteam.api.common.EnumUtils;
 
 public class Game extends EventBase {
@@ -224,7 +225,7 @@ public class Game extends EventBase {
 		if (defaultTeam != null) {
 			_team = defaultTeam;
 			teamId(defaultTeam.teamId());
-			if (participantRole() == null) {
+			if (participantRole() == null || participantRole() == Role.Unknown) {
 				participantRole(defaultTeam.participantRole());
 			}
 		}

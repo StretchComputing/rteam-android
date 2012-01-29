@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import com.rteam.android.R;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.android.common.SimpleMenuItem;
@@ -19,7 +20,7 @@ public class Inbox extends MessageListActivity {
 	@Override protected String getCustomTitle() { return "rTeam - inbox"; }
 	@Override protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() {
 		ArrayList<SimpleMenuItem> items = new ArrayList<SimpleMenuItem>();
-		items.add(new SimpleMenuItem("Send Message", new MenuItem.OnMenuItemClickListener() {
+		items.add(new SimpleMenuItem("Send Message", R.drawable.menu_send_message, new MenuItem.OnMenuItemClickListener() {
 			@Override public boolean onMenuItemClick(MenuItem item) { clickSendMessage(); return true; } }));
 		return items;
 	}

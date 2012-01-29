@@ -46,6 +46,8 @@ public class Register extends RTeamActivity {
 	
 	private TextView _lblForgotPassword;
 	
+	private AlertDialog _loginDialog;
+	
 	@Override protected String getCustomTitle() { return "rTeam - register"; }
 	@Override protected boolean showMenu() { return false; }
 	
@@ -178,8 +180,11 @@ public class Register extends RTeamActivity {
     }
     
     private void onForgotPasswordClick() {
-    	if (isFinishing()) return;
+    	if (isFinishing()) {
+    		return;
+    	}
     	
+    	_loginDialog.hide();
     	new ResetPasswordDialog(this).showDialog();
     }
     
@@ -188,15 +193,16 @@ public class Register extends RTeamActivity {
     	
     	initializeLoginView();
     	
-    	new AlertDialog.Builder(this)
+    	_loginDialog = new AlertDialog.Builder(this)
     			.setView(_loginView)
     			.setTitle("Login with existing Email")
     			.setPositiveButton("Login", new DialogInterface.OnClickListener() {
 					@Override public void onClick(DialogInterface dialog, int which) { 
 						attemptLogin(); 
 					}})
-				.setNegativeButton("Cancel", null)
-				.show();
+				.setNegativeButton("Cancel", null).create();
+    	
+    	_loginDialog.show();
     }
     
     private void attemptLogin() {

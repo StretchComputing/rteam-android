@@ -13,6 +13,7 @@ import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivityChildTab;
+import com.rteam.android.common.RTeamLog;
 import com.rteam.android.messaging.CreatePoll;
 import com.rteam.android.messaging.SendMessage;
 import com.rteam.android.teams.common.TeamCache;
@@ -94,11 +95,13 @@ public abstract class MessagesFor extends RTeamActivityChildTab implements Messa
 		int numberMessagesSelected = 0;
 		for (MessageInfo message : _selectedMessages) {
 			Team messageTeam = TeamCache.get(message.teamId());
-			if (messageTeam != null && messageTeam.participantRole().atLeast(Role.Coordinator) || getTokenStorage().getUserToken().equals(message.senderMemberId())) {
+			if((messageTeam != null && messageTeam.participantRole().atLeast(Role.Coordinator)) || getTokenStorage().getUserToken().equals(message.senderMemberId())) {
 				numberMessagesSelected++;
 			}
 		}
-		_btnDelete.setEnabled(numberMessagesSelected > 0);
+		
+		boolean enableDelete = numberMessagesSelected > 0;
+		_btnDelete.setEnabled(enableDelete);
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -70,7 +70,7 @@ public class TeamHome extends RTeamActivityChildTab {
 	protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() {
 		ArrayList<SimpleMenuItem> arr = new ArrayList<SimpleMenuItem>();
 		
-		arr.add(new SimpleMenuItem("Set as Home Team", new MenuItem.OnMenuItemClickListener() {
+		arr.add(new SimpleMenuItem("Set as Home Team", R.drawable.menu_home_team, new MenuItem.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				SimpleSetting.MyTeam.set(team().teamId());

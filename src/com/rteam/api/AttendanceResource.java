@@ -9,6 +9,7 @@ import com.rteam.api.base.ResourceResponse;
 import com.rteam.api.base.APIResponse;
 import com.rteam.api.business.Attendance;
 import com.rteam.api.business.AttendanceFilter;
+import com.rteam.api.common.UriBuilder;
 
 public class AttendanceResource extends ResourceBase {
 
@@ -55,7 +56,9 @@ public class AttendanceResource extends ResourceBase {
 	
 	
 	public AttendanceResponse get(AttendanceFilter filters) {
-		return new AttendanceResponse(get(createBuilder().addPath("attendees").addParams(filters.getParams())));
+		UriBuilder uri = createBuilder()
+							.addPath("attendees").addParams(filters.getParams());
+		return new AttendanceResponse(get(uri));
 	}
 	
 	public void get(final AttendanceFilter filters, final AttendanceResponseHandler handler) {

@@ -41,7 +41,10 @@ public class Attendance {
 		public Attendee() {}
 		public Attendee(JSONObject json) {
 			memberId(json.optString("memberId"));
-			if (json.has("present")) present(json.optString("present") == "yes");
+			if (json.has("present")) {
+				present(json.optString("present").equalsIgnoreCase("yes"));
+			}
+			
 			teamId(json.optString("teamId"));
 			eventId(json.optString("eventId"));
 			eventType(EnumUtils.fromString(Event.Type.class, json.optString("eventType"), Event.Type.Generic));
