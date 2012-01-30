@@ -79,21 +79,25 @@ public class GuardiansDialog {
 	}
 	
 	private void setGuardiansDone() {
-		_guardians.clear();
+		
+		ArrayList<Member.Guardian> newGuardians = new ArrayList<Member.Guardian>();
+		
 		if (AndroidUtils.allHaveText(_txtGuardianFirstName1, _txtGuardianLastName1, _txtGuardianEmail1)) {
-			_guardians.add(getGuardian(_txtGuardianFirstName1, _txtGuardianLastName1, _txtGuardianEmail1));
+			newGuardians.add(getGuardian(_txtGuardianFirstName1, _txtGuardianLastName1, _txtGuardianEmail1, _guardians.size() > 0 ? _guardians.get(0) : null));
 		}
 		if (AndroidUtils.allHaveText(_txtGuardianFirstName2, _txtGuardianLastName2, _txtGuardianEmail2)) {
-			_guardians.add(getGuardian(_txtGuardianFirstName2, _txtGuardianLastName2, _txtGuardianEmail2));
+			newGuardians.add(getGuardian(_txtGuardianFirstName2, _txtGuardianLastName2, _txtGuardianEmail2, _guardians.size() > 1 ? _guardians.get(1) : null));
 		}
+		
+		_guardians = newGuardians;
 		
 		if (_doneHandler != null) {
 			_doneHandler.setGuardians(_guardians);
 		}
 	}
 	
-	private Member.Guardian getGuardian(EditText firstName, EditText lastName, EditText email) {
-		Member.Guardian guardian = new Member.Guardian();
+	private Member.Guardian getGuardian(EditText firstName, EditText lastName, EditText email, Member.Guardian origGuardian) {
+		Member.Guardian guardian = new Member.Guardian(origGuardian);
 		
 		guardian.firstName(firstName.getText().toString());
 		guardian.lastName(lastName.getText().toString());

@@ -63,7 +63,12 @@ public class Member {
 		public void emailAddress(String _emailAddress) {this._emailAddress = _emailAddress;}
 		public String emailAddress() {return _emailAddress;}
 		
-		public Guardian() {}
+		public Guardian(Guardian orig) {
+			if(orig != null) {
+				_key = orig.key();
+			}
+		}
+		
 		public Guardian(JSONObject json) {
 			firstName(json.optString("firstName"));
 			lastName(json.optString("lastName"));

@@ -1,4 +1,4 @@
-12/30/2011
+1/1/2012
 	180 minutes - Testing app, developing test plan, investigating bug fixes
 	
 1/2/2012
@@ -25,6 +25,9 @@
 	
 1/28/2012
 	180 minutes - More testing and fixing few of the remaining bugs, also added menu icons and fixed some more of the icons
+	
+1/30/2012
+	150 minutes - More testing, fixed bug with setting auto login, re-did the settings page, guardians bug, only testing left is twitter and images
 	
 TODO :
 	- FUTURE TASK: View attendance for member

@@ -97,13 +97,6 @@ public class Home extends RTeamActivity {
 		});
     	
     	RTeamLog.i("Simple Settings: Auto Login: %s", SimpleSetting.AutoLogin.get());
-    	RTeamLog.i("Simple Settings: Show Alerts: %s", SimpleSetting.ShowAlerts.get());
-    	
-    	SimpleSetting.AutoLogin.set(false);
-    	RTeamLog.i("Simple Settings after Set to false: Auto Login: %s", SimpleSetting.AutoLogin.get());
-    	
-		SimpleSetting.AutoLogin.set(true);
-    	RTeamLog.i("Simple Settings after Set to true: Auto Login: %s", SimpleSetting.AutoLogin.get());
     	
     	initializeView();
     	loadMessages();

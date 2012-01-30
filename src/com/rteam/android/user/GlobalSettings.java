@@ -1,15 +1,18 @@
 package com.rteam.android.user;
 
 import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.rteam.android.Home;
+import com.rteam.android.R;
 import com.rteam.android.common.AndroidTokenStorage;
 import com.rteam.android.common.CustomTitle;
+import com.rteam.android.common.HelpProvider;
+import com.rteam.android.common.RTeamActivityChildTab;
 import com.rteam.android.common.RTeamLog;
-import com.rteam.android.common.SimpleExpandableListActivity;
-import com.rteam.android.common.SimpleExpandableListClickListener;
-import com.rteam.android.common.SimpleListItem;
 import com.rteam.android.common.SimpleSetting;
 import com.rteam.android.teams.common.TeamCache;
 import com.rteam.api.UsersResource;
@@ -18,36 +21,65 @@ import com.rteam.api.business.UserCredentials;
 import com.rteam.api.common.StringUtils;
 
 
-public class GlobalSettings extends SimpleExpandableListActivity 
+public class GlobalSettings extends RTeamActivityChildTab 
 implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.SaveResetPasswordHandler {
 	
+	private Button _btnChangePassword;
+	private Button _btnPasswordReset;
+	private ToggleButton _btnAutoLogin;
+	private ToggleButton _btnShowAlerts;
+	private Button _btnLogout;
+	
 	@Override
-	protected void loadListItems() {
-		addItem("Password : ", "Change Password", new SimpleExpandableListClickListener() {
-			@Override public void onClick(SimpleListItem item) { changePassword(); }
-		});
-		addItem("Password : ", "Set Password Reset Question", new SimpleExpandableListClickListener() {
-			@Override public void onClick(SimpleListItem item) { setPasswordReset(); }
-		});
-		
-		addCheckItem("Other : ", "Auto Login", SimpleSetting.AutoLogin.getBoolean(true), new SimpleExpandableListClickListener() {
-			public void onClick(SimpleListItem item) { setAutoLogin(item.isChecked()); }
-		});
-		addCheckItem("Other : ", "Alerts", SimpleSetting.ShowAlerts.getBoolean(true), new SimpleExpandableListClickListener() {
-			public void onClick(SimpleListItem item) { setAlerts(item.isChecked()); }
-		});
-		addItem("Other : ", "Log Out", new SimpleExpandableListClickListener() {
-			public void onClick(SimpleListItem item) { logout(); }
-		});
+	protected String getCustomTitle() { return "rTeam - global settings"; }
+	
+	@Override
+	protected HelpProvider getHelpProvider() {
+		return new HelpProvider(new HelpProvider.HelpContent("Change Password", "Change the password of the current user."),
+							    new HelpProvider.HelpContent("Set Password Reset Question", "Setup or alter a password reset question and answer for you to answer if you forget your password."),
+							    new HelpProvider.HelpContent("Auto Login", "Whether or not to remember the current user when opening the application in the future."),
+							    new HelpProvider.HelpContent("Show Alerts", "Whether or not to show alerts when a game/practice is upcoming for one of your teams."),
+							    new HelpProvider.HelpContent("Logout", "Logs the current user out."));		 
 	}
 	
 	@Override
-	protected void afterInitialize() {
-		CustomTitle.setTitle("rTeam - settings");
+	protected void initialize()
+	{
+		initializeView();
+	}
+	
+	private void initializeView()
+	{
+		setContentView(R.layout.user_settings);
 		
-		for (int i=0; i<getExpandableListAdapter().getGroupCount(); i++) {
-			getExpandableListView().expandGroup(i);
-		}
+		_btnChangePassword = (Button)findViewById(R.id.btnChangePassword);
+		_btnPasswordReset = (Button)findViewById(R.id.btnPasswordReset);
+		_btnAutoLogin = (ToggleButton)findViewById(R.id.btnAutoLogin);
+		_btnShowAlerts = (ToggleButton)findViewById(R.id.btnShowAlerts);
+		_btnLogout = (Button)findViewById(R.id.btnLogout);
+		
+		_btnAutoLogin.setChecked(SimpleSetting.AutoLogin.getBoolean());
+		_btnShowAlerts.setChecked(SimpleSetting.ShowAlerts.getBoolean());
+		
+		_btnChangePassword.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) { changePassword(); }
+		});
+		
+		_btnPasswordReset.setOnClickListener(new View.OnClickListener() {		
+			@Override public void onClick(View v) { setPasswordReset(); }
+		});
+		
+		_btnAutoLogin.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) { setAutoLogin(_btnAutoLogin.isChecked()); }
+		});
+		
+		_btnShowAlerts.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) { setAlerts(_btnShowAlerts.isChecked()); }
+		});
+		
+		_btnLogout.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View v) { logout(); }
+		});
 	}
 			
 	private void logout() {
@@ -63,8 +95,14 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 	private void setAutoLogin(boolean autoLogin) {
 		RTeamLog.i("Setting Auto Login: %s", Boolean.toString(autoLogin));
 		SimpleSetting.AutoLogin.set(autoLogin);
-		if (AndroidTokenStorage.get() != null) {
-			AndroidTokenStorage.get().clear();
+		
+		// Reset the token storage
+		AndroidTokenStorage storage = AndroidTokenStorage.get();
+		if(!autoLogin) {
+			storage.clear();
+		}
+		else {
+			storage.setUserToken(storage.getUserToken());
 		}
 	}
 	
