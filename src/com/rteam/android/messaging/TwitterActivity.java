@@ -65,13 +65,7 @@ public class TwitterActivity extends RTeamActivity {
 	}
 	public static boolean hasTeam() { return _team != null; }
 	public static void clear() { setTeam(null); _teamOnly = false; }
-	
-	@Override
-	protected void destroy() {
-		clear();
-	}
-	
-	
+		
 	private ListView _listActivity;
 	private EditText _txtMessage;
 	private Button _btnPost;

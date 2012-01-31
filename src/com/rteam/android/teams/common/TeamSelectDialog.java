@@ -21,10 +21,16 @@ public class TeamSelectDialog {
 	private TeamSelectHandler _selectHandler;
 	private List<Team> _availableTeams;
 	private Team _selectedTeam;
+	private String _title;
 	
 	public TeamSelectDialog(Context context, TeamSelectHandler selectHandler) {
+		this(context, "Select a Team", selectHandler);
+	}
+	
+	public TeamSelectDialog(Context context, String title, TeamSelectHandler selectHandler) {
 		_context = context;
 		_selectHandler = selectHandler;
+		_title = title;
 		loadTeams();
 	}
 	
@@ -40,6 +46,7 @@ public class TeamSelectDialog {
 		CustomTitle.setLoading(false);
 		
 		new AlertDialog.Builder(_context)
+				.setTitle(_title)
 				.setSingleChoiceItems(teams.toArray(new String[teams.size()]), -1, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

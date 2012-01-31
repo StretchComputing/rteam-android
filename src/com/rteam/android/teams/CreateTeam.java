@@ -127,9 +127,7 @@ public class CreateTeam extends RTeamActivityChildTab {
 	}
 	
 	private void bindTeamSport() {
-		if (_selectedSport != null) {
-			_txtTeamSport.setText(_selectedSport.toString());
-		}
+		_txtTeamSport.setText(_selectedSport != null ? _selectedSport.toString() : "");
 	}
 	
 	private void bindButtons() {
@@ -174,13 +172,14 @@ public class CreateTeam extends RTeamActivityChildTab {
 		
 		_dlgTeamSport = 
 			new AlertDialog.Builder(this)
-			.setView(_dlgTeamSportView)
-			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				@Override 
-				public void onClick(DialogInterface dialog, int which) {
-					teamTypeDone();
-				} 
-			}).show();
+				.setTitle("Select Team Sport")
+				.setView(_dlgTeamSportView)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					@Override 
+					public void onClick(DialogInterface dialog, int which) {
+						teamTypeDone();
+					}})
+				.show();
 	}
 	
 	private void selectSport(SportHolder sport) {

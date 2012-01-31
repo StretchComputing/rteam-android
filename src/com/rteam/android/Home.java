@@ -28,6 +28,7 @@ import com.rteam.android.teams.CreateTeam;
 import com.rteam.android.teams.MyTeams;
 import com.rteam.android.teams.TeamDetails;
 import com.rteam.android.teams.common.TeamCache;
+import com.rteam.android.teams.common.TeamSelectDialog;
 import com.rteam.api.MessageThreadsResource;
 import com.rteam.api.MessageThreadsResource.GetMessageCountResponse;
 import com.rteam.api.business.Event;
@@ -160,15 +161,20 @@ public class Home extends RTeamActivity {
     }
     
     private void bindHomeTeam() {
-    	String myTeamText = "Create Team"; 
+    	String myTeamText = "Loading..."; 
     	if(hasHomeTeamSet()) {
-    		myTeamText = "Loading...";
     		if (TeamCache.isInitialized()) {
     			Team homeTeam = getHomeTeam();
     			myTeamText = homeTeam != null ? StringUtils.truncate(homeTeam.teamName(), 12) : "Unknown";
         	}
     	}
-    	
+    	else if(TeamCache.isInitialized()) {
+    		myTeamText = "Create Team";
+    		if(TeamCache.getTeamsCount() > 0) {
+    			myTeamText = "Select team...";    			
+    		}
+    	}
+
     	_btnMyTeam.setText(myTeamText);
     }
     
@@ -305,6 +311,16 @@ public class Home extends RTeamActivity {
     	if (hasHomeTeamSet()) {
     		TeamDetails.setTeam(getHomeTeam());
     		startActivity(new Intent(this, TeamDetails.class));
+    	}
+    	else if(TeamCache.isInitialized() && TeamCache.getTeamsCount() > 0) {
+    		new TeamSelectDialog(this, "Select Home Team", new TeamSelectDialog.TeamSelectHandler() {
+				@Override public void teamSelected(Team team) {
+					if(team != null) {
+						SimpleSetting.MyTeam.set(team.teamId());
+						bindHomeTeam();
+					}
+				}
+			});
     	}
     	else {
     		createTeamClicked();

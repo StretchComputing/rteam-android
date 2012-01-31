@@ -29,6 +29,9 @@
 1/30/2012
 	150 minutes - More testing, fixed bug with setting auto login, re-did the settings page, guardians bug, only testing left is twitter and images
 	
+1/31/2012
+	120 minutes - Finished testing, fixed some more bugs
+	
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen
