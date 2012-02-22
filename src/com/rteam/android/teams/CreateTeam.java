@@ -12,7 +12,6 @@ import android.widget.GridView;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.ImageAdapater;
@@ -216,8 +215,8 @@ public class CreateTeam extends RTeamActivityChildTab {
 	}
 	
 	private void teamCreated(final Team newTeam, String twitterAuthUrl) {
-		FlurryAgent.onEvent("Team Created");
 		TeamCache.put(newTeam);
+		_tracker.trackTeamCreated(newTeam);
 		
 		if (!StringUtils.isNullOrEmpty(twitterAuthUrl)) {
 			AuthorizeTwitter.setup(newTeam, twitterAuthUrl, new AuthorizeTwitter.Callback() {

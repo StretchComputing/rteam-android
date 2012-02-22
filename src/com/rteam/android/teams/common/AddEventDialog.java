@@ -6,6 +6,7 @@ import java.util.Date;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.DateTimeDialog;
+import com.rteam.android.common.RTeamAnalytics;
 import com.rteam.api.GamesResource;
 import com.rteam.api.PracticeResource;
 import com.rteam.api.GamesResource.CreateGameResponse;
@@ -57,18 +58,19 @@ public class AddEventDialog extends Dialog {
 	private Team _team;
 	
 	private AddClickedHandler _addClickHandler;
+	private RTeamAnalytics _tracker;
 	
 	/////////////////////////////////////////////////////////////
 	//// .ctor	
 
-	public AddEventDialog(Activity context, Team team, AddClickedHandler addClickHandler) {
-		this(context, team, new Date(), addClickHandler);
+	public AddEventDialog(Activity context, RTeamAnalytics tracker, Team team, AddClickedHandler addClickHandler) {
+		this(context, tracker, team, new Date(), addClickHandler);
 	}
-	public AddEventDialog(Activity context, Team team, Date defaultDate, AddClickedHandler addClickHandler) {
-		this(context, team, defaultDate, Event.Type.Game, addClickHandler);
+	public AddEventDialog(Activity context, RTeamAnalytics tracker, Team team, Date defaultDate, AddClickedHandler addClickHandler) {
+		this(context, tracker, team, defaultDate, Event.Type.Game, addClickHandler);
 	}
 	
-	public AddEventDialog(Activity context, Team team, Date defaultDate, Event.Type defaultEventType, AddClickedHandler addClickHandler) {
+	public AddEventDialog(Activity context, RTeamAnalytics tracker, Team team, Date defaultDate, Event.Type defaultEventType, AddClickedHandler addClickHandler) {
 		super(context);
 		
 		setOwnerActivity(context);
@@ -77,6 +79,7 @@ public class AddEventDialog extends Dialog {
 		_team = team;
 		_addClickHandler = addClickHandler;
 		_defaultEventType = defaultEventType;
+		_tracker = tracker;
 		
 		initializeView();
 	}
@@ -218,6 +221,7 @@ public class AddEventDialog extends Dialog {
 	}
 	
 	private void finishAdding(EventBase event) {
+		_tracker.trackEventCreated(event);
 		dismiss();
 		_addClickHandler.addClicked(event);
 	}

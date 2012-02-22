@@ -106,7 +106,7 @@ public class Home extends RTeamActivity {
     }
     
     @Override
-    protected void reInitialize() {
+    protected void reInitialize() {    	
     	// make sure the view is initialized...
     	if(_txtUnreadMessages == null) {
     		initializeView();
@@ -183,10 +183,10 @@ public class Home extends RTeamActivity {
     	if (_gamesInProgress.size() == 0 && _eventsToday.size() == 0 && _eventsTomorrow.size() == 0)
     	{
     		if(hasHomeTeamSet() && getHomeTeam().participantRole().atLeast(Role.Coordinator)) {    		
-	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, _tracker, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
 					@Override public void refreshEvents() { loadUpcomingEvents(); } 
 				}).getView());
-	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, true, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
+	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, _tracker, true, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
 					@Override public void refreshEvents() { loadUpcomingEvents(); } 
 				}).getView());
     		}

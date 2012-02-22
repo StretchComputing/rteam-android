@@ -146,6 +146,8 @@ public class InviteAFan extends RTeamActivityChildTab {
 	}
 	
 	private void inviteFanFinished(Member newFan) {
+		_tracker.trackMemberCreated(newFan);
+		
 		if (hasFanAdded()) {
 			FanAdded handler = getFanAdded();
 			handler.onFanAdd(newFan);

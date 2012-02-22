@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.RTeamActivityChildTab;
@@ -327,8 +326,12 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 	
 	protected void sendMessage() {
 		CustomTitle.setLoading(true, "Sending message...");
-		MessageThreadsResource.instance().createMessage(getSelectedTeam().teamId(), getMessage(), new MessageThreadsResource.CreateMessageResponseHandler() {
-			@Override public void finish(CreateMessageResponse response) { sendMessageFinished(response); }
+		final NewMessageInfo message = getMessage();
+		MessageThreadsResource.instance().createMessage(getSelectedTeam().teamId(), message, new MessageThreadsResource.CreateMessageResponseHandler() {
+			@Override public void finish(CreateMessageResponse response) { 
+				sendMessageFinished(response);
+				_tracker.trackMessageCreated(message);
+			}
 		});
 	}
 	
@@ -337,7 +340,6 @@ public abstract class CreateMessageBase extends RTeamActivityChildTab {
 		if (isFinishing()) return;
 		
 		if (response.getStatus() == ResponseStatus.Success) {
-			FlurryAgent.onEvent("Message Sent Successfully");
 			clear();
 			Toast.makeText(this, "Message sent successfully", Toast.LENGTH_SHORT).show();
 		}

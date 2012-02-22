@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.app.Activity;
 import android.app.AlertDialog;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -43,6 +42,8 @@ public abstract class RTeamActivity extends Activity {
 	
 	protected boolean showHomeButton() { return true; }
 	private CustomTitle _titleInstance;
+	
+	protected RTeamAnalytics _tracker;
 			
 	///////////////////////////////////////////////////////////////////////////////
 	//// Create
@@ -50,6 +51,7 @@ public abstract class RTeamActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		_tracker = new RTeamAnalytics(this);
 		
 		boolean customTitleSupported = false;
 		try {
@@ -71,8 +73,7 @@ public abstract class RTeamActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
-		FlurryAgent.onEvent("Activity Started");
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Activity - onStart");
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
@@ -83,20 +84,25 @@ public abstract class RTeamActivity extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FlurryAgent.onPageView();
-		FlurryAgent.onEndSession(this);
 		destroy();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Activity - onResume");
 		CustomTitle.setInstance(_titleInstance);
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
 			reInitialize();
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		_tracker.dispose();
 	}
 	
 	

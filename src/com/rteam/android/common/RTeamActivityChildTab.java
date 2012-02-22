@@ -2,7 +2,6 @@ package com.rteam.android.common;
 
 import java.util.ArrayList;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -38,9 +37,13 @@ public class RTeamActivityChildTab extends Activity {
 	
 	private CustomTitle _titleInstance;
 	
+	protected RTeamAnalytics _tracker;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {	
 		super.onCreate(savedInstanceState);
+		
+		_tracker = new RTeamAnalytics(this);
 				
 		boolean customTitleSupported = false;
 		try {
@@ -82,8 +85,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
-		FlurryAgent.onEvent("Activity Started");
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Activity - onStart");
 		ensureSecure();
 		CustomTitle.setTitle(getCustomTitle());
@@ -92,6 +94,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Activity - onResume");
 		if (ensureSecure()) {
 			reInitialize();
@@ -104,10 +107,14 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FlurryAgent.onPageView();
-		FlurryAgent.onEndSession(this);
 		destroy();
 	}	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		_tracker.dispose();
+	}
 	
 	///////////////////////////////////////////////////////////////////////////////
 	//// Menu

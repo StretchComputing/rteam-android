@@ -70,6 +70,7 @@ public abstract class QuickLink {
 		//// Members
 		private boolean _practice;
 		private Team _defaultTeam;
+		private RTeamAnalytics _tracker;
 		
 		private RefreshEventsHandler _refresh;
 		
@@ -79,11 +80,12 @@ public abstract class QuickLink {
 		
 		//////////////////////////////////////////////////////////////////
 		//// .ctor
-		public QuickLinkCreateEvent(Activity context, boolean practice, Team defaultTeam, RefreshEventsHandler refresh) {
+		public QuickLinkCreateEvent(Activity context, RTeamAnalytics tracker, boolean practice, Team defaultTeam, RefreshEventsHandler refresh) {
 			super(context);
 			_defaultTeam = defaultTeam;
 			_practice = practice;
 			_refresh = refresh;
+			_tracker = tracker;
 		}
 		
 		///////////////////////////////////////////////////////////////
@@ -113,7 +115,7 @@ public abstract class QuickLink {
 		}
 		
 		private void launchCreateEventFor(Team team) {
-			new AddEventDialog(_context, team, new Date(), _practice ? Event.Type.Practice : Event.Type.Game, new AddEventDialog.AddClickedHandler() {
+			new AddEventDialog(_context, _tracker, team, new Date(), _practice ? Event.Type.Practice : Event.Type.Game, new AddEventDialog.AddClickedHandler() {
 				@Override public void addClicked(EventBase event) { 
 					Toast.makeText(_context, "Event Created", Toast.LENGTH_SHORT).show();
 					_refresh.refreshEvents();

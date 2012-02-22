@@ -2,7 +2,6 @@ package com.rteam.android.common;
 
 import java.util.ArrayList;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.HelpDialog;
 import com.rteam.android.Home;
 import com.rteam.android.R;
@@ -33,12 +32,16 @@ public abstract class RTeamListActivity extends ListActivity {
 	
 	protected IUserTokenStorage getTokenStorage() { return AndroidTokenStorage.get(); }
 	
+	protected RTeamAnalytics _tracker;
+	
 	//////////////////////////////////////////////////////////
 	//// Create/Resume
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		_tracker = new RTeamAnalytics(this);
+		
 		if (ensureSecure()) {
 			initialize();
 			ensureOnline();
@@ -69,8 +72,7 @@ public abstract class RTeamListActivity extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
-		FlurryAgent.onEvent("Activity Started");
+		_tracker.trackActivityView(this);
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
 			reInitialize();
@@ -80,18 +82,23 @@ public abstract class RTeamListActivity extends ListActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FlurryAgent.onPageView();
-		FlurryAgent.onEndSession(this);
 		destroy();
 	}	
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		_tracker.trackActivityView(this);
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
 			reInitialize();
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		_tracker.dispose();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////

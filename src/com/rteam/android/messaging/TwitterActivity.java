@@ -25,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
@@ -358,7 +357,7 @@ public class TwitterActivity extends RTeamActivity {
 		CustomTitle.setLoading(true, "Posting message...");
 		final Activity activity = getActivity();
 		ActivitiesResource.instance().create(activity, new ActivitiesResource.CreateActivityResponseHandler() {
-			@Override public void finish(CreateActivityResponse response) { tweetCreated(response, activity); FlurryAgent.onEvent("Activity Posted");}
+			@Override public void finish(CreateActivityResponse response) { tweetCreated(response, activity); }
 		});
 	}
 	
@@ -379,6 +378,7 @@ public class TwitterActivity extends RTeamActivity {
 	private void tweetCreated(CreateActivityResponse response, Activity activity) {
 		CustomTitle.setLoading(false);
 		if (response.getStatus() == ResponseStatus.Success) {
+			_tracker.trackActivityCreated(activity);
 			Toast.makeText(this, "Successfully posted message", Toast.LENGTH_SHORT).show();
 			_activities.add(0, activity);
 			bindActivities();

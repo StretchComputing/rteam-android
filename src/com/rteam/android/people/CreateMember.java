@@ -162,6 +162,8 @@ public class CreateMember extends RTeamActivity {
 	}
 	
 	private void createMemberFinished(Member newMember) {
+		_tracker.trackMemberCreated(newMember);
+		
 		if (hasHandler()) {
 			getHandler().onMemberCreate(newMember);
 		}

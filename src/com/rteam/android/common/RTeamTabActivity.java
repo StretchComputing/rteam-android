@@ -1,6 +1,5 @@
 package com.rteam.android.common;
 
-import com.flurry.android.FlurryAgent;
 import com.rteam.android.Home;
 import com.rteam.android.R;
 
@@ -16,13 +15,15 @@ public abstract class RTeamTabActivity extends TabActivity {
 	private CustomTitle _titleInstance;
 	protected abstract TabInfo[] getTabs(); 
 	protected void destroy() {}
+	
+	protected RTeamAnalytics _tracker;
 		
 	// TODO : Add security to these.
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    
+	    _tracker = new RTeamAnalytics(this);
 	    boolean customTitleSupported = false;
 		try {
 			customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -66,14 +67,14 @@ public abstract class RTeamTabActivity extends TabActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		FlurryAgent.onStartSession(this, "ESB24E851YUP3GMSUNGS");
-		FlurryAgent.onEvent("Activity Started");
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Tab Activity - onStart");
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		_tracker.trackActivityView(this);
 		RTeamLog.d("rTeam Tab Activity - onResume");
 		CustomTitle.setInstance(_titleInstance);
 	}
@@ -81,8 +82,12 @@ public abstract class RTeamTabActivity extends TabActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-		FlurryAgent.onPageView();
-		FlurryAgent.onEndSession(this);
 		destroy();
 	}	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		_tracker.dispose();
+	}
 }

@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="lib/acra-4.2.3.jar"/>
-	<classpathentry kind="lib" path="lib/FlurryAgent.jar"/>
 	<classpathentry kind="lib" path="admobs/GoogleAdMobAdsSdk.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mike/workspace/rteam-android/lib/libGoogleAnalytics.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -306,6 +306,7 @@ public class EditMember extends RTeamActivity {
 	}
 	
 	private void saveMemberFinished(UpdateMemberResponse response) {
+		_tracker.trackMemberUpdated(_member);
 		CustomTitle.setLoading(false);
 		_btnSave.setEnabled(true);
 		if (response.showError(this)) {
