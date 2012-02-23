@@ -1,6 +1,7 @@
 package com.rteam.android.user;
 
 import com.rteam.android.R;
+import com.rteam.android.common.RTeamAnalytics;
 import com.rteam.api.UsersResource;
 import com.rteam.api.UsersResource.GetPasswordResetResponse;
 import com.rteam.api.UsersResource.PasswordResetResponse;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 public class ResetPasswordDialog {
 	
 	private Activity _context;
+	private RTeamAnalytics _tracker;
 	
 	private View _view;
 	
@@ -34,8 +36,9 @@ public class ResetPasswordDialog {
 	private Button _btnResetPassword;
 	
 	
-	public ResetPasswordDialog(Activity context) {
+	public ResetPasswordDialog(Activity context, RTeamAnalytics tracker) {
 		_context = context;
+		_tracker = tracker;
 		initializeView();
 	}
 	
@@ -99,6 +102,7 @@ public class ResetPasswordDialog {
 	}
 	
 	private void tryResetFinished(PasswordResetResponse response) {
+		_tracker.trackResetPassword(response.getStatus());
 		if (response.getStatus() == ResponseStatus.PasswordResetFailed) {
 			Toast.makeText(_context, "Invalid answer to reset question, please try again.", Toast.LENGTH_SHORT).show();
 		}

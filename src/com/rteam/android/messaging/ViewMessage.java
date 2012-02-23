@@ -253,6 +253,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 		if (isFinishing()) return;
 		
 		if (!message.hasReplied()) {
+			_tracker.trackMessageResponse(message);
 			message.setReply(response);
 			CustomTitle.setLoading(true, "Sending response...");
 			MessageThreadsResource.instance().updateMessageThread(new UpdateMessageInfo.Reply(message, response), new MessageThreadsResource.UpdateMessageResponseHandler() {

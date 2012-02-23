@@ -42,6 +42,7 @@ public class Feedback extends RTeamActivityChildTab {
 	
 	
 	private void sendFeedback() {
+		_tracker.trackFeedback();
 		try {
 			Intent email = new Intent(android.content.Intent.ACTION_SEND);
 			email.setType("plain/text");
@@ -54,6 +55,7 @@ public class Feedback extends RTeamActivityChildTab {
 	}
 	
 	private void rate() {
+		_tracker.trackRate();
 		try {
 			Intent rate = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("market://details?id=com.rteam.android"));	// TODO: Fix this url
 			startActivity(rate);

@@ -156,6 +156,7 @@ public class Register extends RTeamActivity {
 		CustomTitle.setLoading(true, "Registering...");
 		UsersResource.instance().createUser(getUserCredentials(), new UsersResource.CreateUserResponseHandler() {
 			@Override public void finish(CreateUserResponse response) {
+				_tracker.trackRegister(response.getStatus());
 				CustomTitle.setLoading(false);
 				if (response.getStatus() == ResponseStatus.EmailAddressAlreadyUsed) {
 					setOutput("The email address provided is already in use.");
@@ -165,6 +166,7 @@ public class Register extends RTeamActivity {
 					setOutput(String.format("Unknown error: %s", response.getStatus()));
 					return;
 				}
+
 				setOutput("");
 				finishRegistering();
 			}
@@ -185,7 +187,7 @@ public class Register extends RTeamActivity {
     	}
     	
     	_loginDialog.hide();
-    	new ResetPasswordDialog(this).showDialog();
+    	new ResetPasswordDialog(this, _tracker).showDialog();
     }
     
     private void loginExistingMember() {
@@ -209,8 +211,10 @@ public class Register extends RTeamActivity {
     	CustomTitle.setLoading(true, "Attempting to login");
     	UsersResource.instance().getUserToken(new UserCredentials(_loginTxtEmail.getText().toString(), _loginTxtPassword.getText().toString()), new UsersResource.UserAuthenticationResponseHandler() {
 			@Override public void finish(UserAuthenticationResponse response) {
+				_tracker.trackLogin(response.getStatus());
+				
 				CustomTitle.setLoading(false);
-				if (response.getStatus() == ResponseStatus.InvalidUserCredentials) {
+				if (response.getStatus() == ResponseStatus.InvalidUserCredentials) {					
 					loginExistingMember();
 					Toast.makeText(Register.this, "Invalid user credentials entered, please try again.", Toast.LENGTH_SHORT).show();
 				}

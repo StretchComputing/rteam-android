@@ -125,7 +125,10 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 		user.passwordResetQuestion(null);
 		CustomTitle.setLoading(true, "Saving...");
 		UsersResource.instance().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
-			@Override public void finish(UpdateUserResponse response) { saveSuccess(response); }
+			@Override public void finish(UpdateUserResponse response) {
+				_tracker.trackChangePassword(response.getStatus());
+				saveSuccess(response); 
+			}
 		});			
 	}
 	
@@ -146,7 +149,10 @@ implements ChangePasswordDialog.ChangePasswordHandler, SetResetPasswordDialog.Sa
 		user.passwordResetAnswer(answer);
 		CustomTitle.setLoading(true, "Saving...");
 		UsersResource.instance().updateUser(user, new UsersResource.UpdateUserResponseHandler() {
-			@Override public void finish(UpdateUserResponse response) { saveSuccess(response); }
+			@Override public void finish(UpdateUserResponse response) {
+				_tracker.trackSetResetPassword(response.getStatus());
+				saveSuccess(response); 
+			}
 		});
 	}
 	

@@ -85,7 +85,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityStart(this);
 		RTeamLog.d("rTeam Activity - onStart");
 		ensureSecure();
 		CustomTitle.setTitle(getCustomTitle());
@@ -94,7 +94,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityResume(this);
 		RTeamLog.d("rTeam Activity - onResume");
 		if (ensureSecure()) {
 			reInitialize();
@@ -107,6 +107,7 @@ public class RTeamActivityChildTab extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		_tracker.trackActivityStop(this);
 		destroy();
 	}	
 	

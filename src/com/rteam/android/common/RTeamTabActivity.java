@@ -67,14 +67,14 @@ public abstract class RTeamTabActivity extends TabActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityStart(this);
 		RTeamLog.d("rTeam Tab Activity - onStart");
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityResume(this);
 		RTeamLog.d("rTeam Tab Activity - onResume");
 		CustomTitle.setInstance(_titleInstance);
 	}
@@ -82,6 +82,7 @@ public abstract class RTeamTabActivity extends TabActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		_tracker.trackActivityStop(this);
 		destroy();
 	}	
 	

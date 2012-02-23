@@ -73,7 +73,7 @@ public abstract class RTeamActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityStart(this);
 		RTeamLog.d("rTeam Activity - onStart");
 		CustomTitle.setTitle(getCustomTitle());
 		if (ensureSecure()) {
@@ -84,13 +84,14 @@ public abstract class RTeamActivity extends Activity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+		_tracker.trackActivityStop(this);
 		destroy();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		_tracker.trackActivityView(this);
+		_tracker.trackActivityResume(this);
 		RTeamLog.d("rTeam Activity - onResume");
 		CustomTitle.setInstance(_titleInstance);
 		CustomTitle.setTitle(getCustomTitle());

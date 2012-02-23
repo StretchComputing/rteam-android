@@ -7,7 +7,7 @@ public enum ResponseStatus {
 	NoResponse(-2),
 	NoResponseString(-3),
 	InvalidJSON(-4),
-	Success(100),
+	Success(100, "Success"),
 	InvalidUserCredentials(200, "Invalid user credentials, please try again."),
 	EmailAddressAlreadyUsed(201, "Specified email address is already in use."),
 	UserNotMemberOfSpecifiedTeam(204, "User not a member of the specified team."),
