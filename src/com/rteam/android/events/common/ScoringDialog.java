@@ -122,8 +122,21 @@ public class ScoringDialog {
 	};
 	
 	
-	private void addUs(int amount)   { _game.scoreUs(_game.scoreUs() + amount); }
-	private void addThem(int amount) { _game.scoreThem(_game.scoreThem() + amount); }
+	private void addUs(int amount)   { 
+		_game.scoreUs(_game.scoreUs() + amount);
+		ensureStarted();
+	}
+	
+	private void addThem(int amount) { 
+		_game.scoreThem(_game.scoreThem() + amount);
+		ensureStarted();
+	}
+	
+	private void ensureStarted() {
+		if(_game.interval().isNotStarted()) {
+			_game.interval().increase();
+		}
+	}
 	
 	private void saveScore() {
 		_updateHandler.scoresUpdated();

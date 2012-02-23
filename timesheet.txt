@@ -2,6 +2,9 @@
 	60 minutes - Getting rid of FlurryAgent
 	90 minutes - Adding basic analytics in various places in the app
 	
+2/22/2012
+	60 minutes - fixing the bug Stephanie mentioned and doing a bit more analytics
+	
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen
