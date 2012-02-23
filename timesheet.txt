@@ -5,6 +5,9 @@
 2/22/2012
 	60 minutes - fixing the bug Stephanie mentioned and doing a bit more analytics
 	
+2/23/2012
+	30 minutes - fixing a bug with scoring dialog
+	
 TODO :
 	- FUTURE TASK: View attendance for member
 	- FUTURE TASK: Event activity screen

@@ -92,11 +92,13 @@ public class ScoringDialog {
 	
 	private void prevQuarter() {
 		_game.interval().decrease();
+		saveScore();
 		bindView();
 	}
 	
 	private void nextQuarter() {
 		_game.interval().increase();
+		saveScore();
 		bindView();
 	}
 	
@@ -110,13 +112,13 @@ public class ScoringDialog {
 		@Override
 		public void onClick(View v) {
 			if (v == _btnUsPlus3) 	 addUs(3);
-			if (v == _btnUsPlus2) 	 addUs(2);
-			if (v == _btnUsPlus1) 	 addUs(1);
-			if (v == _btnUsMinus1)	 addUs(-1);
-			if (v == _btnThemPlus3)  addThem(3);
-			if (v == _btnThemPlus2)  addThem(2);
-			if (v == _btnThemPlus1)  addThem(1);
-			if (v == _btnThemMinus1) addThem(-1);
+			else if (v == _btnUsPlus2) 	 addUs(2);
+			else if (v == _btnUsPlus1) 	 addUs(1);
+			else if (v == _btnUsMinus1)	 addUs(-1);
+			else if (v == _btnThemPlus3)  addThem(3);
+			else if (v == _btnThemPlus2)  addThem(2);
+			else if (v == _btnThemPlus1)  addThem(1);
+			else if (v == _btnThemMinus1) addThem(-1);
 			bindView();
 		}
 	};
@@ -125,11 +127,13 @@ public class ScoringDialog {
 	private void addUs(int amount)   { 
 		_game.scoreUs(_game.scoreUs() + amount);
 		ensureStarted();
+		saveScore();
 	}
 	
 	private void addThem(int amount) { 
 		_game.scoreThem(_game.scoreThem() + amount);
 		ensureStarted();
+		saveScore();
 	}
 	
 	private void ensureStarted() {

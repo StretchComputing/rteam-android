@@ -257,6 +257,7 @@ public abstract class EventBase implements Serializable, Comparable<EventBase> {
 			json.putOpt("eventName", eventName());
 		}
 		
+		json.putOpt("timeZone", TimeZoneUtils.getTimeZone());
 		json.putOpt("startDate", DateUtils.toFullString(startDate()));
 		if (endDate() != null) json.putOpt("endDate", DateUtils.toFullString(endDate()));
 		if (description() != null) json.putOpt("description", description());
