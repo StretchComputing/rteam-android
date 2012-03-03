@@ -18,6 +18,8 @@ public class RTeamApplication extends Application {
 	private static Context _appContext;
 	public static Context getAppContext() { return _appContext; }
 	
+	private RTeamAnalytics _tracker;
+	
 	@Override
     public void onCreate() {
 		_appContext = getApplicationContext();
@@ -25,7 +27,17 @@ public class RTeamApplication extends Application {
         // The following line triggers the initialization of ACRA
         ACRA.init(this);
         startService(new Intent(this, EventService.class));
+        
+        _tracker = new RTeamAnalytics(this);
+        _tracker.trackApplicationLaunched();
                 
         super.onCreate();
     }
+	
+	@Override
+	public void onTerminate()
+	{
+		_tracker.dispose();
+		super.onTerminate();
+	}
 }

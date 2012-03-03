@@ -3,7 +3,8 @@ package com.rteam.android.teams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -84,13 +85,15 @@ public class CreateTeam extends RTeamActivityChildTab {
 		_btnCreateTeam.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { createTeamClicked(); }
 		});
+				
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindButtons(); }
+		};
 		
-		_txtTeamName.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_txtDescription.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
+		_txtTeamName.addTextChangedListener(valuesChanged);
+		_txtDescription.addTextChangedListener(valuesChanged);
 		
 		bindButtons();
 	}

@@ -23,7 +23,8 @@ import com.rteam.api.common.TimeZoneUtils;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +76,7 @@ public class AddEventDialog extends Dialog {
 		
 		setOwnerActivity(context);
 		
-		_startDateTime = defaultDate;
+		_startDateTime = new Date(defaultDate.getYear(), defaultDate.getMonth(), defaultDate.getDate(), 19, 0, 0);	// Suggest 7 pm on whatever day
 		_team = team;
 		_addClickHandler = addClickHandler;
 		_defaultEventType = defaultEventType;
@@ -127,16 +128,18 @@ public class AddEventDialog extends Dialog {
 			@Override public void onClick(View v) { cancel(); }
 		});
 		
+		
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindButtons(); }
+		};
+		
+		_textOpponent.addTextChangedListener(valuesChanged);
+		_textDescription.addTextChangedListener(valuesChanged);
+		_textDuration.addTextChangedListener(valuesChanged);
+		
 		bindButtons();
-		_textOpponent.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_textDescription.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_textDuration.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
 	}
 	
 	/////////////////////////////////////////////////////////////

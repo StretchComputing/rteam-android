@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -84,12 +85,14 @@ public class CreatePoll extends CreateMessageBase {
 			@Override public void onClick(View v) { setEvent(); }
 		});
 		
-		_txtSubject.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_txtPollQuestion.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindButtons(); }
+		};
+		
+		_txtSubject.addTextChangedListener(valuesChanged);
+		_txtPollQuestion.addTextChangedListener(valuesChanged);
 	}
 	
 		

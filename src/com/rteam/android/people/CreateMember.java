@@ -2,7 +2,8 @@ package com.rteam.android.people;
 
 import java.util.ArrayList;
 
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,19 +102,18 @@ public class CreateMember extends RTeamActivity {
 		_btnCreate.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { createMemberClicked(); }
 		});
+
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindButtons(); }
+		};
 		
-		_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_txtLastName.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_txtEmail.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-		_txtPhoneNumber.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
+		_txtFirstName.addTextChangedListener(valuesChanged);
+		_txtLastName.addTextChangedListener(valuesChanged);
+		_txtEmail.addTextChangedListener(valuesChanged);
+		_txtPhoneNumber.addTextChangedListener(valuesChanged);
+		
 		bindButtons();
 	}
 	

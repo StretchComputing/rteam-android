@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			 	android:layout_width="fill_parent" android:layout_height="fill_parent">
-  			  
+			 	  			  
  	<Button android:id="@+id/btnUsPlus3" android:text="+3"
  			android:layout_width="wrap_content" android:layout_height="wrap_content" />
 	
@@ -52,13 +52,16 @@
   			  android:layout_marginTop="30dp" 
   			  android:layout_below="@id/lblScore" android:layout_centerHorizontal="true"
   			  android:layout_width="wrap_content" android:layout_height="wrap_content" />
+  	
+  	<View android:id="@+id/viewCenterLine" 
+ 		  android:layout_centerHorizontal="true" android:layout_width="1dp" android:layout_height="wrap_content" />
   			  
 	<Button android:id="@+id/btnPrevQuarter" android:text="-"
-  			android:layout_below="@id/lblQuarter" android:layout_alignLeft="@id/lblQuarter"
+	    	android:layout_below="@id/lblQuarter" android:layout_toLeftOf="@id/viewCenterLine"
   			android:layout_width="wrap_content" android:layout_height="wrap_content" />  	
   			
   	<Button android:id="@+id/btnNextQuarter" android:text="+"
-  			android:layout_below="@id/lblQuarter" android:layout_alignRight="@id/lblQuarter"
+  	    	android:layout_below="@id/lblQuarter" android:layout_toRightOf="@id/viewCenterLine"
   			android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
 </RelativeLayout>

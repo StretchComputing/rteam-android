@@ -1,8 +1,8 @@
 package com.rteam.android.people;
 
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -83,13 +83,13 @@ public class InviteAFan extends RTeamActivityChildTab {
 		
 		_btnInvite = (Button) findViewById(R.id.btnInvite);
 		
-		_txtEmail.setOnKeyListener(new OnKeyListener() {
-			@Override
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				bindView();
-				return false;
-			}
-		});
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindView(); }
+		};
+		
+		_txtEmail.addTextChangedListener(valuesChanged);
 		
 		_btnInvite.setOnClickListener(new View.OnClickListener() {
 			@Override public void onClick(View v) { inviteFan(); }

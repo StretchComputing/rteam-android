@@ -1,13 +1,6 @@
-2/21/2012
-	60 minutes - Getting rid of FlurryAgent
-	90 minutes - Adding basic analytics in various places in the app
-	
-2/22/2012
-	60 minutes - fixing the bug Stephanie mentioned and doing a bit more analytics
-	
-2/23/2012
-	30 minutes - fixing a bug with scoring dialog
-	60 minutes - added more analytics
+3/3/2012
+	- 180 minutes - Fixed all of the bugs from the emails (message count not changing, buttons not being enabled when forms are filled out -- messages, create team, create member, edit member, create fan, create event, create activity, changing interval bug with buttons)
+	- 60 minutes - Added icons to the view message page's menu, switched out google analytics to the new property I created under stretch computing   
 	
 TODO :
 	- FUTURE TASK: View attendance for member
@@ -15,3 +8,11 @@ TODO :
 	- FUTURE TASK: Sometimes when switching views the loading message doesn't stop
 	- BUG: Inbox/Polls/Sent: Default text for when there are no messages.
 	- TASK: Implement video manually or leave it out?
+	
+	x Can't send a message. Send button never goes active -- similar to the create team button never going active.
+	x I have an indicator saying I have 3 messages unread on the main screen.  I go into messages and I see 3 messages rows highlighted differently -- so far so good.  I go ahead and view those messages.  Even if I leave messages and come back in, the highlighting hasn't changed and the main screen still says I have 3 messages.
+	x I can't create a team.  I enter all the fields, but the create button is still inactive. Can you create a team?
+	x switch out google analytics keys
+	x look @ iphone analytics
+	x when scoring, if I advance the interval/inning, then the "-" button gets mostly hidden under the "+" button
+	x menu icons for reading a message

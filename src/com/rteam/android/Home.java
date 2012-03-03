@@ -112,7 +112,7 @@ public class Home extends RTeamActivity {
     		initializeView();
     	}
     	
-    	bindUnreadMessages();
+    	loadMessages();
     	bindHomeTeam();
     }
     
@@ -182,7 +182,7 @@ public class Home extends RTeamActivity {
     	_viewQuickLinks.removeAllViewsInLayout();
     	if (_gamesInProgress.size() == 0 && _eventsToday.size() == 0 && _eventsTomorrow.size() == 0)
     	{
-    		if(hasHomeTeamSet() && getHomeTeam().participantRole().atLeast(Role.Coordinator)) {    		
+    		if(hasHomeTeamSet() && getHomeTeam() != null && getHomeTeam().participantRole().atLeast(Role.Coordinator)) {    		
 	    		_viewQuickLinks.addView(new QuickLink.QuickLinkCreateEvent(this, _tracker, false, getHomeTeam(), new QuickLink.QuickLinkCreateEvent.RefreshEventsHandler() {
 					@Override public void refreshEvents() { loadUpcomingEvents(); } 
 				}).getView());

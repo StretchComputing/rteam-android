@@ -14,7 +14,7 @@ import com.rteam.api.business.Team;
 public class RTeamAnalytics {
 
 	private GoogleAnalyticsTracker _tracker;
-	private static final String UAAccountNumber = "UA-397069-3";
+	private static final String UAAccountNumber = "UA-280128-5";
 	private static final int DispatchIntervalSeconds = 10;
 	
 	private static final String UserActionCategory = "UserAction";
@@ -116,6 +116,11 @@ public class RTeamAnalytics {
 	public void trackRate()
 	{
 		trackEvent(UserActionCategory, "Rate", "", 1);
+	}
+	
+	public void trackApplicationLaunched()
+	{
+		trackEvent(UserActionCategory, "Application Launched", "", 1);
 	}
 	
 	public void dispose()

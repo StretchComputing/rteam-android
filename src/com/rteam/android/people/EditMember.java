@@ -7,7 +7,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.provider.MediaStore;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -134,18 +135,16 @@ public class EditMember extends RTeamActivity {
 		});
 		
 		if(canEdit()) {
-			_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
-				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-			});
-			_txtLastName.setOnKeyListener(new View.OnKeyListener() {
-				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-			});
-			_txtEmailAddress.setOnKeyListener(new View.OnKeyListener() {
-				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-			});
-			_txtPhoneNumber.setOnKeyListener(new View.OnKeyListener() {
-				@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-			});
+			TextWatcher valuesChanged = new TextWatcher() {
+				@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+				@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+				@Override public void afterTextChanged(Editable s) { bindButtons(); }
+			};
+			
+			_txtFirstName.addTextChangedListener(valuesChanged);
+			_txtLastName.addTextChangedListener(valuesChanged);
+			_txtEmailAddress.addTextChangedListener(valuesChanged);
+			_txtPhoneNumber.addTextChangedListener(valuesChanged);
 		}
 		
 		_txtJerseyNumber.setVisibility(isFan() ? View.GONE : View.VISIBLE);

@@ -6,7 +6,8 @@ import com.rteam.api.common.StringUtils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -43,12 +44,14 @@ public class ChangePasswordDialog {
 		_txtPassword = (EditText) _view.findViewById(R.id.txtPassword);
 		_txtPasswordConfirm = (EditText) _view.findViewById(R.id.txtPasswordConfirm);
 		
-		_txtPassword.setOnKeyListener(new View.OnKeyListener() { 
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { validatePassword(); return false; }
-		});
-		_txtPasswordConfirm.setOnKeyListener(new View.OnKeyListener() { 
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { validatePassword(); return false; }
-		});
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { validatePassword(); }
+		};
+		
+		_txtPassword.addTextChangedListener(valuesChanged);
+		_txtPasswordConfirm.addTextChangedListener(valuesChanged);
 	}
 	
 	public void showDialog() {

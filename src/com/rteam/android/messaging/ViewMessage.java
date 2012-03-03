@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 import android.content.Intent;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,7 @@ import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.FlowLayout;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivity;
+import com.rteam.android.common.SimpleMenuItem;
 import com.rteam.android.common.HelpProvider.HelpContent;
 import com.rteam.api.MessageThreadsResource;
 import com.rteam.api.MessageThreadsResource.GetMessageResponse;
@@ -71,7 +70,20 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 	
 	@Override protected HelpProvider getHelpProvider() { return new HelpProvider(new HelpContent("Overview", "Viewing a message.")); }
 	@Override protected String getCustomTitle() { return "rTeam - view message"; }
-			
+	@Override protected ArrayList<SimpleMenuItem> getSecondaryMenuItems() {
+		ArrayList<SimpleMenuItem> arr = new ArrayList<SimpleMenuItem>();
+		arr.add(new SimpleMenuItem("Delete", R.drawable.menu_delete, new MenuItem.OnMenuItemClickListener() { 
+			@Override public boolean onMenuItemClick(MenuItem item) { menuDeletePressed(); return true; }
+		}));
+		arr.add(new SimpleMenuItem("Reply", R.drawable.menu_send_message, new MenuItem.OnMenuItemClickListener() { 
+			@Override public boolean onMenuItemClick(MenuItem item) { menuReplyPressed(); return true; }
+		}));
+		arr.add(new SimpleMenuItem("Mark Unread", R.drawable.menu_message_unread, new MenuItem.OnMenuItemClickListener() { 
+			@Override public boolean onMenuItemClick(MenuItem item) { menuMarkUnreadPressed(); return true; }
+		}));
+		
+		return arr;
+	}
 	
 	private MessageInfo getSelectedMessage() {
 		if (_selectedIndex >= 0 && _selectedIndex < _messages.size()) {
@@ -281,32 +293,7 @@ public class ViewMessage extends RTeamActivity implements View.OnClickListener {
 				}
 			});
 		}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.message_info, menu);
-        return true;
-    }
-	
-	
-	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_back:  		menuBackPressed(); return true; 
-		case R.id.menu_delete: 		menuDeletePressed(); return true;
-		case R.id.menu_reply:   	menuReplyPressed(); return true;
-		case R.id.menu_markunread: 	menuMarkUnreadPressed(); return true;
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
-	
-	
-	private void menuBackPressed() {
-		finish();
-	}
+	}	
 	
 	private void menuDeletePressed() {
 		// Remove the message from the list

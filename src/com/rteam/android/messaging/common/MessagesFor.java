@@ -13,7 +13,6 @@ import com.rteam.android.R;
 import com.rteam.android.common.CustomTitle;
 import com.rteam.android.common.HelpProvider;
 import com.rteam.android.common.RTeamActivityChildTab;
-import com.rteam.android.common.RTeamLog;
 import com.rteam.android.messaging.CreatePoll;
 import com.rteam.android.messaging.SendMessage;
 import com.rteam.android.teams.common.TeamCache;

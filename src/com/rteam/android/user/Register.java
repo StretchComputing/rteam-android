@@ -15,7 +15,8 @@ import com.rteam.api.common.StringUtils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -104,18 +105,16 @@ public class Register extends RTeamActivity {
 			@Override public void onClick(View v) { onCreateAccountClick(); }
 		});
     	
-    	_txtEmailAddress.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-    	_txtPassword.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-    	_txtFirstName.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
-    	_txtLastName.setOnKeyListener(new View.OnKeyListener() {
-			@Override public boolean onKey(View v, int keyCode, KeyEvent event) { bindButtons(); return false; }
-		});
+		TextWatcher valuesChanged = new TextWatcher() {
+			@Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override public void afterTextChanged(Editable s) { bindButtons(); }
+		};
+		
+		_txtEmailAddress.addTextChangedListener(valuesChanged);
+		_txtPassword.addTextChangedListener(valuesChanged);
+		_txtFirstName.addTextChangedListener(valuesChanged);
+		_txtLastName.addTextChangedListener(valuesChanged);
     }
     
     private void initializeLoginView() {
