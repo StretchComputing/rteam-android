@@ -3,7 +3,7 @@
 		  android:versionCode="1" 
 		  android:versionName="1.0">
     <application android:icon="@drawable/icon" android:label="rTeam" android:theme="@style/CustomTheme"
-    			 android:name=".common.RTeamApplication" android:debuggable="true">
+    			 android:name=".common.RTeamApplication" android:debuggable="false">
     	<!-- <uses-library android:name="com.google.android.maps" /> -->
     
 	    <activity android:name="Home" android:label="rTeam" android:screenOrientation="portrait" android:clearTaskOnLaunch="true">
