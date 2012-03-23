@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 public abstract class RTeamListActivity extends ListActivity {
 
@@ -100,6 +102,30 @@ public abstract class RTeamListActivity extends ListActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		_tracker.dispose();
+		cleanupUI();
+	}
+	
+	private void cleanupUI() {
+	    System.gc();
+	    Runtime.getRuntime().gc();
+	    unbindDrawables(findViewById(android.R.id.content));
+	}
+	
+	private void unbindDrawables(View view) {
+        if (view.getBackground() != null) {
+            view.getBackground().setCallback(null);
+        }
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                unbindDrawables(((ViewGroup) view).getChildAt(i));
+            }
+
+            try {
+            	((ViewGroup) view).removeAllViews();
+            } catch(Exception ex) {
+            	// do nothing
+            }
+        }
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////

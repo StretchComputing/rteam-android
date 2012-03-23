@@ -29,27 +29,37 @@ public class EventDetails extends RTeamTabActivity {
 	
 	@Override
 	protected void initialize() {
-		if (getEvent() == null || getTeam() == null) {
-			Toast.makeText(this, "Missing event information, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
-			finish();
-			startActivity(new Intent(this, Home.class));
-		}
+		ensureEvent();
 	}
 	
 	@Override
 	protected TabInfo[] getTabs() {
-		boolean isGame = getEvent().eventType() == Event.Type.Game && (Game)getEvent() != null;
-		ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
-		
-		if (isGame) tabs.add(new TabInfo(GameDay.class, "GameDay", "Game Day", R.drawable.events_tab_gameday));
-		else tabs.add(new TabInfo(PracticeDay.class, "PracticeDay", "Practice Day", R.drawable.events_tab_practiceday));
-		
-		if (getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) {
-			tabs.add(new TabInfo(Attendance.class, "Attendance", "Attendance", R.drawable.events_tab_attendance));
+		if(ensureEvent()) {
+			boolean isGame = getEvent().eventType() == Event.Type.Game && (Game)getEvent() != null;
+			ArrayList<TabInfo> tabs = new ArrayList<TabInfo>();
+			
+			if (isGame) tabs.add(new TabInfo(GameDay.class, "GameDay", "Game Day", R.drawable.events_tab_gameday));
+			else tabs.add(new TabInfo(PracticeDay.class, "PracticeDay", "Practice Day", R.drawable.events_tab_practiceday));
+			
+			if (getEvent().participantRole() != null && getEvent().participantRole().atLeast(Role.Coordinator)) {
+				tabs.add(new TabInfo(Attendance.class, "Attendance", "Attendance", R.drawable.events_tab_attendance));
+			}
+			if (isGame) tabs.add(new TabInfo(Messages.class, "Messages", "Messages", R.drawable.tab_messages));
+			
+			return tabs.toArray(new TabInfo[tabs.size()]);
 		}
-		if (isGame) tabs.add(new TabInfo(Messages.class, "Messages", "Messages", R.drawable.tab_messages));
 		
-		return tabs.toArray(new TabInfo[tabs.size()]);
+		return new TabInfo[0]; 
 	}
 
+	private boolean ensureEvent() {
+		if (getEvent() == null || getTeam() == null) {
+			Toast.makeText(this, "Missing event information, sorry for the inconvenience.", Toast.LENGTH_SHORT).show();
+			finish();
+			startActivity(new Intent(this, Home.class));
+			return false;
+		}
+		
+		return true;
+	}
 }
